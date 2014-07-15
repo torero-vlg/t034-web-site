@@ -10,7 +10,7 @@ namespace T034.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View("Sites");
         }
         public ActionResult Sites()
         {
