@@ -12,6 +12,9 @@ namespace T034.Controllers
         {
             return View();
         }
-
+        public ActionResult Sites()
+        {
+            return View();
+        }
     }
 }
