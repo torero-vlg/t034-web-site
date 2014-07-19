@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,5 +37,7 @@ namespace T034
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
+
+        public static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString; } }
     }
 }
