@@ -9,7 +9,14 @@
     <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
 </head>
 
-<body>
-    @RenderBody()
-</body>
+    <body>
+        <ul class="nav nav-tabs">
+            <li>
+                @Html.ActionLink("Новости", "Index", "News")
+            </li>
+          <li><a href="#">Документы</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+        @RenderBody()
+    </body>
 </html>

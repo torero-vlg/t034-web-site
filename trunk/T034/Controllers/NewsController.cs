@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Db.Entity;
+using Db.Entity.Administration;
 
 namespace T034.Controllers
 {
@@ -22,5 +20,19 @@ namespace T034.Controllers
             return View(news);
         }
 
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        public ActionResult Add(News news)
+        {
+            news.LogDate = DateTime.Now;
+            news.User = new User { Id = 1 };
+
+            var result = MvcApplication.Db.Save(news);
+            return RedirectToAction("Single", new {newsId = result});
+        }
     }
 }
