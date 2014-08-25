@@ -61,12 +61,6 @@ namespace Db
                     .Mappings(x => x.FluentMappings.AddFromAssemblyOf<NewsMap>())
                     .BuildSessionFactory();
 
-                var configuration = new Configuration()
-                    .Configure()
-                    .AddAssembly(typeof(News).Assembly);
-                new SchemaExport(configuration).Create(false, true);
-                    
-
                 return factory;
             }
             catch (Exception ex)

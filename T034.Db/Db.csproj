@@ -57,9 +57,11 @@
     <Compile Include="DataAccess\NhBaseDb.cs" />
     <Compile Include="DataAccess\NhBaseMessageDb.cs" />
     <Compile Include="DataAccess\IBaseMessageDb.cs" />
+    <Compile Include="Entity\Administration\User.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Finder\Finder.cs" />
     <Compile Include="Entity\News.cs" />
+    <Compile Include="Mapping\Administration\UserMap.cs" />
     <Compile Include="Mapping\NewsMap.cs" />
     <Compile Include="NhDbFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,9 +71,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entity\Administration\" />
     <Folder Include="Entity\Directory\" />
-    <Folder Include="Mapping\Administration\" />
     <Folder Include="Mapping\Directory\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
