@@ -1,0 +1,12 @@
+﻿@model Db.Entity.News
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+<div>@Model.User.Name</div>
+<div>@Model.Resume</div>
+<div>@Model.Body</div>

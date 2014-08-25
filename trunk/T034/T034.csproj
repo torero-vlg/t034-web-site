@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Controllers\DbController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -152,6 +153,8 @@
     <Content Include="Views\Home\Sites.cshtml" />
     <Content Include="Views\Db\Index.cshtml" />
     <Content Include="Views\Db\NewsList.cshtml" />
+    <Content Include="Views\News\Single.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">

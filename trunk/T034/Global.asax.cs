@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Db;
+using Db.DataAccess;
 
 namespace T034
 {
@@ -13,6 +11,9 @@ namespace T034
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static AbstractDbFactory DbFactory;
+        public static IBaseDb Db;
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -34,10 +35,14 @@ namespace T034
         {
             AreaRegistration.RegisterAllAreas();
 
+            DbFactory = new NhDbFactory(ConnectionString);
+
+            Db = DbFactory.CreateBaseDb();
+
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
         }
 
-        public static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString; } }
+        private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString; } }
     }
 }

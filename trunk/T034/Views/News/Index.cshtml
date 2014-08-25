@@ -7,15 +7,14 @@
 
 <h2>Новости</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
 <div>
 @foreach (var item in Model) {
-    <div>@item.Title</div>
-    <div>@item.User</div>
+    <div><h4>@Html.ActionLink(item.Title, "Single", new { newsId = item.Id })</h4></div>
+    <div><h6>@item.User.Name</h6></div>
     <div>@item.Resume</div>
-    <div><a href="#">Подробнее</a>
+    <div>@Html.ActionLink("Подробнее", "Single", new { newsId = item.Id })</div>
+    <hr />
 }
 </div>
+
+    

@@ -15,6 +15,23 @@ namespace Db.DataAccess
             SessionFactory = sessionFactory;
         }
 
+        public T Get<T>(int id) where T : Entity.Entity
+        {
+            using (var session = SessionFactory.OpenSession())
+            {
+                try
+                {
+                    return session.Get<T>(id);
+                }
+                catch (Exception ex)
+                {
+                    MonitorLog.WriteLog("Ошибка выполнения процедуры Get<" + typeof(T) + "> : " + ex.Message,
+                        MonitorLog.typelog.Error, true);
+                    throw;
+                }
+            }
+        }
+
         public List<T> Select<T>() where T : Entity.Entity
         {
             List<T> result;
