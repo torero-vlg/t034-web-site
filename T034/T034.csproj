@@ -58,7 +58,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\DbController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -151,10 +150,9 @@
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Home\Sites.cshtml" />
-    <Content Include="Views\Db\Index.cshtml" />
-    <Content Include="Views\Db\NewsList.cshtml" />
     <Content Include="Views\News\Single.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">

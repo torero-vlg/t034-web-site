@@ -1,0 +1,31 @@
+﻿@model Db.Entity.News
+
+@{
+    ViewBag.Title = "Добавить новость";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Add", "News"))
+{
+    <legend>Добавить новость</legend>
+    <div class="control-group warning">
+        <label class="control-label">Заголовок</label>
+        <div>
+            @Html.TextBoxFor(m => m.Title, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+        </div>
+
+        <label class="control-label">Краткое описание</label>
+        <div>
+            @Html.TextBoxFor(m => m.Resume)
+        </div>
+    
+        <label class="control-label">Содержание</label>
+        <div>
+            @Html.TextAreaFor(m => m.Body)
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <button type="button" class="btn">Отмена</button>
+    </div>
+}
