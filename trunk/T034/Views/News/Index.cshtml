@@ -4,11 +4,17 @@
     ViewBag.Title = "Новости";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.ActionLink("Добавить новость", "Add", "News")
+@{
+    if (Request.Cookies["user_token"] != null)
+    {
+        @Html.ActionLink("Добавить новость", "Add", "News")
+    }
+}
 <h2>Новости</h2>
 
 <div>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <div><h4>@Html.ActionLink(item.Title, "Single", new { newsId = item.Id })</h4></div>
     <div><h6>@item.User.Name</h6></div>
     <div>@item.Resume</div>

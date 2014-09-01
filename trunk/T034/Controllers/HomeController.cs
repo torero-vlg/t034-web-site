@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.IO;
 using System.Web.Mvc;
+using T034.Models;
+using T034.Tools;
 
 namespace T034.Controllers
 {
@@ -15,6 +14,21 @@ namespace T034.Controllers
         public ActionResult Sites()
         {
             return View();
+        }
+
+        public ActionResult Auth()
+        {
+            var model = new UserModel();
+            if (Request.Cookies["user_token"] != null)
+            {
+                var stream = HttpTools.PostStream("https://login.yandex.ru/info",
+                                                     string.Format("oauth_token={0}", Request.Cookies["user_token"].Value));
+                model = SerializeTools.Deserialize<UserModel>(stream);
+            }
+
+            model.IsAutharization = Request.Cookies["user_token"] != null;
+
+            return PartialView("AuthPartialView", model);
         }
     }
 }
