@@ -43,6 +43,6 @@ namespace T034
             RegisterRoutes(RouteTable.Routes);
         }
 
-        private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString; } }
+        private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }
     }
 }
