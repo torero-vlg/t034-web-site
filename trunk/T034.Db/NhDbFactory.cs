@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Db.DataAccess;
 using Db.Entity;
 using Db.Mapping;
@@ -51,11 +52,11 @@ namespace Db
 
         private ISessionFactory CreateSqLiteSessionFactory(string connectionString)
         {
-
             try
             {
+                var str = string.Format("Data Source={0}{1};Version=3;", AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/"), connectionString);
                 var factory = Fluently.Configure()
-                    .Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
+                    .Database(SQLiteConfiguration.Standard.ConnectionString(str))
                     .ExposeConfiguration(c => c.Properties.Add("current_session_context_class",
                         typeof(CallSessionContext).FullName))
                     .Mappings(x => x.FluentMappings.AddFromAssemblyOf<NewsMap>())
