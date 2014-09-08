@@ -34,9 +34,9 @@ namespace T034.Controllers
                     Expires = DateTime.Now.AddDays(-1),
                     Value = null
                 };
-                Response.Cookies.Remove("user_token");
+                Response.Cookies.Set(user);
             }
-            Response.Cookies.Remove("user_token");
+
             return RedirectToActionPermanent("Index", "Home");
         }
     }
