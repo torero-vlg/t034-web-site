@@ -4,7 +4,6 @@ using System.Web;
 using System.Web.Mvc;
 using Db.Entity;
 using Db.Entity.Administration;
-using Db.Tools;
 using T034.Models;
 using T034.Tools;
 
@@ -15,7 +14,6 @@ namespace T034.Controllers
         public ActionResult Index()
         {
             var list = MvcApplication.Db.Select<News>();
-            MonitorLog.WriteLog(this.GetType().ToString(), MonitorLog.typelog.Info, true);
 
             return View(list);
         }
