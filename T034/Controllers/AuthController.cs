@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using Db.Tools;
 using T034.Models;
 using T034.Tools;
 
@@ -31,24 +30,19 @@ namespace T034.Controllers
 
         public ActionResult Logout()
         {
-            MonitorLog.WriteLog(this.GetType().ToString(), MonitorLog.typelog.Info, true);
-
             HttpCookie aCookie;
             string cookieName;
             int limit = Request.Cookies.Count;
-            MonitorLog.WriteLog(this.GetType() + " : " + limit, MonitorLog.typelog.Info, true);
 
             for (int i = 0; i < limit; i++)
             {
-                MonitorLog.WriteLog(this.GetType() + " : " + Request.Cookies[i].Name + Request.Cookies[i].Value, MonitorLog.typelog.Info, true);
-
                 cookieName = Request.Cookies[i].Name;
                 aCookie = new HttpCookie(cookieName);
                 aCookie.Value = "";
                 Response.Cookies.Set(aCookie);
             }
 
-            return RedirectToAction("Index", "News");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
