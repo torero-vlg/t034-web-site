@@ -4,8 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using Db.Entity;
 using Db.Entity.Administration;
-using T034.Models;
-using T034.Tools;
+using T034.Tools.Auth;
 
 namespace T034.Controllers
 {
@@ -33,9 +32,7 @@ namespace T034.Controllers
 
         public ActionResult Add(News news)
         {
-            var stream = HttpTools.PostStream("https://login.yandex.ru/info",
-                                              string.Format("oauth_token={0}", Request.Cookies["user_token"].Value));
-            var user = SerializeTools.Deserialize<UserModel>(stream);
+            var user = YandexAuth.GetUser(Request);
 
             //найдём пользователя в БД
             var list = MvcApplication.Db.Where<User>(u => u.Login == user.display_name);
@@ -55,7 +52,7 @@ namespace T034.Controllers
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (httpContext.Request.Cookies["user_token"] != null)
+            if (httpContext.Request.Cookies["yandex_token"] != null)
                 return true;
             return false;
         }
