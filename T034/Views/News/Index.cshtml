@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    if (Request.Cookies["user_token"] != null)
+    if (Request.Cookies["yandex_token"] != null)
     {
-        if(Request.Cookies["user_token"].Value != "")
+        if(Request.Cookies["yandex_token"].Value != "")
         {
             @Html.ActionLink("Добавить новость", "Add", "News")
         }

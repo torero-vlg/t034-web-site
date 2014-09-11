@@ -9,14 +9,12 @@
     <file relUrl="Scripts/MicrosoftAjax.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/jquery.ui.accordion.css" publishTime="07/15/2014 21:03:32" />
     <file relUrl="bin/Db.dll" publishTime="09/02/2014 19:30:46" />
-    <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Scripts/bootstrap.min.js" publishTime="07/15/2014 21:03:40" />
     <file relUrl="Scripts/jquery-1.9.0-vsdoc.js" publishTime="07/15/2014 21:03:37" />
     <file relUrl="Views/Home/Sites.cshtml" publishTime="07/15/2014 22:30:20" />
     <file relUrl="Scripts/MicrosoftMvcValidation.debug.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/jquery.ui.button.css" publishTime="07/15/2014 21:03:31" />
     <file relUrl="Web.config" publishTime="09/08/2014 17:32:39" />
-    <file relUrl="bin/System.Data.SQLite.xml" publishTime="09/02/2014 19:25:42" />
     <file relUrl="Scripts/jquery-1.9.0.js" publishTime="07/15/2014 21:03:37" />
     <file relUrl="Content/themes/base/images/ui-icons_cd0a0a_256x240.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="Scripts/MicrosoftMvcAjax.js" publishTime="07/15/2014 20:11:50" />
@@ -24,20 +22,21 @@
     <file relUrl="Scripts/jquery-1.9.0.min.js" publishTime="07/15/2014 21:03:37" />
     <file relUrl="bin/EntityFramework.SqlServer.xml" publishTime="09/02/2014 19:25:55" />
     <file relUrl="x86/SQLite.Interop.dll" publishTime="09/02/2014 19:26:17" />
-    <file relUrl="bin/EntityFramework.dll" publishTime="09/02/2014 19:25:55" />
+    <file relUrl="x64/SQLite.Interop.dll" publishTime="09/02/2014 19:26:24" />
     <file relUrl="Global.asax" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/images/ui-icons_2e83ff_256x240.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="bin/System.Data.SQLite.Linq.dll" publishTime="09/02/2014 19:25:47" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png" publishTime="07/15/2014 21:03:32" />
-    <file relUrl="bin/T034.dll" publishTime="09/10/2014 17:20:32" />
+    <file relUrl="bin/T034.dll" publishTime="09/11/2014 21:19:18" />
     <file relUrl="bin/System.Data.SQLite.EF6.dll" publishTime="09/02/2014 19:26:12" />
     <file relUrl="Content/themes/base/jquery.ui.slider.css" publishTime="07/15/2014 21:03:31" />
     <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/jquery.ui.tabs.css" publishTime="07/15/2014 21:03:31" />
-    <file relUrl="Views/News/Index.cshtml" publishTime="09/10/2014 17:11:07" />
+    <file relUrl="Views/News/Index.cshtml" publishTime="09/11/2014 21:08:51" />
     <file relUrl="Content/themes/base/jquery.ui.dialog.css" publishTime="07/15/2014 21:03:31" />
+    <file relUrl="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="Content/themes/base/jquery.ui.core.css" publishTime="07/15/2014 21:03:31" />
-    <file relUrl="Scripts/modernizr-1.7.min.js" publishTime="07/15/2014 20:12:46" />
+    <file relUrl="Views/Web.config" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="bin/System.Data.SQLite.dll" publishTime="09/02/2014 19:25:42" />
     <file relUrl="Content/themes/base/jquery.ui.base.css" publishTime="07/15/2014 21:03:31" />
@@ -47,47 +46,48 @@
     <file relUrl="bin/NLog.dll" publishTime="02/03/2014 19:28:03" />
     <file relUrl="Views/News/Single.cshtml" publishTime="08/25/2014 20:37:55" />
     <file relUrl="Content/bootstrap.min.css" publishTime="07/15/2014 21:03:41" />
-    <file relUrl="Views/Home/Index.cshtml" publishTime="07/15/2014 21:09:08" />
     <file relUrl="Content/themes/base/images/ui-icons_222222_256x240.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="Content/themes/base/jquery.ui.progressbar.css" publishTime="07/15/2014 21:03:31" />
     <file relUrl="packages.config" publishTime="09/02/2014 19:28:06" />
     <file relUrl="bin/FluentNHibernate.dll" publishTime="02/03/2014 19:27:45" />
+    <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="Content/bootstrap-theme.css" publishTime="07/15/2014 21:03:41" />
     <file relUrl="bin/x86/SQLite.Interop.dll" publishTime="09/02/2014 19:26:17" />
     <file relUrl="Scripts/bootstrap.js" publishTime="07/15/2014 21:03:40" />
     <file relUrl="Views/Shared/Error.cshtml" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/images/ui-icons_454545_256x240.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="Views/News/Add.cshtml" publishTime="08/25/2014 21:39:14" />
+    <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="bin/x64/SQLite.Interop.dll" publishTime="09/02/2014 19:26:24" />
     <file relUrl="Scripts/jquery.validate.min.js" publishTime="07/15/2014 21:03:34" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_65_ffffff_1x400.png" publishTime="07/15/2014 21:03:32" />
     <file relUrl="Content/themes/base/jquery.ui.selectable.css" publishTime="07/15/2014 21:03:31" />
     <file relUrl="Scripts/jquery.validate-vsdoc.js" publishTime="07/15/2014 21:03:34" />
     <file relUrl="bin/EntityFramework.SqlServer.dll" publishTime="09/02/2014 19:25:55" />
-    <file relUrl="bin/EntityFramework.xml" publishTime="09/02/2014 19:25:57" />
     <file relUrl="Views/Shared/_Layout.cshtml" publishTime="09/01/2014 21:45:40" />
     <file relUrl="bin/Db.pdb" publishTime="09/02/2014 19:30:45" />
-    <file relUrl="Views/Web.config" publishTime="07/15/2014 20:11:50" />
+    <file relUrl="bin/EntityFramework.xml" publishTime="09/02/2014 19:25:57" />
     <file relUrl="Content/Site.css" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Scripts/MicrosoftMvcValidation.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Scripts/jquery-ui-1.8.12.js" publishTime="07/15/2014 21:03:29" />
     <file relUrl="README.jQuery.vsdoc.txt" publishTime="07/15/2014 21:03:36" />
-    <file relUrl="Content/themes/base/images/ui-icons_888888_256x240.png" publishTime="07/15/2014 21:03:32" />
+    <file relUrl="bin/EntityFramework.dll" publishTime="09/02/2014 19:25:55" />
     <file relUrl="Content/bootstrap.css" publishTime="07/15/2014 21:03:41" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Scripts/modernizr-1.7.js" publishTime="07/15/2014 20:12:46" />
-    <file relUrl="Scripts/jquery.unobtrusive-ajax.js" publishTime="07/15/2014 20:11:50" />
+    <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="07/15/2014 20:11:50" />
+    <file relUrl="Scripts/modernizr-1.7.min.js" publishTime="07/15/2014 20:12:46" />
     <file relUrl="Content/themes/base/jquery.ui.all.css" publishTime="07/15/2014 21:03:31" />
     <file relUrl="Scripts/MicrosoftAjax.debug.js" publishTime="07/15/2014 20:11:50" />
-    <file relUrl="x64/SQLite.Interop.dll" publishTime="09/02/2014 19:26:24" />
+    <file relUrl="Scripts/MicrosoftMvcAjax.debug.js" publishTime="07/15/2014 20:11:50" />
     <file relUrl="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png" publishTime="07/15/2014 21:03:32" />
-    <file relUrl="bin/T034.pdb" publishTime="09/10/2014 17:20:32" />
+    <file relUrl="bin/T034.pdb" publishTime="09/11/2014 21:19:17" />
     <file relUrl="Scripts/jquery.validate.js" publishTime="07/15/2014 21:03:34" />
-    <file relUrl="Views/Shared/AuthPartialView.cshtml" publishTime="09/10/2014 17:18:59" />
+    <file relUrl="Views/Shared/AuthPartialView.cshtml" publishTime="09/11/2014 21:13:07" />
     <file relUrl="Scripts/jquery-ui-1.8.12.min.js" publishTime="07/15/2014 21:03:28" />
     <file relUrl="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png" publishTime="07/15/2014 21:03:32" />
-    <file relUrl="Scripts/jquery.validate.unobtrusive.min.js" publishTime="07/15/2014 20:11:50" />
-    <file relUrl="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png" publishTime="07/15/2014 21:03:32" />
+    <file relUrl="Views/Home/Index.cshtml" publishTime="07/15/2014 21:09:08" />
+    <file relUrl="bin/System.Data.SQLite.xml" publishTime="09/02/2014 19:25:42" />
     <file relUrl="Content/themes/base/jquery.ui.autocomplete.css" publishTime="07/15/2014 21:03:31" />
   </publishProfile>
 </publishData>

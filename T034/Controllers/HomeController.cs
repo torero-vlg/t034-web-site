@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Web.Mvc;
-using Db.Tools;
-using T034.Models;
-using T034.Tools;
+﻿using System.Web.Mvc;
+using T034.Tools.Auth;
 
 namespace T034.Controllers
 {
@@ -20,26 +16,7 @@ namespace T034.Controllers
 
         public ActionResult Auth()
         {
-            var model = new UserModel{IsAutharization = false};
-            try
-            {
-                
-                if (Request.Cookies["user_token"] != null)
-                {
-                    var userCookie = Request.Cookies["user_token"];
-
-                    var stream = HttpTools.PostStream("https://login.yandex.ru/info",
-                                                        string.Format("oauth_token={0}",
-                                                                    Server.HtmlEncode(userCookie.Value)));
-                    model = SerializeTools.Deserialize<UserModel>(stream);
-                    model.IsAutharization = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                MonitorLog.WriteLog(GetType() + " " + ex.InnerException + ex.Message, MonitorLog.typelog.Error, true);
-                model.IsAutharization = false;
-            }
+            var model = YandexAuth.GetUser(Request);
 
             return PartialView("AuthPartialView", model);
         }

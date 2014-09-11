@@ -8,9 +8,9 @@
 }
 else
 {
-    <a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=030edcedc0264dc188a18f4779642970">Войти при помощи Яндекса</a>
+    @Html.ActionLink("Войти при помощи Яндекса", "RedirectToYandex", "Auth")
 }
-@using (Html.BeginForm("Login", "Auth"))
+@using (Html.BeginForm("RedirectToYandex", "Auth"))
 {
     @Html.Hidden("token")
 }
