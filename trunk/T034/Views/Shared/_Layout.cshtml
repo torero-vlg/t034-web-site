@@ -11,15 +11,10 @@
 
     <body>
         @{
-            Html.RenderAction("Auth", "Home");
+            //Html.RenderAction("Auth", "Home");
+            //Html.RenderAction("MainMenu", "Navigation");
         }
-        <ul class="nav nav-tabs">
-            <li>
-                @Html.ActionLink("Новости", "Index", "News")
-            </li>
-            <li><a href="#">Документы</a></li>
-            <li><a href="#">Контакты</a></li>
-        </ul>
+
         @RenderBody()
     </body>
 </html>
