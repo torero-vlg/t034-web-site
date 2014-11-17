@@ -8,7 +8,7 @@
 }
 else
 {
-    @Html.ActionLink("Войти при помощи Яндекса", "RedirectToYandex", "Auth")
+    <a href="@Url.Action("RedirectToYandex", "Auth")"><img src="/Content/images/yandex_icon.png" height="25px" width="25px" alt="Войти при помощи Яндекса"/> </a>
 }
 @using (Html.BeginForm("RedirectToYandex", "Auth"))
 {
