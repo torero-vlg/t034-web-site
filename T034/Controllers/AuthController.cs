@@ -1,17 +1,20 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using T034.Tools.Auth;
 
 namespace T034.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
-        public ActionResult LoginWithYandex()
+        public ActionResult LoginWithYandex(string code)
         {
-            var model = YandexAuth.GetToken(Request);
+            //            var userCookie = YandexAuth.GetAuthorizationCookie(Request);
+            //  MonitorLog.WriteLog(string.Format("GetAuthorizationCookie({0})", Repository), MonitorLog.typelog.Info, true);
+            var accessToken = YandexAuth.GetAuthorizationCookie(Response.Cookies, code, Db);
+            //  MonitorLog.WriteLog(string.Format("accessToken = {0}", accessToken), MonitorLog.typelog.Info, true);
 
-            var userCookie = YandexAuth.TokenCookie(model);
-            Response.Cookies.Set(userCookie);
+            FormsAuthentication.SetAuthCookie(accessToken, true);
 
             return RedirectToActionPermanent("Index", "Home");
         }

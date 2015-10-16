@@ -1,8 +1,10 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Db;
-using Db.DataAccess;
+using T034.Models;
+using T034.Tools.Attribute;
 
 namespace T034
 {
@@ -11,12 +13,12 @@ namespace T034
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        public static AbstractDbFactory DbFactory;
-        public static IBaseDb Db;
-
+        public static IEnumerable<ActionRole> ActionRoles { get; private set; }
+        
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new PermissionFilterAttribute());
         }
 
         public static void RegisterRoutes(RouteCollection routes)
@@ -35,14 +37,28 @@ namespace T034
         {
             AreaRegistration.RegisterAllAreas();
 
-            DbFactory = new NhDbFactory(ConnectionString);
-
-            Db = DbFactory.CreateBaseDb();
-
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ActionRoles = GetActionRoles();
         }
 
-        private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }
+        private IEnumerable<ActionRole> GetActionRoles()
+        {
+            var _assembly = Assembly.GetExecutingAssembly();
+
+            IEnumerable<MethodInfo> methods = _assembly.GetTypes().
+                            SelectMany(t => t.GetMethods())
+                            .Where(m => m.GetCustomAttributes(typeof(RoleAttribute), true).Length > 0);
+
+            var result = methods.Select(m => new ActionRole()
+            {
+                Action = m.Name,
+                Role = ((RoleAttribute)m.GetCustomAttributes(typeof(RoleAttribute), true).FirstOrDefault()).Role,
+                Controller = m.GetBaseDefinition().ReflectedType.Name.Replace("Controller", "")
+            }).ToList();
+
+            return result;
+        }
     }
 }

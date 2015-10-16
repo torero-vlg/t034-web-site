@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Web;
-using Db.Tools;
+using System.Web.Security;
+using Db.DataAccess;
+using Db.Entity.Administration;
+using Ninject;
 using T034.Models;
+using T034.Repository;
 
 namespace T034.Tools.Auth
 {
@@ -12,27 +18,36 @@ namespace T034.Tools.Auth
 
         public const string InfoUrl = "https://login.yandex.ru/info";
 
-        public static TokenModel GetToken(HttpRequestBase request)
+
+
+        public static string GetAuthorizationCookie(HttpCookieCollection cookies, string code, IBaseDb db)
         {
-            var code = request.QueryString["code"];
+            //var code = request.QueryString["code"];
 
             var stream = HttpTools.PostStream("https://oauth.yandex.ru/token",
                 string.Format("grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}", code, ClientId, Password));
 
             var model = SerializeTools.Deserialize<TokenModel>(stream);
 
-            return model;
-        }
-
-        public static HttpCookie TokenCookie(TokenModel model)
-        {
             var userCookie = new HttpCookie("yandex_token")
             {
                 Value = model.access_token,
                 Expires = DateTime.Now.AddDays(30)
             };
 
-            return userCookie;
+
+            stream = HttpTools.PostStream(InfoUrl, string.Format("oauth_token={0}", userCookie.Value));
+            var email = SerializeTools.Deserialize<UserModel>(stream).default_email;
+
+            var user = db.SingleOrDefault<User>(u => u.Email == email);
+
+            cookies.Set(userCookie);
+            
+            var rolesCookie = new HttpCookie("roles") {Value = string.Join(",", user.UserRoles.Select(r => r.Code)), Expires = DateTime.Now.AddDays(30)};
+            cookies.Set(rolesCookie);
+            
+            return model.access_token;
+
         }
 
         public static UserModel GetUser(HttpRequestBase request)
@@ -48,9 +63,9 @@ namespace T034.Tools.Auth
                     model.IsAutharization = true;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MonitorLog.WriteLog(ex.InnerException + ex.Message, MonitorLog.typelog.Error, true);
+                //MonitorLog.WriteLog(ex.InnerException + ex.Message, MonitorLog.typelog.Error, true);
                 model.IsAutharization = false;
             }
 

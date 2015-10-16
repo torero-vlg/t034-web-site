@@ -1,0 +1,9 @@
+vgiik.suo
+*.user
+packages
+T034.Db/obj
+T034.Db/bin
+T034/obj
+T034/bin
+T034/Logs
+T034.suo
