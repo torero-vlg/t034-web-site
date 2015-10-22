@@ -9,11 +9,11 @@ namespace T034.AutoMapper
         protected override void Configure()
         {
             Mapper.CreateMap<User, UserViewModel>()
-                  .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => AutoMapperWebConfiguration.IdsToString(src.UserRoles)));
+                  .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => AutoMapperWebConfiguration.IdsToString(src.UserRoles)));
 
             Mapper.CreateMap<UserViewModel, User>()
                   .ForMember(dest => dest.UserRoles,
-                             opt => opt.MapFrom(src => AutoMapperWebConfiguration.StringToCollection<Role>(src.Roles)));
+                             opt => opt.MapFrom(src => AutoMapperWebConfiguration.StringToCollection<Role>(src.RoleIds)));
         }
     }
 }

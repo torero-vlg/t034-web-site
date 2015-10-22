@@ -8,12 +8,31 @@
 
 
 @Html.ActionLink("Добавить", "AddOrEdit", "User")
-@{
-    foreach (var news in Model)
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>E-mail</th>
+            <th>Операции</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
     {
-        <p>@news.Id.ToString()</p>
-        <p>@news.Name</p>
-        <p>@news.Email</p>
-        <p>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = news.Id })</p>
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Email</td>
+        <td>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })</td>
+      </tr>
     }
-}
+    </tbody>
+</table>
+<script language="javascript">
+    $(document).ready(function(){
+        $('#table_id').DataTable({
+            "language": {
+                "url": "@Url.Content("~/Content/DataTables-1.10.2/dataTables.russian.langs")"
+            }
+        });
+    });
+</script>
