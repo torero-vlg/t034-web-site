@@ -145,5 +145,30 @@ namespace Db.DataAccess
                 }
             }
         }
+
+        public int SaveOrUpdate<T>(T entity) where T : Entity.Entity
+        {
+            int result;
+            using (var session = SessionFactory.OpenSession())
+            {
+                using (var tran = session.BeginTransaction())
+                {
+                    try
+                    {
+                        session.SaveOrUpdate(entity);
+
+                        tran.Commit();
+                        result = entity.Id;
+                    }
+                    catch (Exception ex)
+                    {
+                        MonitorLog.WriteLog("Ошибка выполнения процедуры SaveOrUpdate<" + typeof(T) + "> : " + ex.Message, MonitorLog.typelog.Error, true);
+                        tran.Rollback();
+                        result = 0;
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

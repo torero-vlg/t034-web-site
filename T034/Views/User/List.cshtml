@@ -1,0 +1,19 @@
+﻿@model IEnumerable<T034.ViewModel.UserViewModel>
+
+@{
+    ViewBag.Title = "Пользователи";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@Html.ActionLink("Добавить", "AddOrEdit", "User")
+@{
+    foreach (var news in Model)
+    {
+        <p>@news.Id.ToString()</p>
+        <p>@news.Name</p>
+        <p>@news.Email</p>
+        <p>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = news.Id })</p>
+    }
+}

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using T034.AutoMapper;
 using T034.Models;
 using T034.Tools.Attribute;
 
@@ -39,6 +40,8 @@ namespace T034
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            AutoMapperWebConfiguration.Configure(Server);
 
             ActionRoles = GetActionRoles();
         }
