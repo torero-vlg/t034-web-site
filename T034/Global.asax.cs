@@ -53,9 +53,9 @@ namespace T034
 
             var result = methods.Select(m => new ActionRole()
             {
-                Action = m.Name,
+                Action = m.Name.ToLower(),
                 Role = ((RoleAttribute)m.GetCustomAttributes(typeof(RoleAttribute), true).FirstOrDefault()).Role,
-                Controller = m.GetBaseDefinition().ReflectedType.Name.Replace("Controller", "")
+                Controller = m.GetBaseDefinition().ReflectedType.Name.Replace("Controller", "").ToLower()
             }).ToList();
 
             return result;

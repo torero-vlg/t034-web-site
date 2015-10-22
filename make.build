@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<project name="Hello World" default="build" basedir=".">
+	<description>Сборка пакета.</description>
+	<property name="debug" value="true" overwrite="false" />
+	<property name="main.dir" value="${directory::get-current-directory()}"/>
+	<property name="publish.dir" value="${main.dir}\publish"/>
+	<property name="out.dir" value="${publish.dir}\outdir"/>
+	<property name="SolutionFile" value="${main.dir}\T034.sln"/>    
+	<property name="MSBuildPath" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"/>    
+	<property name="build.configuration" value="Release"/>
+	<property name="tools" value="${main.dir}\Tools"/>
+	<property name="svnLocation" value="C:\Program Files\TortoiseSVN\bin\svn.exe"/>
+	<property name="Db.ProjectFile" value="${main.dir}\T034.Db\Db.csproj"/>
+	<property name="Db.DllFile" value="${main.dir}\T034.Db\bin\Release\Db.dll"/>
+	<property name="Deploy" value="${main.dir}\Deploy"/>
+	<property name="MigratorPath" value="${main.dir}\Deploy\migrator.exe"/>
+	
+	<target name="updateSvn" description="Update">
+	   <echo message="Обновляем исходники из репозитория" />
+	   <exec program="${svnLocation}" commandline="update ${main.dir}"/>
+	</target>
+		
+	<target name="cleanupPublish">
+		<delete dir="${publish.dir}" />
+	</target>
+
+	<target name="buildSolution"  depends="cleanupPublish">
+        <exec program="${MSBuildPath}">
+        	<arg line="${SolutionFile}"/>
+			<arg line="/t:Rebuild;Publish"/>
+			<arg line="/p:Configuration=${build.configuration};DeployOnBuild=True;PackageAsSingleFile=False;outdir=${out.dir}\"/>
+			<arg line="/verbosity:quiet"/>
+			<arg line="/nologo"/>
+		</exec>
+	</target>
+	
+	<target name="build" depends="buildSolution">
+		<copy todir="${publish.dir}\vgiik">
+			<fileset basedir="${out.dir}\_PublishedWebsites\T034"/>
+		</copy>
+		<delete>
+			<fileset>
+				<include name="${publish.dir}\vgiik\bin\*.pdb" />
+				<include name="${publish.dir}\vgiik\bin\*.xml" />
+				<include name="${publish.dir}\vgiik\bin\*.png" />
+			</fileset>
+		</delete>
+	</target>
+		
+	<target name="updateDb" depends="">
+		<echo message="MSBuild Clean" />
+		<exec program="${MSBuildPath}">
+        	<arg line="${Db.ProjectFile}"/>
+			<arg line="/t:Clean"/>
+			<arg line="/verbosity:quiet"/>
+			<arg line="/nologo"/>
+		</exec>
+		
+		<echo message="MSBuild Build" />
+		<exec program="${MSBuildPath}">
+        	<arg line="${Db.ProjectFile}"/>
+			<arg line="/t:Build"/>
+			<arg line="/p:Configuration=${build.configuration}"/>
+			<arg line="/verbosity:quiet"/>
+			<arg line="/nologo"/>
+		</exec>
+		
+		<echo message="Копируем Db.dll для migrator.exe" />
+		<copy 
+			file="${Db.DllFile}" 
+			todir="${Deploy}"	/>
+		
+		<echo message="Запуск  migrator.exe" />
+		<exec program="${MigratorPath}" commandline="-task update -dll ${Deploy}\Db.dll -db ${Deploy}\t034.sqlite" />
+	</target>
+	
+	<target name="help">
+		<echo message="updateDb обновить структуру БД" />
+		<echo message="build собрать пакет" />
+	</target>
+</project>

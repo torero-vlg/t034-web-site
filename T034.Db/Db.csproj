@@ -68,6 +68,7 @@
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Finder\Finder.cs" />
     <Compile Include="Entity\News.cs" />
+    <Compile Include="Mapping\Administration\RoleMap.cs" />
     <Compile Include="Mapping\Administration\UserMap.cs" />
     <Compile Include="Mapping\NewsMap.cs" />
     <Compile Include="NhDbFactory.cs" />

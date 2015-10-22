@@ -10,7 +10,7 @@ namespace T034.Tools.Attribute
             var action = filterContext.ActionDescriptor.ActionName;
             var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
 
-            var role = MvcApplication.ActionRoles.FirstOrDefault(p => p.Action == action && p.Controller == controller);
+            var role = MvcApplication.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
             if (role == null) return;
 
             //if (filterContext.RequestContext.HttpContext.User.HasPermission(role.role)) return;

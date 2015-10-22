@@ -10,8 +10,15 @@ namespace Db.Mapping.Administration
             Id(x => x.Id).Column("UserId").GeneratedBy.Increment();
 
             Map(p => p.Name);
+            Map(p => p.Email);
             Map(p => p.Login);
             Map(p => p.Password);
+
+            HasManyToMany(p => p.UserRoles)
+                .Table("UserRole")
+                .ParentKeyColumn("UserId")
+                .ChildKeyColumn("RoleId")
+                .Not.LazyLoad();
         }
     }
 }
