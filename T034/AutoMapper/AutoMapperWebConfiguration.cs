@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using Db.Entity;
-using T034.ViewModel.AutoMapper;
 
 namespace T034.AutoMapper
 {

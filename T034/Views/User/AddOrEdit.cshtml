@@ -19,11 +19,28 @@
             @Html.TextBoxFor(m => m.Email, new Dictionary<string, object> { { "class", "input-xxlarge" } })
         </div>
 
-        <label class="control-label">@Html.LabelFor(m => m.RoleIds)</label>
         <div>
-            @Html.TextAreaFor(m => m.RoleIds, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @{
+                for (int i = 0; i < Model.UserRoles.Count; i++)
+                {
+                @Html.CheckBoxFor(m => m.UserRoles[i].Selected)
+                @Html.HiddenFor(m => m.UserRoles[i].Id)
+                @Html.LabelFor(m => m.UserRoles[i].Selected,Model.UserRoles[i].Name)
+                <br />
+                }
+                
+@*                foreach (var role in Model.UserRoles)
+                {
+                    var ch = role.Selected ? "checked" : "";
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="@role.Id" @ch name="UserRoles[@Model.UserRoles.ToList().IndexOf(role)]"/>@role.Name [@role.Code]
+                        </label>
+                    </div>
+                }*@
+               
+            }
         </div>
-
     </div>
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">Сохранить изменения</button>

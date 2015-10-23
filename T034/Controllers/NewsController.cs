@@ -25,13 +25,13 @@ namespace T034.Controllers
         }
 
         [HttpGet]
-        [Role("Administrator")]
+        [Role("Moderator")]
         public ActionResult Add()
         {
             return View();
         }
 
-        [Role("Administrator")]
+        [Role("Moderator")]
         public ActionResult Add(News news)
         {
             var user = YandexAuth.GetUser(Request);

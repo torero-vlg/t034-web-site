@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity.Administration;
-using T034.Tools.Attribute;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
-    public class UserController : BaseController
+    public class RoleController : BaseController
     {
+        [Tools.Attribute.Role("Administrator")]
         public ActionResult List()
         {
             try
             {
-                var items = Db.Select<User>();
+                var items = Db.Select<Role>();
 
-                var model = new List<UserViewModel>();
+                var model = new List<RoleViewModel>();
                 model = Mapper.Map(items, model);
 
                 return View(model);
@@ -29,35 +28,26 @@ namespace T034.Controllers
         }
 
         [HttpGet]
-        [Role("Administrator")]
+        [Tools.Attribute.Role("Administrator")]
         public ActionResult AddOrEdit(int? id)
         {
-            var model = new UserViewModel();
+            var model = new RoleViewModel();
             if (id.HasValue)
             {
-                var item = Db.Get<User>(id.Value);
+                var item = Db.Get<Role>(id.Value);
                 model = Mapper.Map(item, model);
             }
-            foreach (var role in Db.Select<Role>())
-            {
-                if (model.UserRoles.Any(ur => ur.Code == role.Code))
-                    continue;
-                var roleViewModel = new RoleViewModel();
-                roleViewModel = Mapper.Map(role, roleViewModel);
-                roleViewModel.Selected = false;
-                model.UserRoles.Add(roleViewModel);
-            }
-            
+
             return View(model);
         }
 
-        [Role("Administrator")]
-        public ActionResult AddOrEdit(UserViewModel model)
+        [Tools.Attribute.Role("Administrator")]
+        public ActionResult AddOrEdit(RoleViewModel model)
         {
-            var item = new User();
+            var item = new Role();
             if (model.Id > 0)
             {
-                item = Db.Get<User>(model.Id);
+                item = Db.Get<Role>(model.Id);
             }
             item = Mapper.Map(model, item);
 
@@ -66,11 +56,12 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
+        [Tools.Attribute.Role("Administrator")]
         public ActionResult Index(int id)
         {
-            var model = new UserViewModel();
+            var model = new RoleViewModel();
 
-            var item = Db.Get<User>(id);
+            var item = Db.Get<Role>(id);
             if (item == null)
             {
                 return View("ServerError", (object)"Страница не найдена");

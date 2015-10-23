@@ -121,6 +121,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -253,6 +254,8 @@
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\User\AddOrEdit.cshtml" />
     <Content Include="Views\User\List.cshtml" />
+    <Content Include="Views\Role\AddOrEdit.cshtml" />
+    <Content Include="Views\Role\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">
