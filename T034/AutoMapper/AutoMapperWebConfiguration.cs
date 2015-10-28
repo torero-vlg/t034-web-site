@@ -25,6 +25,7 @@ namespace T034.AutoMapper
             {
                 cfg.AddProfile(new UserProfile());
                 cfg.AddProfile(new RoleProfile());
+                cfg.AddProfile(new NewsProfile());
             });
         }
     }

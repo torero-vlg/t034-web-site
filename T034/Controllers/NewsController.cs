@@ -1,52 +1,100 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
 using T034.Tools.Attribute;
 using T034.Tools.Auth;
+using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class NewsController :BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var list = Db.Select<News>();
+            var model = new NewsViewModel();
 
-            return View(list);
+            var item = Db.Get<News>(id);
+            if (item == null)
+            {
+                return View("ServerError", (object)"Страница не найдена");
+            }
+            model = Mapper.Map(item, model);
+
+            return View(model);
         }
 
-        public ActionResult Single(int newsId)
+        public ActionResult List()
         {
-            var news = Db.Get<News>(newsId);
-            return View(news);
+            try
+            {
+                var items = Db.Select<News>();
+
+                var model = new List<NewsViewModel>();
+                model = Mapper.Map(items, model);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("ServerError", (object)"Получение списка");
+            }
         }
 
         [HttpGet]
         [Role("Moderator")]
-        public ActionResult Add()
+        public ActionResult AddOrEdit(int? id)
         {
-            return View();
+            var model = new NewsViewModel();
+            if (id.HasValue)
+            {
+                var item = Db.Get<News>(id.Value);
+                model = Mapper.Map(item, model);
+            }
+
+            return View(model);
         }
 
         [Role("Moderator")]
-        public ActionResult Add(News news)
+        public ActionResult AddOrEdit(NewsViewModel model)
         {
             var user = YandexAuth.GetUser(Request);
 
             //найдём пользователя в БД
-            var list = Db.Where<User>(u => u.Login == user.display_name);
-            if (list.Any())
+            var userFromDb = Db.Where<User>(u => u.Email == user.default_email).FirstOrDefault();
+            if (userFromDb != null)
             {
-                news.LogDate = DateTime.Now;
-                news.User = new User {Id = list.FirstOrDefault().Id};
+                var item = new News();
+                if (model.Id > 0)
+                {
+                    item = Db.Get<News>(model.Id);
+                }
+                item = Mapper.Map(model, item);
 
-                var result = Db.Save(news);
-                return RedirectToAction("Single", new {newsId = result});
+                item.LogDate = DateTime.Now;
+                item.User = new User { Id = userFromDb.Id };
+
+                var result = Db.SaveOrUpdate(item);
+
+                return RedirectToAction("List");
             }
-            return RedirectToAction("Index", "Home");
+            return View("ServerError", (object)"Не удалось определить пользователя");
+        }
+
+        [HttpGet]
+        [Role("Moderator")]
+        public ActionResult Delete(int? id)
+        {
+            if (id.HasValue)
+            {
+                var item = Db.Get<News>(id.Value);
+                var result = Db.Delete(item);
+            }
+            return RedirectToAction("List");
         }
     }
 }

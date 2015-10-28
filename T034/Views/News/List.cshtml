@@ -1,0 +1,36 @@
+﻿@model IEnumerable<T034.ViewModel.NewsViewModel>
+
+@{
+    ViewBag.Title = "Новости";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var isAuth = false;
+    if (Request.Cookies["yandex_token"] != null)
+    {
+        if(Request.Cookies["yandex_token"].Value != "")
+        {
+            isAuth = true;
+            @Html.ActionLink("Добавить новость", "AddOrEdit", "News")
+        }
+    }
+}
+<h2>Новости</h2>
+
+<div>
+@foreach (var item in Model)
+{
+    <div><h4>@Html.ActionLink(item.Title, "Index", new { id = item.Id })</h4></div>
+    <div><h6>@item.UserName</h6></div>
+    <div>@item.Resume</div>
+    <div>@Html.ActionLink("Подробнее", "Index", new { id = item.Id })</div>
+    if (isAuth)
+    {
+      <div>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })</div>
+    }
+  
+    <hr />
+}
+</div>
+
+    

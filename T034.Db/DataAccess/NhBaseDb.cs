@@ -170,5 +170,30 @@ namespace Db.DataAccess
             }
             return result;
         }
+
+        public bool Delete<T>(T entity) where T : Entity.Entity
+        {
+            bool result;
+            using (var session = SessionFactory.OpenSession())
+            {
+                using (var tran = session.BeginTransaction())
+                {
+                    try
+                    {
+                        session.Delete(entity);
+
+                        tran.Commit();
+                        result = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        MonitorLog.WriteLog("Ошибка выполнения процедуры Delete<" + typeof(T) + "> : " + ex.Message, MonitorLog.typelog.Error, true);
+                        tran.Rollback();
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

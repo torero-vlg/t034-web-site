@@ -38,6 +38,7 @@ namespace T034.Controllers
                 var item = Db.Get<User>(id.Value);
                 model = Mapper.Map(item, model);
             }
+            //добавим те роли, которых нет у пользователя, но есть в БД
             foreach (var role in Db.Select<Role>())
             {
                 if (model.UserRoles.Any(ur => ur.Code == role.Code))

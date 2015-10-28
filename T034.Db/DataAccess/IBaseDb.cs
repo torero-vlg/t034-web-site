@@ -13,5 +13,6 @@ namespace Db.DataAccess
         int SaveOrUpdate<T>(T entity) where T : Entity.Entity;
         int Save<T>(T entity) where T : Entity.Entity;
         void Save<T>(List<T> list) where T : Entity.Entity;
+        bool Delete<T>(T entity) where T : Entity.Entity;
     }
 }

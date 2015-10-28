@@ -1,0 +1,35 @@
+﻿@model T034.ViewModel.NewsViewModel
+@{
+    ViewBag.Title = "Редактирование новости";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddOrEdit", "News"))
+{
+    <legend>Добавить новость</legend>
+    <div class="control-group warning">
+        <label class="control-label">Заголовок</label>
+        <div>
+            @Html.TextBoxFor(m => m.Title, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.HiddenFor(m => m.Id)
+        </div>
+
+        <label class="control-label">Краткое описание</label>
+        <div>
+            @Html.TextBoxFor(m => m.Resume)
+        </div>
+    
+        <label class="control-label">Содержание</label>
+        <div>
+            @Html.TextAreaFor(m => m.Body)
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        <button type="button" class="btn">Отмена</button>
+        @if (Model.Id > 0)
+        {
+            <div>@Html.ActionLink("Удалить", "Delete", new { id = Model.Id })</div>
+        }
+    </div>
+}

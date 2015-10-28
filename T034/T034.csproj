@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
+    <Compile Include="AutoMapper\NewsProfile.cs" />
     <Compile Include="AutoMapper\RoleProfile.cs" />
     <Compile Include="AutoMapper\UserProfile.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Tools\Auth\YandexAuth.cs" />
     <Compile Include="Tools\HttpTools.cs" />
     <Compile Include="Tools\SerializeTools.cs" />
+    <Compile Include="ViewModel\NewsViewModel.cs" />
     <Compile Include="ViewModel\RoleViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
   </ItemGroup>
@@ -241,9 +243,8 @@
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Home\Sites.cshtml" />
-    <Content Include="Views\News\Single.cshtml" />
-    <Content Include="Views\News\Index.cshtml" />
-    <Content Include="Views\News\Add.cshtml" />
+    <Content Include="Views\News\List.cshtml" />
+    <Content Include="Views\News\AddOrEdit.cshtml" />
     <Content Include="Views\Shared\AuthPartialView.cshtml" />
     <Content Include="Views\Shared\MainMenu.cshtml" />
     <Content Include="Views\Shared\_SimpleLayout.cshtml">
@@ -256,6 +257,7 @@
     <Content Include="Views\User\List.cshtml" />
     <Content Include="Views\Role\AddOrEdit.cshtml" />
     <Content Include="Views\Role\List.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">
