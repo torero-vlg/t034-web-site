@@ -28,7 +28,25 @@ namespace T034.Controllers
             return View(model);
         }
 
+        [Role("Moderator")]
         public ActionResult List()
+        {
+            try
+            {
+                var items = Db.Select<News>();
+
+                var model = new List<NewsViewModel>();
+                model = Mapper.Map(items, model);
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("ServerError", (object)"Получение списка");
+            }
+        }
+
+        public ActionResult Newsline()
         {
             try
             {

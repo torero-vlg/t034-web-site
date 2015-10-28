@@ -11,6 +11,7 @@ namespace T034.Controllers
 {
     public class UserController : BaseController
     {
+        [Role("Administrator")]
         public ActionResult List()
         {
             try

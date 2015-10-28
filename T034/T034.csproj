@@ -258,6 +258,7 @@
     <Content Include="Views\Role\AddOrEdit.cshtml" />
     <Content Include="Views\Role\List.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Newsline.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">

@@ -4,15 +4,6 @@
     ViewBag.Title = "Новости";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{
-    if (Request.Cookies["yandex_token"] != null)
-    {
-        if(Request.Cookies["yandex_token"].Value != "")
-        {
-            @Html.ActionLink("Добавить новость", "AddOrEdit", "News")
-        }
-    }
-}
 
 <h2>@Model.Title</h2>
 
