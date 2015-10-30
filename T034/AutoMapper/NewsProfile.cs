@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using System.Web;
+using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
 using T034.ViewModel;
@@ -10,12 +12,22 @@ namespace T034.AutoMapper
         protected override void Configure()
         {
             Mapper.CreateMap<News, NewsViewModel>()
+                  .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)))
                   .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id))
                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
 
             Mapper.CreateMap<NewsViewModel, News>()
-                .ForMember(dest => dest.User,
-                       opt => opt.MapFrom(src => new User { Id = src.UserId }));
+                .ForMember(dest => dest.Body, opt => opt.MapFrom(src => GetSafeHtml(src.Body)))
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User { Id = src.UserId }));
+        }
+
+        private string GetSafeHtml(string htmlInputTxt)
+        {
+            var sb = new StringBuilder(HttpUtility.HtmlEncode(htmlInputTxt));
+
+            sb.Replace("&lt;script&gt;", "");
+            sb.Replace("&lt;/script&gt;", "");
+            return sb.ToString();
         }
     }
 }
