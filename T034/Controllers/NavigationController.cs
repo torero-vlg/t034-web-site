@@ -8,5 +8,10 @@ namespace T034.Controllers
         {
             return PartialView();
         }
+
+        public ActionResult ManagementMenu()
+        {
+            return PartialView();
+        }
     }
 }

@@ -610,6 +610,7 @@
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\Newsline.cshtml" />
     <Content Include="Views\Upload\UploadPartial.cshtml" />
+    <Content Include="Views\Shared\ManagementMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">
