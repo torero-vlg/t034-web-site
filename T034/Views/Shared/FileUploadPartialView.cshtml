@@ -1,0 +1,53 @@
+﻿@model T034.Models.FileUploadModel
+<link href="@Url.Content("~/Content/jQuery.FileUpload/css/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/jQuery.FileUpload/css/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+<!-- The fileinput-button span is used to style the file input field as button -->
+<span class="btn btn-success fileinput-button">
+    <i class="glyphicon glyphicon-plus"></i>
+    <span>Выбрать файлы</span>
+    <!-- The file input field used as target for the file upload widget -->
+    <input id="fileupload" type="file" name="files[]" multiple>
+</span>
+<br>
+<br>
+<!-- The global progress bar -->
+<div id="progress" class="progress">
+    <div class="progress-bar progress-bar-success"></div>
+</div>
+<!-- The container for the uploaded files -->
+<div id="files" class="files"></div>
+
+<!-- The basic File Upload plugin -->
+<script src="@Url.Content("~/Scripts/jQuery.FileUpload/jquery.fileupload.js")" type="text/javascript"></script>
+<script>
+    /*jslint unparam: true */
+    /*global window, $ */
+    $(function () {
+        'use strict';
+        // Change this to the location of your server-side upload handler:
+        var url = '@Url.Content(@Model.Url)';
+        $('#fileupload').fileupload({
+            url: url,
+            dataType: 'json',
+            paramName: '@Model.ToString()',
+            done: function (e, data) {
+                $.each(data.result, function (index, file) {
+                    $('<div class="alert alert-success" role="alert"/>').text(file.name).appendTo('#files');
+                });
+            },
+            fail: function (e, data) {
+                $.each(data.files, function (index, file) {
+                    $('<div class="alert alert-danger" role="alert"/>').text(file.name + ' ошибка').appendTo('#files');
+                });
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+            }
+        }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+    });
+</script>

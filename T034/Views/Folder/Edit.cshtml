@@ -1,0 +1,25 @@
+﻿@using T034.Models
+@model T034.ViewModel.FolderViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table>
+    @{
+    
+        foreach (var item in Model.Files)
+        {
+            <tr>
+                <td><a href="@item.Url">@item.Name</a></td>
+                <td id="tdCommand">@Ajax.ActionLink("Удалить", "DeleteFile", "Folder", new { url = item.Url }, new AjaxOptions{UpdateTargetId = "tdCommand"})</td>
+            </tr>
+        }
+    }
+</table>
+
+@Html.Partial("FileUploadPartialView", new FileUploadModel
+    {
+        Url = "UploadFile",
+        Category = Model.Name
+    })

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
@@ -15,7 +16,8 @@ namespace T034
     public class MvcApplication : System.Web.HttpApplication
     {
         public static IEnumerable<ActionRole> ActionRoles { get; private set; }
-        
+        public static string FilesFolder = ConfigurationManager.AppSettings["FilesFolder"];
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());

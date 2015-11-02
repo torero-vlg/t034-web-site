@@ -1,0 +1,27 @@
+﻿@model T034.ViewModel.FolderViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table>
+@{
+    
+    foreach (var item in Model.Files)
+    {
+        <tr>
+           <td><a href="@item.Url">@item.Name</a></td>
+        </tr>
+    }
+    
+    foreach (var item in Model.SubDirectories)
+    {
+        <tr>
+            <td>@Html.ActionLink(item.Name, "Index", "Folder", new { folder = string.Format("{0}{1}/", Model.Name, item.Name)}, null)</td>
+        </tr>
+    }
+}
+</table>
+
+
+@Html.ActionLink("Редактировать", "Edit", "Folder", new { folder = Model.Name }, null)
