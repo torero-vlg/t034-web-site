@@ -1,0 +1,14 @@
+﻿@model T034.ViewModel.PageViewModel
+
+@{
+    ViewBag.Title = "Публикации";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("список", "List", "Page")
+
+
+        <p>@Html.Display(Model.Title)</p>
+        @Html.Raw(HttpUtility.HtmlDecode(Model.Content) )
+        <p>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = Model.Id })</p>
+
+

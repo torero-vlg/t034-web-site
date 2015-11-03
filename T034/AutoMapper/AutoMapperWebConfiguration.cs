@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using AutoMapper;
 using Db.Entity;
@@ -26,7 +27,18 @@ namespace T034.AutoMapper
                 cfg.AddProfile(new UserProfile());
                 cfg.AddProfile(new RoleProfile());
                 cfg.AddProfile(new NewsProfile());
+                cfg.AddProfile(new PageProfile());
+                cfg.AddProfile(new MenuItemProfile());
             });
+        }
+
+        public static string GetSafeHtml(string htmlInputTxt)
+        {
+            var sb = new StringBuilder(HttpUtility.HtmlEncode(htmlInputTxt));
+
+            sb.Replace("&lt;script&gt;", "");
+            sb.Replace("&lt;/script&gt;", "");
+            return sb.ToString();
         }
     }
 }

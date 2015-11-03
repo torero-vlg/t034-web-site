@@ -1,0 +1,26 @@
+﻿@model T034.ViewModel.MenuItemViewModel
+
+@{
+    ViewBag.Title = "Редактирование";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddOrEdit", "Menu"))
+{
+    <div class="control-group warning">
+        <label class="control-label">@Html.LabelFor(m => m.Title)</label>
+        <div>
+            @Html.TextBoxFor(m => m.Title, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.HiddenFor(m => m.Id)
+        </div>
+        
+        <label class="control-label">@Html.LabelFor(m => m.Url)</label>
+        <div>
+            @Html.TextBoxFor(m => m.Url, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+        </div>
+
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </div>
+}

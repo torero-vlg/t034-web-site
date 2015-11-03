@@ -19,7 +19,7 @@ namespace T034.Tools.FileUpload
             if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
             var file = request.Files[0];
             var inputStream = file.InputStream;
-            var fullName = Path.Combine(_storageRoot, Path.GetFileName(fileName));
+            var fullName = Path.Combine(_storageRoot, Path.GetFileName(fileName).Replace("..", "."));
             if (!Directory.Exists(_storageRoot))
                 Directory.CreateDirectory(_storageRoot);
             using (var fs = new FileStream(fullName, FileMode.Append, FileAccess.Write))
@@ -51,7 +51,7 @@ namespace T034.Tools.FileUpload
             for (int i = 0; i < request.Files.Count; i++)
             {
                 var file = request.Files[i];
-                var fullPath = Path.Combine(_storageRoot, Path.GetFileName(file.FileName));
+                var fullPath = Path.Combine(_storageRoot, Path.GetFileName(file.FileName.Replace("..", ".")));
                 if (!Directory.Exists(_storageRoot))
                     Directory.CreateDirectory(_storageRoot);
                 file.SaveAs(fullPath);

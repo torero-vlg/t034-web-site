@@ -1,0 +1,8 @@
+﻿@model T034.ViewModel.PageViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw(HttpUtility.HtmlDecode(Model.Content) )

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Db.Tools;
+using T034.Tools.Attribute;
 using T034.Tools.FileUpload;
 using T034.ViewModel;
 
@@ -31,6 +32,7 @@ namespace T034.Controllers
             return View("ServerError", (object)string.Format("Отсутствует папка {0}.", directory.Name));
         }
 
+        [Role("Moderator")]
         public ActionResult Edit(string folder = "")
         {
             var directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, folder)));
@@ -61,7 +63,7 @@ namespace T034.Controllers
                     Name = subDir.Name,
                     Files = subDir.GetFiles().Select(f => f.Name).Select(file => new FileViewModel
                         {
-                            Url = string.Format("/{0}/{1}", MvcApplication.FilesFolder, folder) + file, Name = file
+                            Url = string.Format("/{0}/{1}/", MvcApplication.FilesFolder, subDir.Name) + file, Name = file
                         })
                 }).ToList();
 
@@ -75,6 +77,7 @@ namespace T034.Controllers
         }
 
         [HttpPost]
+        [Role("Moderator")]
         public ActionResult UploadFile()
         {
             var path = Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
@@ -101,6 +104,7 @@ namespace T034.Controllers
             return Json(r);
         }
 
+        [Role("Moderator")]
         public ActionResult DeleteFile(string url)
         {
             string folder;

@@ -73,3 +73,7 @@ textarea
 {
     display: none;
 }
+img.file-icon {
+    width: 16px;
+    height: 16px;
+}

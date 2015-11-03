@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Web;
+﻿using System.Web;
 using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
@@ -17,17 +16,10 @@ namespace T034.AutoMapper
                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
 
             Mapper.CreateMap<NewsViewModel, News>()
-                .ForMember(dest => dest.Body, opt => opt.MapFrom(src => GetSafeHtml(src.Body)))
+                .ForMember(dest => dest.Body, opt => opt.MapFrom(src => AutoMapperWebConfiguration.GetSafeHtml(src.Body)))
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => new User { Id = src.UserId }));
         }
 
-        private string GetSafeHtml(string htmlInputTxt)
-        {
-            var sb = new StringBuilder(HttpUtility.HtmlEncode(htmlInputTxt));
 
-            sb.Replace("&lt;script&gt;", "");
-            sb.Replace("&lt;/script&gt;", "");
-            return sb.ToString();
-        }
     }
 }
