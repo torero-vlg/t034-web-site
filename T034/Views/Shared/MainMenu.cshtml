@@ -1,6 +1,14 @@
-﻿<ul class="nav nav-tabs">
-    <li role="presentation" class="@Html.ViewData["NewsMenuActive"]">@Html.ActionLink("Новости", "Newsline", "News")</li>
+﻿@model IEnumerable<T034.ViewModel.MenuItemViewModel>
+<ul class="nav nav-tabs">
+    @{
+        foreach (var menuItem in Model)
+        {
+            <li role="presentation" class="@menuItem.Active"><a href="@menuItem.Url">@menuItem.Title</a></li>
+        }
+    }
+    
+    @*<li role="presentation" class="@Html.ViewData["NewsMenuActive"]">@Html.ActionLink("Новости", "Newsline", "News")</li>
     <li role="presentation" class="@Html.ViewData["DocsMenuActive"]">@Html.ActionLink("Документы", "Index", "Folder", new { folder = "Документы/" }, null)</li>
     <li role="presentation" class="@Html.ViewData["MetMenuActive"]">@Html.ActionLink("Методическая работа", "Index", "Folder", new { folder = "Методическая работа/" }, null)</li>
-    <li role="presentation" class="@Html.ViewData["ContactMenuActive"]">@Html.ActionLink("Контакты", "Index", "Contact")</li>
+    <li role="presentation" class="@Html.ViewData["ContactMenuActive"]">@Html.ActionLink("Контакты", "Index", "Contact")</li>*@
 </ul>
