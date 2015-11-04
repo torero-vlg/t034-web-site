@@ -25,8 +25,8 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры Get<" + typeof(T) + "> : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                     throw;
                 }
             }
@@ -47,8 +47,8 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры Select<" + typeof(T) + "> : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                     throw;
                 }
             }
@@ -69,8 +69,8 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры Where<" + typeof(T) + "> : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                     throw;
                 }
             }
@@ -89,8 +89,8 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры SingleOrDefault<" + typeof(T) + "> : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                     throw;
                 }
             }
@@ -113,7 +113,8 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        MonitorLog.WriteLog("Ошибка выполнения процедуры Save<" + typeof(T) + "> : " + ex.Message, MonitorLog.typelog.Error, true);
+                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                         tran.Rollback();
                         result = 0;
                     }
@@ -139,7 +140,8 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        MonitorLog.WriteLog("Ошибка выполнения процедуры Save<" + typeof(T) + "> : " + ex.Message, MonitorLog.typelog.Error, true);
+                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                         tran.Rollback();
                     }
                 }
@@ -162,7 +164,8 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        MonitorLog.WriteLog("Ошибка выполнения процедуры SaveOrUpdate<" + typeof(T) + "> : " + ex.Message, MonitorLog.typelog.Error, true);
+                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                         tran.Rollback();
                         result = 0;
                     }
@@ -187,13 +190,19 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        MonitorLog.WriteLog("Ошибка выполнения процедуры Delete<" + typeof(T) + "> : " + ex.Message, MonitorLog.typelog.Error, true);
+                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
+                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
                         tran.Rollback();
                         result = false;
                     }
                 }
             }
             return result;
+        }
+
+        private static string FormatLogMessage(string methodName, Exception ex)
+        {
+            return string.Format("Ошибка выполнения процедуры {0} : {1}. \nInnerException : {2}", methodName, ex.Message, ex.InnerException);
         }
     }
 }

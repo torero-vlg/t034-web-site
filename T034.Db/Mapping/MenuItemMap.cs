@@ -11,6 +11,7 @@ namespace Db.Mapping
 
             Map(p => p.Url);
             Map(p => p.Title);
+            Map(p => p.OrderIndex);
         }
     }
 }

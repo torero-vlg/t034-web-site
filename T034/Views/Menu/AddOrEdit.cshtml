@@ -18,6 +18,11 @@
         <div>
             @Html.TextBoxFor(m => m.Url, new Dictionary<string, object> { { "class", "input-xxlarge" } })
         </div>
+        
+        <label class="control-label">@Html.LabelFor(m => m.OrderIndex)</label>
+        <div>
+            @Html.TextBoxFor(m => m.OrderIndex, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+        </div>
 
     </div>
     <div class="form-actions">

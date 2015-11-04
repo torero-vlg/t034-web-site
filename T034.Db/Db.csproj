@@ -65,6 +65,7 @@
     <Compile Include="DataAccess\IBaseMessageDb.cs" />
     <Compile Include="Entity\Administration\Role.cs" />
     <Compile Include="Entity\Administration\User.cs" />
+    <Compile Include="Entity\Setting.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Finder\Finder.cs" />
     <Compile Include="Entity\News.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Entity\MenuItem.cs" />
     <Compile Include="Mapping\Administration\RoleMap.cs" />
     <Compile Include="Mapping\Administration\UserMap.cs" />
+    <Compile Include="Mapping\SettingMap.cs" />
     <Compile Include="Mapping\NewsMap.cs" />
     <Compile Include="Mapping\PageMap.cs" />
     <Compile Include="Mapping\MenuItemMap.cs" />

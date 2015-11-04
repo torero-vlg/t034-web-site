@@ -8,10 +8,9 @@
 
 <h2>Страницы</h2>
 
-<table id="table_id" class="display">
+<table id="pagesTable" class="display">
     <thead>
         <tr>
-            <th>Код страницы</th>
             <th>Заголовок</th>
             <th>Операции</th>
         </tr>
@@ -20,7 +19,6 @@
     @foreach (var item in Model)
     {
     <tr>
-        <td>@item.Id.ToString()</td>
         <td>@item.Title</td>
         <td>
             @Html.ActionLink("Подробнее", "Index", new { id = item.Id })
@@ -33,7 +31,7 @@
 
 <script language="javascript">
     $(document).ready(function(){
-        $('#table_id').DataTable({
+        $('#pagesTable').DataTable({
             "language": {
                 "url": "@Url.Content("~/Content/DataTables-1.10.2/dataTables.russian.langs")"
             }

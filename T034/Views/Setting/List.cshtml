@@ -1,19 +1,17 @@
-﻿@model IEnumerable<T034.ViewModel.MenuItemViewModel>
+﻿@model IEnumerable<T034.ViewModel.SettingViewModel>
 
 @{
-    ViewBag.Title = "Пункты меню";
+    ViewBag.Title = "Настройки";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-@Html.ActionLink("Добавить", "AddOrEdit", "Menu")
+@Html.ActionLink("Добавить", "AddOrEdit", "Setting")
 <table id="table_id" class="display">
     <thead>
         <tr>
             <th>Название</th>
-            <th>Url</th>
-            <th>Порядок</th>
+            <th>Код</th>
+            <th>Значение</th>
             <th>Операции</th>
         </tr>
     </thead>
@@ -21,9 +19,9 @@
     @foreach (var item in Model)
     {
     <tr>
-        <td>@item.Title</td>
-        <td>@item.Url</td>
-        <td>@item.OrderIndex</td>
+        <td>@item.Name</td>
+        <td>@item.Code</td>
+        <td>@item.Value</td>
         <td>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })</td>
       </tr>
     }

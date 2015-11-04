@@ -2,7 +2,7 @@
 
 namespace T034.ViewModel
 {
-    public class RoleViewModel
+    public class SettingViewModel
     {
         [Display(Name = "Идентификатор")]
         public int Id { get; set; }
@@ -12,7 +12,8 @@ namespace T034.ViewModel
         
         [Display(Name = "Код")]
         public string Code { get; set; }
-        
-        public bool Selected { get; set; }
+
+        [Display(Name = "Значение")]
+        public string Value { get; set; }
     }
 }

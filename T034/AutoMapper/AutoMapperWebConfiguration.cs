@@ -29,6 +29,7 @@ namespace T034.AutoMapper
                 cfg.AddProfile(new NewsProfile());
                 cfg.AddProfile(new PageProfile());
                 cfg.AddProfile(new MenuItemProfile());
+                cfg.AddProfile(new SettingProfile());
             });
         }
 

@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
+    <Compile Include="AutoMapper\SettingProfile.cs" />
     <Compile Include="AutoMapper\MenuItemProfile.cs" />
     <Compile Include="AutoMapper\NewsProfile.cs" />
     <Compile Include="AutoMapper\PageProfile.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Tools\FileUpload\ViewDataUploadFilesResult.cs" />
     <Compile Include="Tools\HttpTools.cs" />
     <Compile Include="Tools\SerializeTools.cs" />
+    <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
     <Compile Include="ViewModel\FolderViewModel.cs" />
@@ -787,6 +790,8 @@
     <Content Include="Views\Shared\SuccessMessage.cshtml" />
     <Content Include="Views\Menu\AddOrEdit.cshtml" />
     <Content Include="Views\Menu\List.cshtml" />
+    <Content Include="Views\Setting\AddOrEdit.cshtml" />
+    <Content Include="Views\Setting\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">

@@ -1,13 +1,20 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Db.Entity;
 using T034.Tools.Auth;
 
 namespace T034.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
-            return View("Sites");
+            var item = Db.Where<Setting>(s => s.Code == "StartPage").FirstOrDefault();
+
+            if(item == null)
+                return View();
+
+            return Redirect(item.Value);
         }
         public ActionResult Sites()
         {

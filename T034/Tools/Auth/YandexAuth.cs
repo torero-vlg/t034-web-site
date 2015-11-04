@@ -13,9 +13,10 @@ namespace T034.Tools.Auth
 {
     public static class YandexAuth
     {
-        public const string ClientId = "030edcedc0264dc188a18f4779642970";
-        public const string Password = "8f71a3459a104af9a9e05e52af8b03cd";
-
+        //public const string ClientId = "030edcedc0264dc188a18f4779642970";
+        //public const string Password = "8f71a3459a104af9a9e05e52af8b03cd";
+        public const string ClientId = "6db29766a62c4da68f28aae2ccf4e091";
+        public const string Password = "4b8419836fc54277b2e8b3b954e6de44";
         public const string InfoUrl = "https://login.yandex.ru/info";
 
 
