@@ -1,0 +1,30 @@
+﻿@model T034.ViewModel.FirstUserViewModel
+
+@{
+    ViewBag.Title = "Настройка сайта";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("CreateUserAndOAuth", "Setting"))
+{
+    <div class="control-group warning">
+        <label class="control-label">@Html.LabelFor(m => m.Email)</label>
+        <div>
+            @Html.TextBoxFor(m => m.Email, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+        </div>
+        
+        <label class="control-label">@Html.LabelFor(m => m.YandexClientId)</label>
+        <div>
+            @Html.TextBoxFor(m => m.YandexClientId, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+        </div>
+        
+        <label class="control-label">@Html.LabelFor(m => m.YandexPassword)</label>
+        <div>
+            @Html.TextBoxFor(m => m.YandexPassword, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+        </div>
+
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </div>
+}

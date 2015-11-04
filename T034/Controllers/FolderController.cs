@@ -118,10 +118,10 @@ namespace T034.Controllers
             catch (Exception ex)
             {
                 MonitorLog.WriteLog(ex.Message, MonitorLog.typelog.Error, true);
-                return PartialView("ErrorMessage", (object) string.Format("Ошибка при удалении файла {0}.", url));
+                return View("ServerError", (object) string.Format("Ошибка при удалении файла {0}.", url));
             }
 
-            return PartialView("SuccessMessage", (object)string.Format("Файл удалён."));
+            return RedirectToAction("Edit", new { folder = folder + "/" });
         }
     }
 }

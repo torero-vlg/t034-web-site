@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Web;
-using System.Web.Security;
 using Db.DataAccess;
+using Db.Entity;
 using Db.Entity.Administration;
-using Ninject;
 using T034.Models;
-using T034.Repository;
 
 namespace T034.Tools.Auth
 {
@@ -15,8 +12,8 @@ namespace T034.Tools.Auth
     {
         //public const string ClientId = "030edcedc0264dc188a18f4779642970";
         //public const string Password = "8f71a3459a104af9a9e05e52af8b03cd";
-        public const string ClientId = "6db29766a62c4da68f28aae2ccf4e091";
-        public const string Password = "4b8419836fc54277b2e8b3b954e6de44";
+        //public const string ClientId = "6db29766a62c4da68f28aae2ccf4e091";
+        //public const string Password = "4b8419836fc54277b2e8b3b954e6de44";
         public const string InfoUrl = "https://login.yandex.ru/info";
 
 
@@ -25,8 +22,11 @@ namespace T034.Tools.Auth
         {
             //var code = request.QueryString["code"];
 
+            var clientId = db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId").Value;
+            var password = db.SingleOrDefault<Setting>(s => s.Code == "YandexPassword").Value;
+
             var stream = HttpTools.PostStream("https://oauth.yandex.ru/token",
-                string.Format("grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}", code, ClientId, Password));
+                string.Format("grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}", code, clientId, password));
 
             var model = SerializeTools.Deserialize<TokenModel>(stream);
 

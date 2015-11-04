@@ -161,6 +161,7 @@
     <Compile Include="Tools\FileUpload\ViewDataUploadFilesResult.cs" />
     <Compile Include="Tools\HttpTools.cs" />
     <Compile Include="Tools\SerializeTools.cs" />
+    <Compile Include="ViewModel\FirstUserViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
@@ -792,6 +793,7 @@
     <Content Include="Views\Menu\List.cshtml" />
     <Content Include="Views\Setting\AddOrEdit.cshtml" />
     <Content Include="Views\Setting\List.cshtml" />
+    <Content Include="Views\Setting\CreateUserAndOAuth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T034.Db\Db.csproj">

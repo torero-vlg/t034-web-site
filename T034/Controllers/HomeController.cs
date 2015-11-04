@@ -11,7 +11,7 @@ namespace T034.Controllers
         {
             var item = Db.Where<Setting>(s => s.Code == "StartPage").FirstOrDefault();
 
-            if(item == null)
+            if(item == null || item.Value == "")
                 return View();
 
             return Redirect(item.Value);

@@ -1,6 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Db.Entity;
 using T034.Tools.Auth;
 
 namespace T034.Controllers
@@ -38,7 +39,9 @@ namespace T034.Controllers
 
         public ActionResult RedirectToYandex()
         {
-            return Redirect(string.Format("https://oauth.yandex.ru/authorize?response_type=code&client_id={0}", YandexAuth.ClientId)); ;
+            var clientId = Db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId").Value;
+
+            return Redirect(string.Format("https://oauth.yandex.ru/authorize?response_type=code&client_id={0}", clientId)); 
         }
     }
 }
