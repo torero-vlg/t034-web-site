@@ -123,5 +123,39 @@ namespace T034.Controllers
 
             return RedirectToAction("Edit", new { folder = folder + "/" });
         }
+
+        [Role("Moderator")]
+        public ActionResult DeleteFolder(FolderViewModel model)
+        {
+            try
+            {
+                var directory =
+                    new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, model.Name)));
+                directory.Delete(true);
+            }
+            catch (Exception ex)
+            {
+                return View("ServerError", (object)string.Format("Ошибка при удалении папки {0}.", model.Name));
+            }
+
+            return RedirectToAction("Edit", new { folder = model.Name.Remove(0, model.Name.LastIndexOf("/")) });
+        }
+
+        [Role("Moderator")]
+        public ActionResult CreateFolder(FolderViewModel model)
+        {
+            try
+            {
+                var directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, model.Name)));
+                if(!directory.Exists)
+                    directory.Create();
+            }
+            catch (Exception ex)
+            {
+                return View("ServerError", (object)string.Format("Ошибка при создании папки {0}.", model.Name));
+            }
+
+            return RedirectToAction("Edit", new { folder = model.Name + "/" });
+        }
     }
 }

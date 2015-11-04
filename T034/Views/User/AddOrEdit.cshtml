@@ -10,13 +10,13 @@
     <div class="control-group warning">
         <label class="control-label">@Html.LabelFor(m => m.Name)</label>
         <div>
-            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
             @Html.HiddenFor(m => m.Id)
         </div>
         
         <label class="control-label">@Html.LabelFor(m => m.Email)</label>
         <div>
-            @Html.TextBoxFor(m => m.Email, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
 
         <div>
@@ -28,17 +28,7 @@
                 @Html.LabelFor(m => m.UserRoles[i].Selected,Model.UserRoles[i].Name)
                 <br />
                 }
-                
-@*                foreach (var role in Model.UserRoles)
-                {
-                    var ch = role.Selected ? "checked" : "";
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="@role.Id" @ch name="UserRoles[@Model.UserRoles.ToList().IndexOf(role)]"/>@role.Name [@role.Code]
-                        </label>
-                    </div>
-                }*@
-               
+              
             }
         </div>
     </div>

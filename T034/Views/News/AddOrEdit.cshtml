@@ -13,7 +13,7 @@
     <div class="control-group warning">
         <label class="control-label">Заголовок</label>
         <div>
-            @Html.TextBoxFor(m => m.Title, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
             @Html.HiddenFor(m => m.Id)
         </div>
 

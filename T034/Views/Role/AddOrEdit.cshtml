@@ -10,13 +10,13 @@
     <div class="control-group warning">
         <label class="control-label">@Html.LabelFor(m => m.Name)</label>
         <div>
-            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
             @Html.HiddenFor(m => m.Id)
         </div>
         
         <label class="control-label">@Html.LabelFor(m => m.Code)</label>
         <div>
-            @Html.TextBoxFor(m => m.Code, new Dictionary<string, object> { { "class", "input-xxlarge" } })
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
         </div>
 
     </div>
