@@ -3,77 +3,100 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
+using Db.Entity;
+using Db.Entity.Administration;
 using Db.Tools;
 using T034.Tools.Attribute;
+using T034.Tools.Auth;
 using T034.Tools.FileUpload;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
-    public class FolderController : Controller
+    public class FolderController : BaseController
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="folder">Папка, например images/</param>
-        /// <returns></returns>
-        public ActionResult Index(string folder = "")
+        public ActionResult Index(int? id)
         {
-            ViewData["MetMenuActive"] = folder.Contains("Методическая работа/") ? "active" : "";
-            ViewData["DocsMenuActive"] = folder.Contains("Документы/") ? "active" : "";
+            //ViewData["MetMenuActive"] = folder.Contains("Методическая работа/") ? "active" : "";
+            //ViewData["DocsMenuActive"] = folder.Contains("Документы/") ? "active" : "";
 
 
-            var directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, folder)));
-            if (directory.Exists)
+            var model = new FolderViewModel();
+            if (id.HasValue)
             {
-                var model = CreateFolderViewModel(folder, directory);
-                return View(model);
+                var item = Db.Get<Folder>(id.Value);
+                model = Mapper.Map(item, model);
+
+                if (item != null)
+                {
+                    model = CreateFolderViewModel(model);
+                    return View(model);
+                }
+                return View("ServerError", (object)string.Format("Отсутствует папка."));
             }
-            return View("ServerError", (object)string.Format("Отсутствует папка {0}.", directory.Name));
+
+            return View(model);
         }
 
         [Role("Moderator")]
-        public ActionResult Edit(string folder = "")
+        public ActionResult Edit(int? id)
         {
-            var directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, folder)));
-            if (directory.Exists)
+            var model = new FolderViewModel();
+            if (id.HasValue)
             {
-                var model = CreateFolderViewModel(folder, directory);
-                return View(model);
+                var item = Db.Get<Folder>(id.Value);
+                model = Mapper.Map(item, model);
+                
+                if (item != null)
+                {
+                    model = CreateFolderViewModel(model);
+                    return View(model);
+                }
+                return View("ServerError", (object)string.Format("Отсутствует папка."));
             }
-            return View("ServerError", (object)string.Format("Отсутствует папка {0}.", directory.Name));
+
+            model.SubDirectories = GetSubDirectories(null);
+
+            return View(model);
         }
 
-        private static FolderViewModel CreateFolderViewModel(string folder, DirectoryInfo directory)
+        private FolderViewModel CreateFolderViewModel(FolderViewModel model)
         {
-            var files = directory.GetFiles().Select(f => f.Name);
-            var items =
-                files.Select(
-                    file =>
-                    new FileViewModel
-                        {
-                            Url = string.Format("/{0}/{1}", MvcApplication.FilesFolder, folder) + file,
-                            Name = file
-                        });
+            var files = Db.Where<Files>(f => f.Folder.Id == model.Id);
 
-            var subDirectory = directory.GetDirectories();
+            var items = files.Select(file =>
+                new FileViewModel
+                {
+                    Id = file.Id,
+                    Name = file.Name
+                });
+
+            var subs = GetSubDirectories(model.Id);
+
+            model.Files = items;
+            model.SubDirectories = subs;
+                
+            return model;
+        }
+
+        private IEnumerable<FolderViewModel> GetSubDirectories(int? folderId)
+        {
+            var subDirectory = Db.Where<Folder>(f => f.ParentFolder.Id == folderId);
 
             var subs = subDirectory.Select(subDir => new FolderViewModel
                 {
+                    Id = subDir.Id,
                     Name = subDir.Name,
-                    Files = subDir.GetFiles().Select(f => f.Name).Select(file => new FileViewModel
-                        {
-                            Url = string.Format("/{0}/{1}/", MvcApplication.FilesFolder, subDir.Name) + file, Name = file
-                        })
+                    Files = Db.Where<Files>(ff => ff.Folder.Id == subDir.Id)
+                              .Select(file =>
+                                      new FileViewModel
+                                          {
+                                              Id = file.Id,
+                                              Name = file.Name
+                                          })
                 }).ToList();
-
-            var model = new FolderViewModel
-                {
-                    Name = folder,
-                    Files = items,
-                    SubDirectories = subs
-                };
-            return model;
+            return subs;
         }
 
         [HttpPost]
@@ -81,7 +104,7 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var path = Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
-            path = Path.Combine(path, Request.Files.Keys[0]);
+            //path = Path.Combine(path, Request.Files.Keys[0]);
             var uploader = new Uploader(path);
 
             var r = new List<ViewDataUploadFilesResult>();
@@ -99,29 +122,53 @@ namespace T034.Controllers
                 }
                 JsonResult result = Json(statuses);
                 result.ContentType = "text/plain";
-                return result;
+
+                //запись в БД
+                var user = YandexAuth.GetUser(Request);
+
+                //найдём пользователя в БД
+                var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
+                if (userFromDb != null)
+                {
+                    foreach (var filesResult in statuses)
+                    {
+                        //TODO выделить в метод репозитория, запускать в одной транзакции
+                        var fileByName = Db.SingleOrDefault<Files>(f => f.Name == filesResult.name);
+                        if (fileByName != null)
+                            Db.Delete(fileByName);
+
+                        var item = new Files
+                            {
+                                LogDate = DateTime.Now,
+                                Name = filesResult.name,
+                                User = new User {Id = userFromDb.Id},
+                                Folder = new Folder {Id = int.Parse(Request.Files.Keys[0])}
+                            };
+
+                        Db.SaveOrUpdate(item);    
+                    }
+                }
             }
             return Json(r);
         }
 
         [Role("Moderator")]
-        public ActionResult DeleteFile(string url)
+        public ActionResult DeleteFile(int id)
         {
-            string folder;
-
             try
             {
-                var file = new FileInfo(Server.MapPath(url));
-                folder = file.Directory.Name;
+                var item = Db.Get<Files>(id);
+                var result = Db.Delete(item);
+
+                var file = new FileInfo(Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)), item.Name));
                 file.Delete();
+                
+                return RedirectToAction("Edit", new { id = item.Folder.Id });
             }
             catch (Exception ex)
             {
-                MonitorLog.WriteLog(ex.Message, MonitorLog.typelog.Error, true);
-                return View("ServerError", (object) string.Format("Ошибка при удалении файла {0}.", url));
+                return View("ServerError", (object)string.Format("Ошибка при удалении файла."));
             }
-
-            return RedirectToAction("Edit", new { folder = folder + "/" });
         }
 
         [Role("Moderator")]
@@ -129,33 +176,58 @@ namespace T034.Controllers
         {
             try
             {
-                var directory =
-                    new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, model.Name)));
-                directory.Delete(true);
+                var item = Mapper.Map<Folder>(model);
+                var result = Db.Delete(item);
             }
             catch (Exception ex)
             {
                 return View("ServerError", (object)string.Format("Ошибка при удалении папки {0}.", model.Name));
             }
 
-            return RedirectToAction("Edit", new { folder = model.Name.Remove(0, model.Name.LastIndexOf("/")) });
+            return RedirectToAction("Edit", new { id = model.ParentFolderId });
         }
 
         [Role("Moderator")]
         public ActionResult CreateFolder(FolderViewModel model)
         {
-            try
+            var user = YandexAuth.GetUser(Request);
+
+            //найдём пользователя в БД
+            var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
+            if (userFromDb != null)
             {
-                var directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, model.Name)));
-                if(!directory.Exists)
-                    directory.Create();
+                var item = new Folder();
+                if (model.Id > 0)
+                {
+                    item = Db.Get<Folder>(model.Id);
+                }
+                item = Mapper.Map(model, item);
+
+                item.LogDate = DateTime.Now;
+                item.User = new User { Id = userFromDb.Id };
+
+                var result = Db.SaveOrUpdate(item);
+
+                return RedirectToAction("Edit", new {id = result});
             }
-            catch (Exception ex)
+            return View("ServerError", (object)"Не удалось определить пользователя");
+        }
+
+        public FileResult Download(int id)
+        {
+            var item = Db.Get<Files>(id);
+            if (item == null)
             {
-                return View("ServerError", (object)string.Format("Ошибка при создании папки {0}.", model.Name));
+                //TODO обработка
             }
 
-            return RedirectToAction("Edit", new { folder = model.Name + "/" });
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, item.Name)));
+            string fileName = item.Name;
+
+            item.DownloadCounter++;
+            Db.SaveOrUpdate(item);
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
     }
 }

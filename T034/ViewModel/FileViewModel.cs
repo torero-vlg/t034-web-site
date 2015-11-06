@@ -4,12 +4,21 @@ namespace T034.ViewModel
 {
     public class FileViewModel
     {
+        public int Id { get; set; }
 
-        public string FileIcon 
+        [DisplayName("Документ")]
+        public string Name { get; set; }
+        
+        [DisplayName("Ссылка")]
+        public string Url {
+            get { return string.Format("/Folder/Download?id={0}", Id); }
+        }
+
+        public string FileIcon
         {
             get
             {
-                var extension = Url.Substring(Url.LastIndexOf(".")).ToLower();
+                var extension = string.IsNullOrEmpty(Name) ? "" : Name.Substring(Name.LastIndexOf(".", System.StringComparison.Ordinal)).ToLower();
                 switch (extension)
                 {
                     case ".pdf": return Resource.IconPdf;
@@ -21,11 +30,5 @@ namespace T034.ViewModel
                 }
             }
         }
-
-        [DisplayName("Документ")]
-        public string Name { get; set; }
-        
-        [DisplayName("Ссылка")]
-        public string Url { get; set; }
     }
 }

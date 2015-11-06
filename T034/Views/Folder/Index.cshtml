@@ -5,22 +5,28 @@
 }
 @{
     <div class="list-group">
-        @foreach (var item in Model.Files)
+        @if (Model.Files != null)
         {
-            <a class = "list-group-item" href="@item.Url">
-                <img class="file-icon" src="@item.FileIcon">@item.Name</a>
+            foreach (var item in Model.Files)
+            {
+                <a class = "list-group-item" href="@item.Url">
+                    <img class="file-icon" src="@item.FileIcon">@item.Name</a>
+            }
         }
     </div>
-    foreach (var item in Model.SubDirectories)
+    if (Model.SubDirectories != null)
     {
-    <div class="list-group">
-        @Html.ActionLink(item.Name, "Index", "Folder", new { folder = string.Format("{0}{1}/", Model.Name, item.Name) }, new { @class = "list-group-item active" })
-        @foreach (var fileViewModel in item.Files)
+        foreach (var item in Model.SubDirectories)
         {
-            <a class = "list-group-item" href="@fileViewModel.Url">
-                <img class="file-icon" src="@fileViewModel.FileIcon">@fileViewModel.Name</a>
-        }
-    </div>
+            <div class="list-group">
+                @Html.ActionLink(item.Name, "Index", "Folder", new {id = item.Id}, new {@class = "list-group-item active"})
+                @foreach (var fileViewModel in item.Files)
+                {
+                    <a class = "list-group-item" href="@fileViewModel.Url">
+                        <img class="file-icon" src="@fileViewModel.FileIcon">@fileViewModel.Name</a>
+                }
+            </div>
 
+        }
     }
 }

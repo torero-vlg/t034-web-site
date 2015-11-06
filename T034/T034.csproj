@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
+    <Compile Include="AutoMapper\FilesProfile.cs" />
     <Compile Include="AutoMapper\SettingProfile.cs" />
     <Compile Include="AutoMapper\MenuItemProfile.cs" />
     <Compile Include="AutoMapper\NewsProfile.cs" />
