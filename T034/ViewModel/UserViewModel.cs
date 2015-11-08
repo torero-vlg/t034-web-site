@@ -5,6 +5,12 @@ namespace T034.ViewModel
 {
     public class UserViewModel
     {
+        public UserViewModel()
+        {
+            UserRoles = new List<RoleViewModel>();
+        }
+        
+
         [Display(Name = "Код")]
         public int Id { get; set; }
         
