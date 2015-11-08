@@ -8,11 +8,12 @@
 @{
 
     <h2>@Model.Name</h2>
+    @Html.ActionLink("Вверх", "Edit", "Folder", new { id = Model.ParentFolderId }, null)
     using (Html.BeginForm("CreateFolder", "Folder"))
     {
         <div  class="input-group">
-            @Html.TextBoxFor(m => m.Name, new Dictionary<string, object> { { "class", "form-control" } })
-            @Html.HiddenFor(m => m.ParentFolderId, new {Value = Model.Id})
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", Value = "" })
+            @Html.HiddenFor(m => m.ParentFolderId, new { Value = Model.Id > 0 ? Model.Id : (int?)null })
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-success">Создать</button>
               </span>
@@ -27,6 +28,7 @@
                 <a class = "" href="@item.Url">
                     <img class="file-icon" src="@item.FileIcon">@item.Name</a>
                 @Html.ActionLink("Удалить", "DeleteFile", "Folder", new { id = item.Id }, null)
+                <br>
             }
         }
     </div>
