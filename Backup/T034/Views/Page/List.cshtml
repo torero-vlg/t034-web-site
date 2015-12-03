@@ -1,0 +1,40 @@
+﻿@model IEnumerable<T034.ViewModel.PageViewModel>
+
+@{
+    ViewBag.Title = "Страницы";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Добавить", "AddOrEdit", "Page")
+
+<h2>Страницы</h2>
+
+<table id="pagesTable" class="display">
+    <thead>
+        <tr>
+            <th>Заголовок</th>
+            <th>Операции</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Title</td>
+        <td>
+            @Html.ActionLink("Подробнее", "Index", new { id = item.Id })
+            @Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })
+        </td>
+      </tr>
+    }
+    </tbody>
+</table>
+
+<script language="javascript">
+    $(document).ready(function(){
+        $('#pagesTable').DataTable({
+            "language": {
+                "url": "@Url.Content("~/Content/DataTables-1.10.2/dataTables.russian.langs")"
+            }
+        });
+    });
+</script>    

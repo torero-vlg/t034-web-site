@@ -1,0 +1,38 @@
+﻿@model T034.ViewModel.UserViewModel
+
+@{
+    ViewBag.Title = "Редактирование";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddOrEdit", "User"))
+{
+    <div class="control-group warning">
+        <label class="control-label">@Html.LabelFor(m => m.Name)</label>
+        <div>
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.HiddenFor(m => m.Id)
+        </div>
+        
+        <label class="control-label">@Html.LabelFor(m => m.Email)</label>
+        <div>
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+
+        <div>
+            @{
+                for (int i = 0; i < Model.UserRoles.Count; i++)
+                {
+                @Html.CheckBoxFor(m => m.UserRoles[i].Selected)
+                @Html.HiddenFor(m => m.UserRoles[i].Id)
+                @Html.LabelFor(m => m.UserRoles[i].Selected,Model.UserRoles[i].Name)
+                <br />
+                }
+              
+            }
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </div>
+}
