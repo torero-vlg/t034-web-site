@@ -780,6 +780,7 @@
     <None Include="fonts\glyphicons-halflings-regular.svg" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\Профиль1.pubxml" />
     <None Include="Scripts\ckeditor\ckeditor.pack" />
     <None Include="Scripts\ckeditor\ckeditor.php" />
     <None Include="Scripts\ckeditor\ckeditor_php4.php" />

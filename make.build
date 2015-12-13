@@ -6,7 +6,7 @@
 	<property name="publish.dir" value="${main.dir}\publish"/>
 	<property name="out.dir" value="${publish.dir}\outdir"/>
 	<property name="SolutionFile" value="${main.dir}\T034.sln"/>    
-	<property name="MSBuildPath" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"/>    
+	<property name="MSBuildPath" value="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe"/>    
 	<property name="build.configuration" value="Release"/>
 	<property name="tools" value="${main.dir}\Tools"/>
 	<property name="svnLocation" value="C:\Program Files\TortoiseSVN\bin\svn.exe"/>
