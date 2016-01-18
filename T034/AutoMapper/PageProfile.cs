@@ -12,9 +12,9 @@ namespace T034.AutoMapper
             Mapper.CreateMap<Page, PageViewModel>()
                   .ForMember(dest => dest.Content, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Content)));
 
-            Mapper.CreateMap<PageViewModel, Page>()
+            Mapper.CreateMap<PageViewModel, Page>();
                   //.ForMember(dest => dest.Content, opt => opt.MapFrom(src => Sanitizer.GetSafeHtmlFragment(src.Content)));
-                  .ForMember(dest => dest.Content, opt => opt.MapFrom(src => AutoMapperWebConfiguration.GetSafeHtml(src.Content)));
+                 // .ForMember(dest => dest.Content, opt => opt.MapFrom(src => AutoMapperWebConfiguration.GetSafeHtml(src.Content)));
         }
     }
 }
