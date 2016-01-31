@@ -329,6 +329,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\app\news\list.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
     <Content Include="Scripts\lib\ckeditor\adapters\jquery.js" />
@@ -829,9 +830,7 @@
       <Name>Db</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\app\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
