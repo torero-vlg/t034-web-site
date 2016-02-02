@@ -11,10 +11,20 @@
         ckeditor: 'lib/ckeditor'
     },
     shim: {
-        jqueryui: ['jquery'],
-        bootstrap: ['jquery'],
-        jqueryValidate: ['jquery'],
-        jqueryValidateUnobtrusive: ['jquery', 'jqueryValidate']
+        jqueryui: {
+            deps: ['jquery']
+        },
+        bootstrap: {
+            deps: ['jquery']
+        },
+        dataTables: {
+            deps: ['jquery', 'jqueryui']
+        },
+        jqueryValidate: {
+            deps: ['jquery']
+        },
+        jqueryValidateUnobtrusive: {
+            deps: ['jquery', 'jqueryValidate']
+        }
     }
 });
-
