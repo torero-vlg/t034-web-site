@@ -1,4 +1,4 @@
-﻿define(['dataTables'], function (dataTables) {
+﻿define(['datatables'], function (dataTables) {
 
     //$('#table_id').DataTable(
     //        {

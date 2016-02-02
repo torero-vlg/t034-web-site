@@ -7,7 +7,7 @@
         jqueryValidate: 'jquery.validate',
         jqueryValidateUnobtrusive: 'lib/jquery.validate.unobtrusive',
         bootstrap: 'lib/bootstrap',
-        dataTables: 'lib/DataTables-1.10.2/media/js/jquery.dataTables',
+        datatables: 'lib/DataTables-1.10.2/media/js/jquery.dataTables',
         ckeditor: 'lib/ckeditor'
     },
     shim: {
@@ -17,8 +17,8 @@
         bootstrap: {
             deps: ['jquery']
         },
-        dataTables: {
-            deps: ['jquery', 'jqueryui']
+        datatables: {
+            deps: ['jquery']
         },
         jqueryValidate: {
             deps: ['jquery']
