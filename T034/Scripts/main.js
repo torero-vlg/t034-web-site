@@ -8,7 +8,7 @@
         jqueryValidateUnobtrusive: 'lib/jquery.validate.unobtrusive',
         bootstrap: 'lib/bootstrap',
         datatables: 'lib/DataTables-1.10.2/media/js/jquery.dataTables',
-        ckeditor: 'lib/ckeditor'
+        ckeditor: 'lib/ckeditor/ckeditor'
     },
     shim: {
         jqueryui: {

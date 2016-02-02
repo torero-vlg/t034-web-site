@@ -329,6 +329,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\app\news\addoredit.js" />
     <Content Include="Scripts\app\news\list.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
