@@ -331,6 +331,7 @@
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\app\news\addoredit.js" />
     <Content Include="Scripts\app\news\list.js" />
+    <Content Include="Scripts\app\upload\uploadpartial.js" />
     <Content Include="Scripts\lib\bootstrap.js" />
     <Content Include="Scripts\lib\bootstrap.min.js" />
     <Content Include="Scripts\lib\ckeditor\adapters\jquery.js" />

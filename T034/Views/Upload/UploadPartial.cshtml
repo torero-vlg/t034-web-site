@@ -6,12 +6,3 @@
         <img src="@image.Url" alt="Hejsan" id="#image" data-source="@image.Url" width="200" height="200"/>
     </a>
 }
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(".returnImage").click("click", function (e) {
-            var urlImage = $(this).attr("data-url");
-            window.opener.updateValue("cke_72_textInput", urlImage);
-            window.close();
-        });
-    });
-</script>
