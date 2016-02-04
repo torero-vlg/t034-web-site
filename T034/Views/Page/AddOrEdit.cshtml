@@ -5,9 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/ckeditor/adapters/jquery.js")" type="text/javascript"></script>
-
 @using (Html.BeginForm("AddOrEdit", "Page"))
 {
     <div class="control-group warning">
@@ -32,19 +29,3 @@
         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
     </div>
 }
-
-<script type="text/javascript">
-    CKEDITOR.replace('content', {
-        filebrowserImageBrowseUrl: '/Home/UploadPartial',
-        filebrowserImageUploadUrl: '/home/Uploadnow',
-
-        filebrowserBrowseUrl: '/Home/UploadPartial',
-        filebrowserUploadUrl: '/home/Uploadnow'
-    });
-
-    function updateValue(id, value) {
-        // this gets called from the popup window and updates the field with a new value
-        var jqueryObjectByClass = $(".cke_dialog_ui_input_text")[1];
-        jqueryObjectByClass.value = value;
-    }
-</script>
