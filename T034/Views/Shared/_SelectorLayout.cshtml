@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>@ViewBag.Title</title>
+        <script src="/Scripts/require.js"></script>
+        <script src="/Scripts/main.js"></script>
+    </head>
+
+    <body>
+   
+        @RenderBody()
+
+        <script type="text/javascript">
+            require(['jquery', 'bootstrap', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, view) {
+                view.Initialize();
+            });
+        </script>
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
