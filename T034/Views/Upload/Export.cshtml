@@ -1,0 +1,25 @@
+﻿@using T034.Models
+@model T034.ViewModel.FileViewModel
+
+@{
+    ViewBag.Title = "Экспорт";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@{
+    @Html.Partial("FileUploadPartialView", new FileUploadModel
+     {
+         Url = "/Folder/UploadFile",
+         Folder = Model.Id.ToString()
+     })
+}*@
+
+    @using (Html.BeginForm("Export", "Upload", FormMethod.Post))
+    {
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", Value = "" })
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-success">Экспорт</button>
+            </span>
+        </div>
+    }

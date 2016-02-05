@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Db.Entity;
+using Db.Entity.Administration;
 using T034.ViewModel;
 
 namespace T034.Controllers
@@ -26,6 +29,52 @@ namespace T034.Controllers
                 Url = Url.Content("/Upload/Images/" + Path.GetFileName(x))//TODO перенести путь в config
             });
             return View(images);
+        }
+
+        [HttpGet]
+        public ActionResult Export()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Export(FileViewModel file)
+        {
+            var csvLines = System.IO.File.ReadAllLines(Server.MapPath("~/Upload/Temp/news.csv"));
+
+            var erorrs = "";
+
+
+            for (int i = 0; i < csvLines.Length; i++)
+            {
+                var line = csvLines[i];
+                var t = line.Split(new[] {"\";\""}, StringSplitOptions.None);
+
+                if (t.Count() != 5)
+                {
+                    erorrs += i + ",";
+                    continue;
+                }
+                var news = new News
+                {
+                    Title = t[0],
+                    Resume = t[1].Replace("/sites/default/files/styles/large/public/images", "http://box9-vlg.ru/sites/default/files/styles/large/public/images"),
+                    Body = t[2].Replace("/sites/default/files/styles/large/public/images", "http://box9-vlg.ru/sites/default/files/styles/large/public/images"),
+                    LogDate = UnixTimeStampToDateTime(Convert.ToDouble(t[3])),
+                    User = new User {Id = 2}
+                };
+
+                var result = Db.SaveOrUpdate(news);
+            }
+            return View();
+        }
+
+        private DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
         }
     }
 }

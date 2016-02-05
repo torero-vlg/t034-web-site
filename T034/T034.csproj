@@ -334,6 +334,7 @@
     <Content Include="Scripts\app\folder\index.js" />
     <Content Include="Scripts\app\folder\edit.js" />
     <Content Include="Scripts\app\account\logon.js" />
+    <Content Include="Scripts\app\upload\export.js" />
     <Content Include="Scripts\app\user\addoredit.js" />
     <Content Include="Scripts\app\user\list.js" />
     <Content Include="Scripts\app\setting\createuserandoauth.js" />
@@ -793,6 +794,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Views\Shared\_SelectorLayout.cshtml" />
+    <Content Include="Views\Upload\Export.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
