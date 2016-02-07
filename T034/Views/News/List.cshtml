@@ -26,6 +26,7 @@
         <td>
             @Html.ActionLink("Подробнее", "Index", new { id = item.Id })
             @Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })
+            @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
         </td>
       </tr>
     }

@@ -58,8 +58,8 @@ namespace T034.Controllers
                 var news = new News
                 {
                     Title = t[0],
-                    Resume = t[1].Replace("/sites/default/files/styles/large/public/images", "http://box9-vlg.ru/sites/default/files/styles/large/public/images"),
-                    Body = t[2].Replace("/sites/default/files/styles/large/public/images", "http://box9-vlg.ru/sites/default/files/styles/large/public/images"),
+                    Resume = t[1].Replace("/sites/default/files/styles/large/public/images", "http://box9-vlg.ru/sites/default/files/styles/large/public/images".Replace("\"\"", "\"")),
+                    Body = t[2].Replace("/sites/default/files/styles/large/public/images", "http://box9-vlg.ru/sites/default/files/styles/large/public/images").Replace("\"\"", "\""),
                     LogDate = UnixTimeStampToDateTime(Convert.ToDouble(t[3])),
                     User = new User {Id = 2}
                 };
