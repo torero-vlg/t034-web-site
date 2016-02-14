@@ -14,15 +14,17 @@
         <tr>
             <th>Заголовок</th>
             <th>Пользователь</th>
+            <th>Дата</th>
             <th>Операции</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderByDescending(n => n.LogDate))
     {
     <tr>
         <td>@item.Title</td>
         <td>@item.UserName</td>
+        <td>@item.LogDate</td>
         <td>
             @Html.ActionLink("Подробнее", "Index", new { id = item.Id })
             @Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })

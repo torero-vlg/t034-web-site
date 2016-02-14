@@ -1,14 +1,14 @@
 ﻿@model T034.ViewModel.NewsViewModel
 
 @{
-    ViewBag.Title = "Новости";
+    ViewBag.Title = @Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@Model.Title</h2>
 
-<div>@Model.UserName</div>
-<div>@Model.Resume</div>
+<div>Добавил @Model.UserName @Model.LogDate</div>
+@*<div>@Html.Raw(@Model.Resume)</div>*@
 <div>@Html.Raw(Model.Body)</div>
 
     

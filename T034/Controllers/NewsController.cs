@@ -32,7 +32,7 @@ namespace T034.Controllers
         {
             try
             {
-                var items = Db.Select<News>();
+                var items = Db.Select<News>().OrderByDescending(n => n.LogDate);
 
                 var model = new List<NewsViewModel>();
                 model = Mapper.Map(items, model);
@@ -49,7 +49,7 @@ namespace T034.Controllers
         {
             try
             {
-                var items = Db.Select<News>();
+                var items = Db.Select<News>().OrderByDescending(n => n.LogDate);
 
                 var model = new List<NewsViewModel>();
                 model = Mapper.Map(items, model);
