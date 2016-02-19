@@ -1,6 +1,6 @@
 ﻿namespace Db.Entity
 {
-    public abstract class  Entity
+    public abstract class Entity
     {
         /// <summary>
         /// ИД

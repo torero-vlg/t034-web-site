@@ -5,5 +5,6 @@
         public virtual string Url { get; set; }
         public virtual string Title { get; set; }
         public virtual int OrderIndex { get; set; }
+        public virtual MenuItem Parent { get; set; }
     }
 }

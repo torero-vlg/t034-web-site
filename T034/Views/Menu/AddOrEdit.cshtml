@@ -24,7 +24,22 @@
             @Html.TextBoxFor(m => m.OrderIndex, new { @class = "form-control" })
         </div>
 
-    </div>
+        <label class="control-label">@Html.LabelFor(m => m.ParentId)</label>
+        <div>
+
+            @Html.DropDownListFor(m => m.ParentId, Model.MenuItems, new { @class = "form-control" })
+
+            
+            @*<select class="form-control">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>*@
+        </div>
+
+        </div>
     <div class="form-actions">
         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
     </div>

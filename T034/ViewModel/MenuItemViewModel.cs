@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace T034.ViewModel
 {
@@ -17,5 +19,10 @@ namespace T034.ViewModel
 
         [Display(Name = "Порядковый номер")]
         public int OrderIndex { get; set; }
+
+        [Display(Name = "Родительский пункт")]
+        public int? ParentId { get; set; }
+
+        public ICollection<SelectListItem> MenuItems { get; set; }
     }
 }
