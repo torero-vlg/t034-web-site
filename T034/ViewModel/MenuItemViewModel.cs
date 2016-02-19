@@ -24,5 +24,7 @@ namespace T034.ViewModel
         public int? ParentId { get; set; }
 
         public ICollection<SelectListItem> MenuItems { get; set; }
+
+        public ICollection<MenuItemViewModel> Childs { get; set; }
     }
 }

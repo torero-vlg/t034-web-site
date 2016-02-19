@@ -16,10 +16,16 @@ namespace T034.Controllers
         {
             try
             {
-                var items = Db.Select<MenuItem>();
+                var items = Db.Where<MenuItem>(m => m.Parent == null);
 
                 var model = new List<MenuItemViewModel>();
                 model = Mapper.Map(items, model);
+
+                foreach (var menuItem in model)
+                {
+                    var subs = Db.Where<MenuItem>(m => m.Parent.Id == menuItem.Id);
+                    menuItem.Childs = Mapper.Map<ICollection<MenuItemViewModel>>(subs);
+                }
 
                 return PartialView(model.OrderBy(m => m.OrderIndex));
             }

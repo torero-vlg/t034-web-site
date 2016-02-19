@@ -1,14 +1,39 @@
 ﻿@model IEnumerable<T034.ViewModel.MenuItemViewModel>
-<ul class="nav nav-tabs">
-    @{
-        foreach (var menuItem in Model)
-        {
-            <li role="presentation" class="@menuItem.Active"><a href="@menuItem.Url">@menuItem.Title</a></li>
-        }
-    }
-    
-    @*<li role="presentation" class="@Html.ViewData["NewsMenuActive"]">@Html.ActionLink("Новости", "Newsline", "News")</li>
-    <li role="presentation" class="@Html.ViewData["DocsMenuActive"]">@Html.ActionLink("Документы", "Index", "Folder", new { folder = "Документы/" }, null)</li>
-    <li role="presentation" class="@Html.ViewData["MetMenuActive"]">@Html.ActionLink("Методическая работа", "Index", "Folder", new { folder = "Методическая работа/" }, null)</li>
-    <li role="presentation" class="@Html.ViewData["ContactMenuActive"]">@Html.ActionLink("Контакты", "Index", "Contact")</li>*@
-</ul>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                @{
+                    foreach (var menuItem in Model)
+                    {
+                        <li class="dropdown @menuItem.Active">
+                            @if (menuItem.Url == "#")
+                            {
+                                <a href="@menuItem.Url" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@menuItem.Title</a>
+                            }
+                            else
+                            {
+                                <a href="@menuItem.Url">@menuItem.Title</a>
+                            }
+                            @if (menuItem.Childs.Any())
+                            {
+                                <ul class="dropdown-menu">
+                                    @foreach (var subMenuItem in menuItem.Childs)
+                                    {
+                                        <li><a href="@subMenuItem.Url">@subMenuItem.Title</a></li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                }
+                @*<li role="presentation" class="@Html.ViewData["NewsMenuActive"]">@Html.ActionLink("Новости", "Newsline", "News")</li>
+                <li role="presentation" class="@Html.ViewData["DocsMenuActive"]">@Html.ActionLink("Документы", "Index", "Folder", new { folder = "Документы/" }, null)</li>
+                <li role="presentation" class="@Html.ViewData["MetMenuActive"]">@Html.ActionLink("Методическая работа", "Index", "Folder", new { folder = "Методическая работа/" }, null)</li>
+                <li role="presentation" class="@Html.ViewData["ContactMenuActive"]">@Html.ActionLink("Контакты", "Index", "Contact")</li>*@
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
