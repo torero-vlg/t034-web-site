@@ -24,7 +24,7 @@ namespace T034.Controllers
                 foreach (var menuItem in model)
                 {
                     var subs = Db.Where<MenuItem>(m => m.Parent.Id == menuItem.Id);
-                    menuItem.Childs = Mapper.Map<ICollection<MenuItemViewModel>>(subs);
+                    menuItem.Childs = Mapper.Map<ICollection<MenuItemViewModel>>(subs).OrderBy(m => m.OrderIndex);
                 }
 
                 return PartialView(model.OrderBy(m => m.OrderIndex));

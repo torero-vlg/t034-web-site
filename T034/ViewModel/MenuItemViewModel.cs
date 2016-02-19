@@ -23,8 +23,11 @@ namespace T034.ViewModel
         [Display(Name = "Родительский пункт")]
         public int? ParentId { get; set; }
 
+        [Display(Name = "Родительский пункт")]
+        public string Parent { get; set; }
+
         public ICollection<SelectListItem> MenuItems { get; set; }
 
-        public ICollection<MenuItemViewModel> Childs { get; set; }
+        public IEnumerable<MenuItemViewModel> Childs { get; set; }
     }
 }
