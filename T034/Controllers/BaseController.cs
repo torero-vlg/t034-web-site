@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Db.DataAccess;
 using Ninject;
+using NLog;
 using T034.Repository;
 
 namespace T034.Controllers
@@ -12,5 +13,7 @@ namespace T034.Controllers
 
         [Inject]
         public IRepository Repository { get; set; }
+
+        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
     }
 }

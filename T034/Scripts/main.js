@@ -12,9 +12,9 @@
         ckeditor: 'lib/ckeditor/ckeditor',
         ckeditoradapter: 'lib/ckeditor/adapters/jquery',
 
+        'jquery.fileupload': '/Scripts/lib/jQuery.FileUpload/jquery.fileupload',
         'jquery.fileupload-ui': 'lib/jQuery.FileUpload/jquery.fileupload-ui',
         'jquery.ui.widget': ['/Scripts/lib/jQuery.FileUpload/vendor/jquery.ui.widget'],
-        'jquery.fileupload': '/Scripts/lib/jQuery.FileUpload/jquery.fileupload', 
         'jquery.fileupload-image': '/Scripts/lib/jQuery.FileUpload/jquery.fileupload-image',    
         'jquery.fileupload-validate': '/Scripts/lib/jQuery.FileUpload/jquery.fileupload-validate',
         'jquery.fileupload-video': '/Scripts/lib/jQuery.FileUpload/jquery.fileupload-video',

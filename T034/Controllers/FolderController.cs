@@ -110,43 +110,52 @@ namespace T034.Controllers
             var r = new List<ViewDataUploadFilesResult>();
             if (Request.Files.Cast<string>().Any())
             {
-                var statuses = new List<ViewDataUploadFilesResult>();
-                var headers = Request.Headers;
-                if (string.IsNullOrEmpty(headers["X-File-Name"]))
+                try
                 {
-                    uploader.UploadWholeFile(Request, statuses);
-                }
-                else
-                {
-                    uploader.UploadPartialFile(headers["X-File-Name"], Request, statuses);
-                }
-                JsonResult result = Json(statuses);
-                result.ContentType = "text/plain";
-
-                //запись в БД
-                var user = YandexAuth.GetUser(Request);
-
-                //найдём пользователя в БД
-                var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
-                if (userFromDb != null)
-                {
-                    foreach (var filesResult in statuses)
+                    var statuses = new List<ViewDataUploadFilesResult>();
+                    var headers = Request.Headers;
+                    if (string.IsNullOrEmpty(headers["X-File-Name"]))
                     {
-                        //TODO выделить в метод репозитория, запускать в одной транзакции
-                        var fileByName = Db.SingleOrDefault<Files>(f => f.Name == filesResult.name);
-                        if (fileByName != null)
-                            Db.Delete(fileByName);
-
-                        var item = new Files
-                            {
-                                LogDate = DateTime.Now,
-                                Name = filesResult.name,
-                                User = new User {Id = userFromDb.Id},
-                                Folder = new Folder {Id = int.Parse(Request.Files.Keys[0])}
-                            };
-
-                        Db.SaveOrUpdate(item);    
+                        uploader.UploadWholeFile(Request, statuses);
                     }
+                    else
+                    {
+                        uploader.UploadPartialFile(headers["X-File-Name"], Request, statuses);
+                    }
+                    JsonResult result = Json(statuses);
+                    result.ContentType = "text/plain";
+
+                    //запись в БД
+                    var user = YandexAuth.GetUser(Request);
+
+                    //найдём пользователя в БД
+                    var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
+                    if (userFromDb != null)
+                    {
+                        foreach (var filesResult in statuses)
+                        {
+                            //TODO выделить в метод репозитория, запускать в одной транзакции
+                            var fileByName = Db.SingleOrDefault<Files>(f => f.Name == filesResult.name);
+                            if (fileByName != null)
+                                Db.Delete(fileByName);
+
+                            var item = new Files
+                                {
+                                    LogDate = DateTime.Now,
+                                    Name = filesResult.name,
+                                    User = new User {Id = userFromDb.Id},
+                                    Folder = new Folder {Id = int.Parse(Request.Files.Keys[0])}
+                                };
+
+                            Db.SaveOrUpdate(item);    
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Fatal(ex);
+                    throw;
                 }
             }
             return Json(r);
