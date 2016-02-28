@@ -5,7 +5,7 @@
 
 
             var url = '/Folder/UploadFile';
-            var folderId = $('#Id').val();
+            var folderId = $('#ParentFolderId').val();
 
             $('#fileupload').fileupload({
                 url: url,

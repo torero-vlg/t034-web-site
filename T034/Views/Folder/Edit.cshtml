@@ -14,7 +14,6 @@
         <div  class="input-group">
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", Value = "" })
             @Html.HiddenFor(m => m.ParentFolderId, new { Value = Model.Id > 0 ? Model.Id : (int?)null })
-            @Html.HiddenFor(m => m.Id)
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-success">Создать</button>
               </span>
