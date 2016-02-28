@@ -26,10 +26,10 @@
         {
             foreach (var item in Model.Files)
             {
-                <a class = "" href="@item.Url">
-                    <img class="file-icon" src="@item.FileIcon">@item.Name</a>
-                @Html.ActionLink("Удалить", "DeleteFile", "Folder", new { id = item.Id }, null)
-                <br>
+                <div class="list-group-item">
+                    <i class="fa @item.FileIcon"></i> <a href="@item.Url">@item.Name</a>
+                    <span class="pull-right">@item.Size @item.DownloadCounter @item.User @item.LogDate <a href="@Url.Action("DeleteFile", "Folder", new { id = item.Id }, null)"><i class="fa fa-trash-o"></i></a></span>
+                </div>
             }
         }
     </div>
@@ -41,8 +41,10 @@
                 @Html.ActionLink(item.Name, "Edit", "Folder", new { id = item.Id }, new { @class = "list-group-item active" })
                 @foreach (var fileViewModel in item.Files)
                 {
-                    <a class = "list-group-item" href="@fileViewModel.Url">
-                        <img class="file-icon" src="@fileViewModel.FileIcon">@fileViewModel.Name</a>
+                    <div class="list-group-item">
+                        <i class="fa @fileViewModel.FileIcon"></i> <a href="@fileViewModel.Url">@fileViewModel.Name</a>
+                        <span class="pull-right">@fileViewModel.Size @fileViewModel.User @fileViewModel.LogDate</span>
+                    </div>
                 }
             </div>
         }
