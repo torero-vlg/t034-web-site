@@ -8,8 +8,6 @@
             var folderId = $('#Id').val();
 
             $('#fileupload').fileupload({
-                uploadTemplateId: null,
-                downloadTemplateId: null,
                 url: url,
                 dataType: 'json',
                 paramName: folderId,

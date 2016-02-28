@@ -63,14 +63,7 @@ namespace T034.Controllers
 
         private FolderViewModel CreateFolderViewModel(FolderViewModel model)
         {
-            var files = Db.Where<Files>(f => f.Folder.Id == model.Id);
-
-            var items = files.Select(file =>
-                new FileViewModel
-                {
-                    Id = file.Id,
-                    Name = file.Name
-                });
+            var items = Mapper.Map<IEnumerable<FileViewModel>>(Db.Where<Files>(f => f.Folder.Id == model.Id));
 
             var subs = GetSubDirectories(model.Id);
 
@@ -88,13 +81,7 @@ namespace T034.Controllers
                 {
                     Id = subDir.Id,
                     Name = subDir.Name,
-                    Files = Db.Where<Files>(ff => ff.Folder.Id == subDir.Id)
-                              .Select(file =>
-                                      new FileViewModel
-                                          {
-                                              Id = file.Id,
-                                              Name = file.Name
-                                          })
+                    Files = Mapper.Map<IEnumerable<FileViewModel>>(Db.Where<Files>(ff => ff.Folder.Id == subDir.Id))
                 }).ToList();
             return subs;
         }
@@ -143,6 +130,7 @@ namespace T034.Controllers
                                 {
                                     LogDate = DateTime.Now,
                                     Name = filesResult.name,
+                                    Size = filesResult.size,
                                     User = new User {Id = userFromDb.Id},
                                     Folder = new Folder {Id = int.Parse(Request.Files.Keys[0])}
                                 };

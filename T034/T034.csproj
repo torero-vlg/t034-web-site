@@ -255,6 +255,8 @@
     <Content Include="Content\DataTables-1.10.2\media\images\sort_both.png" />
     <Content Include="Content\DataTables-1.10.2\media\images\sort_desc.png" />
     <Content Include="Content\DataTables-1.10.2\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\yandex_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -330,6 +332,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="README.jQuery.vsdoc.txt" />
@@ -798,9 +801,15 @@
     <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="packages.config" />
     <Content Include="Views\Shared\_SelectorLayout.cshtml" />
     <Content Include="Views\Upload\Export.cshtml" />
@@ -816,10 +825,10 @@
     <None Include="Content\DataTables-1.10.2\extensions\TableTools\images\psd\file_types.psd" />
     <None Include="Content\DataTables-1.10.2\extensions\TableTools\images\psd\printer.psd" />
     <None Include="Content\DataTables-1.10.2\media\images\Sorting icons.psd" />
-    <None Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="fonts\glyphicons-halflings-regular.svg" />
-    <None Include="fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\Профиль1.pubxml" />
     <None Include="Scripts\lib\ckeditor\ckeditor.pack" />
     <None Include="Scripts\lib\ckeditor\ckeditor.php" />

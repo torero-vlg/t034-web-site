@@ -11,6 +11,7 @@ namespace Db.Entity
         public virtual Folder Folder { get; set; }
         
         public virtual DateTime LogDate { get; set; }
+        public virtual int Size { get; set; }
         public virtual User User { get; set; }
     }
 }

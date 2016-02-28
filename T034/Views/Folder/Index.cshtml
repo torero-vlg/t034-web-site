@@ -10,7 +10,7 @@
             foreach (var item in Model.Files)
             {
                 <a class = "list-group-item" href="@item.Url">
-                    <img class="file-icon" src="@item.FileIcon">@item.Name</a>
+                    <i class="fa @item.FileIcon"></i> @item.Name  @item.LogDate @item.DownloadCounter<div class="text-right">@item.User</div><div class="text-right">@item.Size</div></a>
             }
         }
     </div>
@@ -23,7 +23,7 @@
                 @foreach (var fileViewModel in item.Files)
                 {
                     <a class = "list-group-item" href="@fileViewModel.Url">
-                        <img class="file-icon" src="@fileViewModel.FileIcon">@fileViewModel.Name</a>
+                        <i class="fa @fileViewModel.FileIcon"></i> @fileViewModel.Name @fileViewModel.Size</a>
                 }
             </div>
 
