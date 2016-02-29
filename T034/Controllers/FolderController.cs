@@ -36,6 +36,8 @@ namespace T034.Controllers
                 return View("ServerError", (object)string.Format("Отсутствует папка."));
             }
 
+            model.SubDirectories = GetSubDirectories(null);
+
             return View(model);
         }
 
