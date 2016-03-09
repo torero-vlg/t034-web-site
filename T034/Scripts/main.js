@@ -4,7 +4,6 @@
         main: 'main',
         jquery: 'lib/jquery-1.9.0',
         jqueryui: 'lib/jquery-ui-1.9.0',
-        jqueryValidate: 'jquery.validate',//заглавные буквы не работают
         jqueryValidateUnobtrusive: 'lib/jquery.validate.unobtrusive',//заглавные буквы не работают
         bootstrap: 'lib/bootstrap',
         datatables: 'lib/DataTables-1.10.2/media/js/jquery.dataTables',
@@ -39,11 +38,11 @@
         initdatatables: {
             deps: ['datatables']
         },
-        jqueryValidate: {
+        'lib/jquery.validate': {
             deps: ['jquery']
         },
-        jqueryValidateUnobtrusive: {
-            deps: ['jquery', 'jqueryValidate']
+        'lib/jquery.validate.unobtrusive': {
+            deps: ['jquery', 'lib/jquery.validate']
         },
         ckeditoradapter: {
             deps: ['ckeditor']
