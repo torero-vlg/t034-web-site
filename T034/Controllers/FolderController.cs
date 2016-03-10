@@ -212,21 +212,30 @@ namespace T034.Controllers
             return View("ServerError", (object)"Не удалось определить пользователя");
         }
 
-        public FileResult Download(int id)
+        public ActionResult Download(int id)
         {
-            var item = Db.Get<Files>(id);
-            if (item == null)
+            try
             {
-                //TODO обработка
+
+
+                var item = Db.Get<Files>(id);
+                if (item == null)
+                {
+                    //TODO обработка
+                }
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, item.Name)));
+                string fileName = item.Name;
+
+                item.DownloadCounter++;
+                Db.SaveOrUpdate(item);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
-
-            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, item.Name)));
-            string fileName = item.Name;
-
-            item.DownloadCounter++;
-            Db.SaveOrUpdate(item);
-
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return View("ServerError", (object)"Ошибка при загрузке файла");
+            }
         }
     }
 }

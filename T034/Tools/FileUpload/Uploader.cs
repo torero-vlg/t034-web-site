@@ -51,13 +51,14 @@ namespace T034.Tools.FileUpload
             for (int i = 0; i < request.Files.Count; i++)
             {
                 var file = request.Files[i];
-                var fullPath = Path.Combine(_storageRoot, Path.GetFileName(file.FileName.Replace("..", ".")));
+                var fileName = Path.GetFileName(file.FileName.Replace("..", "."));
+                var fullPath = Path.Combine(_storageRoot, fileName);
                 if (!Directory.Exists(_storageRoot))
                     Directory.CreateDirectory(_storageRoot);
                 file.SaveAs(fullPath);
                 statuses.Add(new ViewDataUploadFilesResult()
                 {
-                    name = file.FileName,
+                    name = fileName,
                     size = file.ContentLength,
                     type = file.ContentType,
                     url = "/Home/Download/" + file.FileName,
