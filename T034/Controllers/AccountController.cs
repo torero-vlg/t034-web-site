@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using T034.ViewModel;
 
 namespace T034.Controllers
 {
@@ -6,7 +7,8 @@ namespace T034.Controllers
     {
         public ActionResult LogOn()
         {
-            return View();
+            var model = new LogonViewModel();
+            return View(model);
         }
 
     }
