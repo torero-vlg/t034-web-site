@@ -12,6 +12,7 @@ namespace Db.Mapping
             Map(p => p.Name);
             Map(p => p.LogDate);
             Map(p => p.DownloadCounter);
+            Map(p => p.Size);
             References(p => p.User).Column("UserId")
                 .Not.LazyLoad();
             References(p => p.Folder).Column("FolderId")

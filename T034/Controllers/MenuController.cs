@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
@@ -39,6 +40,17 @@ namespace T034.Controllers
                 model = Mapper.Map(item, model);
             }
             
+            var items = Db.Select<MenuItem>();
+            model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(items);
+
+            model.MenuItems.Add(new SelectListItem { Value = null, Text = "Пункт главного меню", Selected = model.ParentId.HasValue == false});
+
+            if (model.MenuItems.All(m => m.Selected == false))
+            {
+                var selected = model.MenuItems.FirstOrDefault(m => m.Value == model.ParentId.Value.ToString());
+                selected.Selected = true;
+            }
+
             return View(model);
         }
 
