@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Db.Tools;
 using NHibernate;
+using NLog;
 
 namespace Db.DataAccess
 {
     public class NhBaseDb : IBaseDb
     {
         protected readonly ISessionFactory SessionFactory;
+        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public NhBaseDb(ISessionFactory sessionFactory)
         {
@@ -21,6 +23,8 @@ namespace Db.DataAccess
             {
                 try
                 {
+                    Logger.Trace("Get..");
+
                     return session.Get<T>(id);
                 }
                 catch (Exception ex)
