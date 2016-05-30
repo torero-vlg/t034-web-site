@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
-using Db.Tools;
 using T034.Tools.Attribute;
 using T034.Tools.Auth;
 using T034.Tools.FileUpload;

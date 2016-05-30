@@ -1,22 +1,20 @@
 ﻿using System;
-using System.IO;
 using Db.DataAccess;
-using Db.Entity;
 using Db.Mapping;
-using Db.Tools;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Context;
-using NHibernate.Tool.hbm2ddl;
+using NLog;
+
 
 namespace Db
 {
     public class NhDbFactory : AbstractDbFactory
     {
         private readonly ISessionFactory _sessionFactory;
-        
+        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public NhDbFactory(string connectionString)
         {
 //            _sessionFactory = CreatePostgreSessionFactory(connectionString);
@@ -45,7 +43,7 @@ namespace Db
             catch (Exception ex)
             {
                 var msg = string.Format("{0} [InnerException]: {1}", ex.Message, ex.InnerException);
-                MonitorLog.WriteLog(msg, MonitorLog.typelog.Error, true);
+                Logger.Fatal(msg, ex, new[] { connectionString });
                 throw new Exception();
             }
         }
@@ -67,7 +65,7 @@ namespace Db
             catch (Exception ex)
             {
                 var msg = string.Format("{0} [InnerException]: {1}", ex.Message, ex.InnerException);
-                MonitorLog.WriteLog(msg, MonitorLog.typelog.Error, true);
+                Logger.Fatal(msg, ex, new[] { connectionString });
                 return null;
             }
         }

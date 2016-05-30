@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Db.Tools;
 using NHibernate;
 
 namespace Db.DataAccess
@@ -26,8 +25,7 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры GetMessage : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    Logger.Fatal("Ошибка выполнения процедуры GetMessage : " + ex.Message, ex, new[] { msgId });
                     throw ;
                 }
             }
@@ -53,12 +51,10 @@ namespace Db.DataAccess
                         .OrderBy(p => p.Id).Asc
                         .Take(1)
                         .List<int>();
-
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры GetNextMessageId : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    Logger.Fatal("Ошибка выполнения процедуры GetNextMessageId : " + ex.Message, ex, new[] { messageId });
                     throw;
                 }
             }
@@ -88,8 +84,7 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    MonitorLog.WriteLog("Ошибка выполнения процедуры GetPrevMessageId : " + ex.Message,
-                        MonitorLog.typelog.Error, true);
+                    Logger.Fatal("Ошибка выполнения процедуры GetPrevMessageId : " + ex.Message, ex, new[] { messageId });
                     throw;
                 }
             }

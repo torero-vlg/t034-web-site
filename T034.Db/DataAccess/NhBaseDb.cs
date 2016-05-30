@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Db.Tools;
+using Db.Entity;
 using NHibernate;
 using NLog;
 
@@ -23,14 +23,14 @@ namespace Db.DataAccess
             {
                 try
                 {
-                    Logger.Trace("Get..");
-
+                    //TODO логирование метода (-ов)
+                   // Logger.Trace("Get..");
                     return session.Get<T>(id);
                 }
                 catch (Exception ex)
                 {
                     var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                    Logger.Fatal(ex, System.Reflection.MethodBase.GetCurrentMethod().Name, id);
                     throw;
                 }
             }
@@ -52,7 +52,7 @@ namespace Db.DataAccess
                 catch (Exception ex)
                 {
                     var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                    Logger.Fatal(ex);
                     throw;
                 }
             }
@@ -74,7 +74,7 @@ namespace Db.DataAccess
                 catch (Exception ex)
                 {
                     var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                    Logger.Fatal(ex);
                     throw;
                 }
             }
@@ -94,7 +94,7 @@ namespace Db.DataAccess
                 catch (Exception ex)
                 {
                     var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                    MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                    Logger.Fatal(ex);
                     throw;
                 }
             }
@@ -118,7 +118,7 @@ namespace Db.DataAccess
                     catch (Exception ex)
                     {
                         var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                        Logger.Fatal(ex);
                         tran.Rollback();
                         result = 0;
                     }
@@ -145,7 +145,7 @@ namespace Db.DataAccess
                     catch (Exception ex)
                     {
                         var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                        Logger.Fatal(ex);
                         tran.Rollback();
                     }
                 }
@@ -169,7 +169,7 @@ namespace Db.DataAccess
                     catch (Exception ex)
                     {
                         var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                        Logger.Fatal(ex);
                         tran.Rollback();
                         result = 0;
                     }
@@ -195,7 +195,7 @@ namespace Db.DataAccess
                     catch (Exception ex)
                     {
                         var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                        MonitorLog.WriteLog(FormatLogMessage(methodName, ex), MonitorLog.typelog.Error, true);
+                        Logger.Fatal(ex);
                         tran.Rollback();
                         result = false;
                     }
