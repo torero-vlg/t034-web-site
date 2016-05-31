@@ -1,22 +1,20 @@
 ﻿using System;
-using System.IO;
 using Db.DataAccess;
-using Db.Entity;
 using Db.Mapping;
-using Db.Tools;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Context;
-using NHibernate.Tool.hbm2ddl;
+using NLog;
+
 
 namespace Db
 {
     public class NhDbFactory : AbstractDbFactory
     {
         private readonly ISessionFactory _sessionFactory;
-        
+        protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public NhDbFactory(string connectionString)
         {
 //            _sessionFactory = CreatePostgreSessionFactory(connectionString);
@@ -44,8 +42,8 @@ namespace Db
             }
             catch (Exception ex)
             {
-                var msg = string.Format("{0} [InnerException]: {1}", ex.Message, ex.InnerException);
-                MonitorLog.WriteLog(msg, MonitorLog.typelog.Error, true);
+                var msg = $"{ex.Message} [InnerException]: {ex.InnerException}";
+                Logger.Fatal(msg, ex, new[] { connectionString });
                 throw new Exception();
             }
         }
@@ -54,7 +52,8 @@ namespace Db
         {
             try
             {
-                var str = string.Format("Data Source={0}{1};Version=3;", AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/"), connectionString);
+                var str =
+                    $"Data Source={AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/")}{connectionString};Version=3;";
                 var factory = Fluently.Configure()
                     .Database(SQLiteConfiguration.Standard.ConnectionString(str))
                     .ExposeConfiguration(c => c.Properties.Add("current_session_context_class",
@@ -66,8 +65,8 @@ namespace Db
             }
             catch (Exception ex)
             {
-                var msg = string.Format("{0} [InnerException]: {1}", ex.Message, ex.InnerException);
-                MonitorLog.WriteLog(msg, MonitorLog.typelog.Error, true);
+                var msg = $"{ex.Message} [InnerException]: {ex.InnerException}";
+                Logger.Fatal(msg, ex, new[] { connectionString });
                 return null;
             }
         }

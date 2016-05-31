@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
-using Db.Tools;
 using T034.Tools.Attribute;
 using T034.Tools.Auth;
 using T034.Tools.FileUpload;
@@ -166,6 +165,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return View("ServerError", (object)string.Format("Ошибка при удалении файла."));
             }
         }
@@ -180,6 +180,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return View("ServerError", (object)string.Format("Ошибка при удалении папки {0}.", model.Name));
             }
 

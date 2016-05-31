@@ -11,7 +11,7 @@ using T034.ViewModel;
 
 namespace T034.Controllers
 {
-    public class NewsController :BaseController
+    public class NewsController : BaseController
     {
         public ActionResult Index(int id)
         {
@@ -41,6 +41,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return View("ServerError", (object)"Получение списка");
             }
         }
@@ -58,6 +59,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return View("ServerError", (object)"Получение списка");
             }
         }
