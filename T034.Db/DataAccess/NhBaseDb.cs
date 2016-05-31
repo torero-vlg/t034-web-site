@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Db.Entity;
 using NHibernate;
 using NLog;
 
@@ -19,18 +18,18 @@ namespace Db.DataAccess
 
         public T Get<T>(int id) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {id}");
+
             using (var session = SessionFactory.OpenSession())
             {
                 try
                 {
-                    //TODO логирование метода (-ов)
-                   // Logger.Trace("Get..");
                     return session.Get<T>(id);
+
                 }
                 catch (Exception ex)
                 {
-                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
-                    Logger.Fatal(ex, System.Reflection.MethodBase.GetCurrentMethod().Name, id);
+                    Logger.Fatal(ex);
                     throw;
                 }
             }
@@ -38,6 +37,7 @@ namespace Db.DataAccess
 
         public List<T> Select<T>() where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>");
             List<T> result;
             using (var session = SessionFactory.OpenSession())
             {
@@ -51,7 +51,6 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                     Logger.Fatal(ex);
                     throw;
                 }
@@ -61,6 +60,7 @@ namespace Db.DataAccess
 
         public List<T> Where<T>(Expression<Func<T, bool>> expression) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {expression}");
             List<T> result;
             using (var session = SessionFactory.OpenSession())
             {
@@ -73,7 +73,6 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                     Logger.Fatal(ex);
                     throw;
                 }
@@ -83,6 +82,7 @@ namespace Db.DataAccess
 
         public T SingleOrDefault<T>(Expression<Func<T, bool>> expression) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {expression}");
             T result;
             using (var session = SessionFactory.OpenSession())
             {
@@ -93,7 +93,6 @@ namespace Db.DataAccess
                 }
                 catch (Exception ex)
                 {
-                    var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                     Logger.Fatal(ex);
                     throw;
                 }
@@ -103,6 +102,7 @@ namespace Db.DataAccess
 
         public int Save<T>(T entity) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {entity}");
             int result;
             using (var session = SessionFactory.OpenSession())
             {
@@ -117,7 +117,6 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                         Logger.Fatal(ex);
                         tran.Rollback();
                         result = 0;
@@ -129,6 +128,7 @@ namespace Db.DataAccess
 
         public void Save<T>(List<T> list) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {string.Join(",", list)}");
             using (var session = SessionFactory.OpenSession())
             {
                 using (var tran = session.BeginTransaction())
@@ -144,7 +144,6 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                         Logger.Fatal(ex);
                         tran.Rollback();
                     }
@@ -154,6 +153,7 @@ namespace Db.DataAccess
 
         public int SaveOrUpdate<T>(T entity) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {entity}");
             int result;
             using (var session = SessionFactory.OpenSession())
             {
@@ -168,7 +168,6 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                         Logger.Fatal(ex);
                         tran.Rollback();
                         result = 0;
@@ -180,6 +179,7 @@ namespace Db.DataAccess
 
         public bool Delete<T>(T entity) where T : Entity.Entity
         {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {entity}");
             bool result;
             using (var session = SessionFactory.OpenSession())
             {
@@ -194,7 +194,6 @@ namespace Db.DataAccess
                     }
                     catch (Exception ex)
                     {
-                        var methodName = string.Format("{0}<{1}>", System.Reflection.MethodBase.GetCurrentMethod().Name, typeof(T));
                         Logger.Fatal(ex);
                         tran.Rollback();
                         result = false;
@@ -202,11 +201,6 @@ namespace Db.DataAccess
                 }
             }
             return result;
-        }
-
-        private static string FormatLogMessage(string methodName, Exception ex)
-        {
-            return string.Format("Ошибка выполнения процедуры {0} : {1}. \nInnerException : {2}", methodName, ex.Message, ex.InnerException);
         }
     }
 }

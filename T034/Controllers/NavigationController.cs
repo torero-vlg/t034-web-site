@@ -31,6 +31,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return PartialView("ErrorMessage", (object)"Получение списка");
             }
         }

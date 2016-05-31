@@ -165,6 +165,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return View("ServerError", (object)string.Format("Ошибка при удалении файла."));
             }
         }
@@ -179,6 +180,7 @@ namespace T034.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Fatal(ex);
                 return View("ServerError", (object)string.Format("Ошибка при удалении папки {0}.", model.Name));
             }
 

@@ -42,7 +42,7 @@ namespace Db
             }
             catch (Exception ex)
             {
-                var msg = string.Format("{0} [InnerException]: {1}", ex.Message, ex.InnerException);
+                var msg = $"{ex.Message} [InnerException]: {ex.InnerException}";
                 Logger.Fatal(msg, ex, new[] { connectionString });
                 throw new Exception();
             }
@@ -52,7 +52,8 @@ namespace Db
         {
             try
             {
-                var str = string.Format("Data Source={0}{1};Version=3;", AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/"), connectionString);
+                var str =
+                    $"Data Source={AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/")}{connectionString};Version=3;";
                 var factory = Fluently.Configure()
                     .Database(SQLiteConfiguration.Standard.ConnectionString(str))
                     .ExposeConfiguration(c => c.Properties.Add("current_session_context_class",
@@ -64,7 +65,7 @@ namespace Db
             }
             catch (Exception ex)
             {
-                var msg = string.Format("{0} [InnerException]: {1}", ex.Message, ex.InnerException);
+                var msg = $"{ex.Message} [InnerException]: {ex.InnerException}";
                 Logger.Fatal(msg, ex, new[] { connectionString });
                 return null;
             }
