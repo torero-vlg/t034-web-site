@@ -41,6 +41,7 @@ namespace T034.Controllers
             //если есть пользователь в БД, то показываем меню
             var user = YandexAuth.GetUser(Request);
 
+            //TODO Api
             //найдём пользователя в БД
             var userFromDb = Db.Where<User>(u => u.Email == user.default_email).FirstOrDefault();
             if (userFromDb != null)

@@ -91,6 +91,7 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult UploadFile()
         {
+            //TODO Api
             var path = Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
             //path = Path.Combine(path, Request.Files.Keys[0]);
             var uploader = new Uploader(path);
@@ -155,6 +156,7 @@ namespace T034.Controllers
         {
             try
             {
+                //TODO Api
                 var item = Db.Get<Files>(id);
                 var result = Db.Delete(item);
 
@@ -175,6 +177,7 @@ namespace T034.Controllers
         {
             try
             {
+                //TODO Api
                 var item = Mapper.Map<Folder>(model);
                 var result = Db.Delete(item);
             }

@@ -63,6 +63,7 @@ namespace T034.Controllers
 
         public ActionResult Index()
         {
+            //TODO Api
             //инициализация настроек
             if (Db.SingleOrDefault<Setting>(s => s.Code == "StartPage") == null)
                 Db.SaveOrUpdate(new Setting { Code = "StartPage", Name = "Стартовая страница", Value = ""});
@@ -102,6 +103,7 @@ namespace T034.Controllers
 
         public ActionResult CreateUserAndOAuth(FirstUserViewModel model)
         {
+            //TODO Api
             if (Db.SingleOrDefault<User>(u => u.Email == model.Email) == null)
             {
                 var user = new User
