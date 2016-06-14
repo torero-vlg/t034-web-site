@@ -1,16 +1,18 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using Db.Entity;
+﻿using System.Web.Mvc;
+using Db.Api;
+using Ninject;
 using T034.Tools.Auth;
 
 namespace T034.Controllers
 {
     public class HomeController : BaseController
     {
+        [Inject]
+        public ISettingService SettingService { get; set; }
+
         public ActionResult Index()
         {
-            var item = Db.Where<Setting>(s => s.Code == "StartPage").FirstOrDefault();
-
+            var item = SettingService.GetStartPage();
             if(item == null || item.Value == "")
                 return View();
 

@@ -1,5 +1,6 @@
 using System.Configuration;
 using Db;
+using Db.Api;
 using Db.DataAccess;
 using T034.Repository;
 
@@ -68,6 +69,8 @@ namespace T034.App_Start
         {
             kernel.Bind<IBaseDb>().ToMethod(c => new NhDbFactory(ConnectionString).CreateBaseDb());
             kernel.Bind<IRepository>().To<Repository.Repository>().InRequestScope();
+            kernel.Bind<ISettingService>().To<SettingService>().InRequestScope();
+            kernel.Bind<IUserService>().To<UserService>().InRequestScope();
         }
 
         private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }

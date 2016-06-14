@@ -1,6 +1,7 @@
 ﻿using Db.Api.Common;
 using Db.Entity;
 using Db.Entity.Administration;
+using NLog;
 
 namespace Db.Api
 {
@@ -9,10 +10,13 @@ namespace Db.Api
         User CreateFirstUser(string email);
         bool UpdateYandexClientId(string clientId);
         bool UpdateYandexPassword(string password);
+        Setting GetStartPage();
     }
 
     public class SettingService : AbstractService, ISettingService
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
         public User CreateFirstUser(string email)
         {
             var user = Db.SingleOrDefault<User>(u => u.Email == email);
@@ -25,11 +29,11 @@ namespace Db.Api
                     UserRoles = Db.Select<Role>()
                 };
                 Db.SaveOrUpdate(user);
-                Logger.Info($"Создан первый пользователь '{user}'");
+                _logger.Info($"Создан первый пользователь '{user}'");
             }
             else
             {
-                Logger.Warn($"Пользователь '{user}' уже существует");
+                _logger.Warn($"Пользователь '{user}' уже существует");
             }
             return user;
         }
@@ -39,7 +43,7 @@ namespace Db.Api
             var setting = Db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId");
             setting.Value = clientId;
             Db.SaveOrUpdate(setting);
-            Logger.Info("Обновлён идентификатор приложения Яндекс");
+            _logger.Info("Обновлён идентификатор приложения Яндекс");
             return true;
         }
 
@@ -48,8 +52,14 @@ namespace Db.Api
             var setting = Db.SingleOrDefault<Setting>(s => s.Code == "YandexPassword");
             setting.Value = password;
             Db.SaveOrUpdate(setting);
-            Logger.Info("Обновлён пароль приложения Яндекс");
+            _logger.Info("Обновлён пароль приложения Яндекс");
             return true;
+        }
+
+        public Setting GetStartPage()
+        {
+            var item = Db.SingleOrDefault<Setting>(s => s.Code == "StartPage");
+            return item;
         }
     }
 }
