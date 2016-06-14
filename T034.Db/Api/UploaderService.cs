@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using Db.Api.Common;
+using Db.Api.Common.Exceptions;
 using Db.Api.Common.FileUpload;
 using Db.Dto;
 using Db.Entity;
@@ -11,16 +13,42 @@ using NLog;
 
 namespace Db.Api
 {
-    public interface IUploaderService
+    public interface IFileService
     {
         /// <summary>
         /// Загрузить файлы
         /// </summary>
         /// <returns></returns>
         List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, UserModel userModel);
+
+        /// <summary>
+        /// Удалить файл
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="filesFolder">Папка с файлами</param>
+        /// <returns>Папка, из которой удалили</returns>
+        Folder DeleteFile(int id, string filesFolder);
+
+        /// <summary>
+        /// Удалить папку
+        /// </summary>
+        /// <param name="folder"></param>
+        void DeleteFolder(Folder folder);
+
+        /// <summary>
+        /// Удалить папку
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <param name="folder"></param>
+        Folder CreateFolder(UserModel userModel, Folder folder);
+
+        /// <summary>
+        /// Получить папку
+        /// </summary>
+        Folder GetFolder(int id);
     }
 
-    public class UploaderService : AbstractService, IUploaderService
+    public class FileService : AbstractService, IFileService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -77,6 +105,54 @@ namespace Db.Api
                 }
             }
             return r;
+        }
+
+        public Folder DeleteFile(int id, string filesFolder)
+        {
+            var item = Db.Get<Files>(id);
+            var result = Db.Delete(item);
+
+            var file = new FileInfo(Path.Combine(filesFolder, item.Name));
+            file.Delete();
+
+            _logger.Info($"Удалён файл {file.FullName}");
+
+            return item.Folder;
+        }
+
+        public void DeleteFolder(Folder folder)
+        {
+            var result = Db.Delete(folder);
+
+            _logger.Info($"Удалена папка {folder}");
+        }
+
+        public Folder GetFolder(int id)
+        {
+            var item = Db.Get<Folder>(id);
+            return item;
+        }
+
+        public Folder CreateFolder(UserModel userModel, Folder folder)
+        {
+            //TODO Api
+            //найдём пользователя в БД
+            var userFromDb = Db.SingleOrDefault<User>(u => u.Email == userModel.default_email);
+            if (userFromDb != null)
+            {
+
+                folder.LogDate = DateTime.Now;
+                folder.User = new User { Id = userFromDb.Id };
+
+                var result = Db.SaveOrUpdate(folder);
+
+                _logger.Info($"Создана папка {folder}");
+            }
+            else
+            {
+                throw new UserNotFoundException(userModel.default_email);
+            }
+            return folder;
         }
     }
 }

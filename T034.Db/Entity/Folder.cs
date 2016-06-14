@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Db.Entity.Administration;
 
 namespace Db.Entity
@@ -10,5 +11,10 @@ namespace Db.Entity
         
         public virtual DateTime LogDate { get; set; }
         public virtual User User { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

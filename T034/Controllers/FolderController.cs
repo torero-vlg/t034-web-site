@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Api;
-using Db.Api.Common.FileUpload;
+using Db.Api.Common.Exceptions;
 using Db.Entity;
 using Db.Entity.Administration;
 using Ninject;
@@ -18,7 +18,7 @@ namespace T034.Controllers
     public class FolderController : BaseController
     {
         [Inject]
-        public IUploaderService UploaderService { get; set; }
+        public IFileService FileService { get; set; }
 
         public ActionResult Index(int? id)
         {
@@ -97,7 +97,7 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
-            var r = UploaderService.Upload(path, Request, YandexAuth.GetUser(Request));
+            var r = FileService.Upload(path, Request, YandexAuth.GetUser(Request));
             //TODO надо что-то возвращать
             return Json(r);
         }
@@ -107,14 +107,9 @@ namespace T034.Controllers
         {
             try
             {
-                //TODO Api
-                var item = Db.Get<Files>(id);
-                var result = Db.Delete(item);
+                var folder = FileService.DeleteFile(id, Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
 
-                var file = new FileInfo(Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)), item.Name));
-                file.Delete();
-                
-                return RedirectToAction("Edit", new { id = item.Folder.Id });
+                return RedirectToAction("Edit", new { id = folder.Id });
             }
             catch (Exception ex)
             {
@@ -128,14 +123,13 @@ namespace T034.Controllers
         {
             try
             {
-                //TODO Api
                 var item = Mapper.Map<Folder>(model);
-                var result = Db.Delete(item);
+                FileService.DeleteFolder(item);
             }
             catch (Exception ex)
             {
                 Logger.Fatal(ex);
-                return View("ServerError", (object)string.Format("Ошибка при удалении папки {0}.", model.Name));
+                return View("ServerError", (object) $"Ошибка при удалении папки {model.Name}.");
             }
 
             return RedirectToAction("Edit", new { id = model.ParentFolderId });
@@ -144,28 +138,29 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult CreateFolder(FolderViewModel model)
         {
-            //TODO Api
             var user = YandexAuth.GetUser(Request);
 
-            //найдём пользователя в БД
-            var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
-            if (userFromDb != null)
+            var item = new Folder();
+            if (model.Id > 0)
             {
-                var item = new Folder();
-                if (model.Id > 0)
-                {
-                    item = Db.Get<Folder>(model.Id);
-                }
-                item = Mapper.Map(model, item);
-
-                item.LogDate = DateTime.Now;
-                item.User = new User { Id = userFromDb.Id };
-
-                var result = Db.SaveOrUpdate(item);
-
-                return RedirectToAction("Edit", new {id = result});
+                item = FileService.GetFolder(model.Id); 
             }
-            return View("ServerError", (object)"Не удалось определить пользователя");
+            item = Mapper.Map(model, item);
+
+            try
+            {
+                FileService.CreateFolder(user, item);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return View("ServerError", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return View("ServerError", (object)"Произошла непредвиденная ошибка");
+            }
+            return RedirectToAction("Edit", new { id =  item.Id});
         }
 
         public ActionResult Download(int id)
