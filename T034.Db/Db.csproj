@@ -48,6 +48,9 @@
       <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net40\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.1.2\lib\net35\NLog.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDbFactory.cs" />
+    <Compile Include="Api\Common\AbstractService.cs" />
+    <Compile Include="Api\UserService.cs" />
+    <Compile Include="Api\SettingService.cs" />
     <Compile Include="DataAccess\IBaseDb.cs" />
     <Compile Include="DataAccess\NhBaseDb.cs" />
     <Compile Include="DataAccess\NhBaseMessageDb.cs" />

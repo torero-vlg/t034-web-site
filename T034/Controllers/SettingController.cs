@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Db.Api;
 using Db.Entity;
 using Db.Entity.Administration;
+using Ninject;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 
@@ -13,6 +16,11 @@ namespace T034.Controllers
 {
     public class SettingController : BaseController
     {
+        [Inject]
+        public ISettingService SettingService { get; set; }
+        [Inject]
+        public IUserService UserService { get; set; }
+
         [Role("Administrator")]
         public ActionResult List()
         {
@@ -103,24 +111,12 @@ namespace T034.Controllers
 
         public ActionResult CreateUserAndOAuth(FirstUserViewModel model)
         {
-            //TODO Api
-            if (Db.SingleOrDefault<User>(u => u.Email == model.Email) == null)
+            if (UserService.GetUser(model.Email) == null)
             {
-                var user = new User
-                    {
-                        Name = "Администратор", 
-                        Email = model.Email, 
-                        UserRoles = Db.Select<Role>()
-                    };
-                Db.SaveOrUpdate(user);
+                SettingService.CreateFirstUser(model.Email);
 
-                var setting = Db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId");
-                setting.Value = model.YandexClientId;
-                Db.SaveOrUpdate(setting);
-
-                setting = Db.SingleOrDefault<Setting>(s => s.Code == "YandexPassword");
-                setting.Value = model.YandexPassword;
-                Db.SaveOrUpdate(setting);
+                SettingService.UpdateYandexClientId(model.YandexClientId);
+                SettingService.UpdateYandexPassword(model.YandexPassword);
 
                 return RedirectToAction("Logon", "Account");
             }

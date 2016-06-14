@@ -30,5 +30,10 @@ namespace Db.Entity.Administration
             }
             return false;
         }
+
+        public override string ToString()
+        {
+            return $"{Name} [{Email}]";
+        }
     }
 }

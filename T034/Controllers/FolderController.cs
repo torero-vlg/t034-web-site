@@ -193,6 +193,7 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult CreateFolder(FolderViewModel model)
         {
+            //TODO Api
             var user = YandexAuth.GetUser(Request);
 
             //найдём пользователя в БД
@@ -220,8 +221,6 @@ namespace T034.Controllers
         {
             try
             {
-
-
                 var item = Db.Get<Files>(id);
                 if (item == null)
                 {
