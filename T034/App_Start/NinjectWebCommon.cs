@@ -71,6 +71,7 @@ namespace T034.App_Start
             kernel.Bind<IRepository>().To<Repository.Repository>().InRequestScope();
             kernel.Bind<ISettingService>().To<SettingService>().InRequestScope();
             kernel.Bind<IUserService>().To<UserService>().InRequestScope();
+            kernel.Bind<IUploaderService>().To<UploaderService>().InRequestScope();
         }
 
         private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }

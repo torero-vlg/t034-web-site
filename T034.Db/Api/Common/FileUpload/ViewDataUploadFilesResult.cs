@@ -1,4 +1,4 @@
-﻿namespace T034.Tools.FileUpload
+﻿namespace Db.Api.Common.FileUpload
 {
     public class ViewDataUploadFilesResult
     {

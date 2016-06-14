@@ -4,17 +4,22 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Db.Api;
+using Db.Api.Common.FileUpload;
 using Db.Entity;
 using Db.Entity.Administration;
+using Ninject;
 using T034.Tools.Attribute;
 using T034.Tools.Auth;
-using T034.Tools.FileUpload;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class FolderController : BaseController
     {
+        [Inject]
+        public IUploaderService UploaderService { get; set; }
+
         public ActionResult Index(int? id)
         {
             //ViewData["MetMenuActive"] = folder.Contains("Методическая работа/") ? "active" : "";
@@ -91,63 +96,9 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult UploadFile()
         {
-            //TODO Api
-            var path = Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
-            //path = Path.Combine(path, Request.Files.Keys[0]);
-            var uploader = new Uploader(path);
-
-            var r = new List<ViewDataUploadFilesResult>();
-            if (Request.Files.Cast<string>().Any())
-            {
-                try
-                {
-                    var statuses = new List<ViewDataUploadFilesResult>();
-                    var headers = Request.Headers;
-                    if (string.IsNullOrEmpty(headers["X-File-Name"]))
-                    {
-                        uploader.UploadWholeFile(Request, statuses);
-                    }
-                    else
-                    {
-                        uploader.UploadPartialFile(headers["X-File-Name"], Request, statuses);
-                    }
-                    JsonResult result = Json(statuses);
-                    result.ContentType = "text/plain";
-
-                    //запись в БД
-                    var user = YandexAuth.GetUser(Request);
-
-                    //найдём пользователя в БД
-                    var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
-                    if (userFromDb != null)
-                    {
-                        foreach (var filesResult in statuses)
-                        {
-                            //TODO выделить в метод репозитория, запускать в одной транзакции
-                            var fileByName = Db.SingleOrDefault<Files>(f => f.Name == filesResult.name);
-                            if (fileByName != null)
-                                Db.Delete(fileByName);
-
-                            var item = new Files
-                                {
-                                    LogDate = DateTime.Now,
-                                    Name = filesResult.name,
-                                    Size = filesResult.size,
-                                    User = new User {Id = userFromDb.Id},
-                                    Folder = new Folder {Id = int.Parse(Request.Files.Keys[0])}
-                                };
-
-                            Db.SaveOrUpdate(item);    
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Logger.Fatal(ex);
-                    throw;
-                }
-            }
+            var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
+            var r = UploaderService.Upload(path, Request, YandexAuth.GetUser(Request));
+            //TODO надо что-то возвращать
             return Json(r);
         }
 
