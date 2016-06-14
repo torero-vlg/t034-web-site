@@ -7,7 +7,6 @@ using AutoMapper;
 using Db.Api;
 using Db.Api.Common.Exceptions;
 using Db.Entity;
-using Db.Entity.Administration;
 using Ninject;
 using T034.Tools.Attribute;
 using T034.Tools.Auth;

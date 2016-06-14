@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Db.Api;
 using Db.Entity;
-using Db.Entity.Administration;
+using Ninject;
 using T034.Tools.Auth;
 using T034.ViewModel;
 
@@ -12,6 +13,9 @@ namespace T034.Controllers
 {
     public class NavigationController : BaseController
     {
+        [Inject]
+        public IUserService UserService { get; set; }
+
         public ActionResult MainMenu()
         {
             try
@@ -39,12 +43,10 @@ namespace T034.Controllers
         public ActionResult ManagementMenu()
         {
             //если есть пользователь в БД, то показываем меню
-            var user = YandexAuth.GetUser(Request);
+            var userModel = YandexAuth.GetUser(Request);
 
-            //TODO Api
-            //найдём пользователя в БД
-            var userFromDb = Db.Where<User>(u => u.Email == user.default_email).FirstOrDefault();
-            if (userFromDb != null)
+            var user = UserService.GetUser(userModel.default_email);
+            if (user != null)
             {
                 return PartialView();
             }

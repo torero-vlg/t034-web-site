@@ -70,7 +70,7 @@
     <Compile Include="Api\Common\FileUpload\Uploader.cs" />
     <Compile Include="Api\Common\FileUpload\ViewDataUploadFilesResult.cs" />
     <Compile Include="Api\Common\Exceptions\UserNotFoundException.cs" />
-    <Compile Include="Api\UploaderService.cs" />
+    <Compile Include="Api\FileService.cs" />
     <Compile Include="Api\UserService.cs" />
     <Compile Include="Api\SettingService.cs" />
     <Compile Include="DataAccess\IBaseDb.cs" />
