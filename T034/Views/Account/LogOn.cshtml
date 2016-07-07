@@ -36,15 +36,18 @@
                     </div>
                 }
                 <div class="row text-center">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <a class="" href="@Url.Action("RedirectToYandex", "Auth")">
-                            <img src="/Content/pic/yandex_icon.png" height="25px" width="25px" alt="Войти при помощи Яндекса" />
+                            <img src="/Content/pic/yandex_icon.png" height="25px" width="25px" alt="Войти при помощи Яндекса"/>
                         </a>
 
                         @using (Html.BeginForm("RedirectToYandex", "Auth"))
                         {
                             @Html.Hidden("token")
                         }
+                    </div>
+                    <div class="col-md-6">
+                        <a href="https://connect.mail.ru/oauth/authorize?client_id={client_id}&response_type=code&redirect_uri=http%3A%2F%2Fmysite.com%2Fmmlogin">Войти через MailRu</a>
                     </div>
                 </div>
             </div>
