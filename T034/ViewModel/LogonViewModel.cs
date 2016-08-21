@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace T034.ViewModel
 {
@@ -9,5 +10,7 @@ namespace T034.ViewModel
         
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
+        public IEnumerable<LoginInfoModel> Clients { get; set; } 
     }
 }
