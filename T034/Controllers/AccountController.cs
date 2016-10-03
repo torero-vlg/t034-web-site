@@ -1,31 +1,15 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using OAuth2;
-using OAuth2.Client;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
 
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly AuthorizationRoot _authorizationRoot;
-
-        private const string ProviderNameKey = "providerName";
-
-        private string ProviderName
+        public AccountController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
         {
-            get { return (string)Session[ProviderNameKey]; }
-            set { Session[ProviderNameKey] = value; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HomeController"/> class.
-        /// </summary>
-        /// <param name="authorizationRoot">The authorization manager.</param>
-        public AccountController(AuthorizationRoot authorizationRoot)
-        {
-            _authorizationRoot = authorizationRoot;
         }
 
         /// <summary>
@@ -33,7 +17,7 @@ namespace T034.Controllers
         /// </summary>
         public ActionResult Logon()
         {
-            var clients = _authorizationRoot.Clients.Select(client => new LoginInfoModel
+            var clients = AuthorizationRoot.Clients.Select(client => new LoginInfoModel
             {
                 ProviderName = client.Name
             });
@@ -55,11 +39,6 @@ namespace T034.Controllers
         public ActionResult Auth()
         {
             return View(GetClient().GetUserInfo(Request.QueryString));
-        }
-
-        private IClient GetClient()
-        {
-            return _authorizationRoot.Clients.First(c => c.Name == ProviderName);
         }
     }
 }

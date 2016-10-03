@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
+using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 
@@ -11,6 +12,10 @@ namespace T034.Controllers
 {
     public class MenuController : BaseController
     {
+        public MenuController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [Role("Administrator")]
         public ActionResult List()
         {

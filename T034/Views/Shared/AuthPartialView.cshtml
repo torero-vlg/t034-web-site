@@ -1,9 +1,8 @@
-﻿@model Db.Dto.UserModel
+﻿@model OAuth2.Models.UserInfo
 
-@Model.Name 
-
-@if (Model.IsAutharization)
+@if (Model != null)
 {
+    @Model.FirstName 
     @Html.ActionLink("Выйти", "Logout", "Auth")
 }
 else

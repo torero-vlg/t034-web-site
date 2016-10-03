@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity.Administration;
+using OAuth2;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class RoleController : BaseController
     {
+        public RoleController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [Tools.Attribute.Role("Administrator")]
         public ActionResult List()
         {

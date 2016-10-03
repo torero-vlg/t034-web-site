@@ -2,12 +2,17 @@
 using System.Web.Mvc;
 using System.Web.Security;
 using Db.Entity;
+using OAuth2;
 using T034.Tools.Auth;
 
 namespace T034.Controllers
 {
     public class AuthController : BaseController
     {
+        public AuthController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         public ActionResult LoginWithYandex(string code)
         {
             //            var userCookie = YandexAuth.GetAuthorizationCookie(Request);

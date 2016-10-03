@@ -19,7 +19,7 @@ namespace Db.Api
         /// Загрузить файлы
         /// </summary>
         /// <returns></returns>
-        List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, UserModel userModel);
+        List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email);
 
         /// <summary>
         /// Удалить файл
@@ -40,7 +40,7 @@ namespace Db.Api
         /// </summary>
         /// <param name="userModel"></param>
         /// <param name="folder"></param>
-        Folder CreateFolder(UserModel userModel, Folder folder);
+        Folder CreateFolder(string email, Folder folder);
 
         /// <summary>
         /// Получить папку
@@ -52,7 +52,7 @@ namespace Db.Api
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, UserModel userModel)
+        public List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email)
         {
             var r = new List<ViewDataUploadFilesResult>();
             var uploader = new Uploader(path);
@@ -74,7 +74,7 @@ namespace Db.Api
                     //result.ContentType = "text/plain";
 
                     //найдём пользователя в БД
-                    var userFromDb = Db.SingleOrDefault<User>(u => u.Email == userModel.default_email);
+                    var userFromDb = Db.SingleOrDefault<User>(u => u.Email == email);
                     if (userFromDb != null)
                     {
                         foreach (var filesResult in statuses)
@@ -133,11 +133,11 @@ namespace Db.Api
             return item;
         }
 
-        public Folder CreateFolder(UserModel userModel, Folder folder)
+        public Folder CreateFolder(string email, Folder folder)
         {
             //TODO Api
             //найдём пользователя в БД
-            var userFromDb = Db.SingleOrDefault<User>(u => u.Email == userModel.default_email);
+            var userFromDb = Db.SingleOrDefault<User>(u => u.Email == email);
             if (userFromDb != null)
             {
 
@@ -150,7 +150,7 @@ namespace Db.Api
             }
             else
             {
-                throw new UserNotFoundException(userModel.default_email);
+                throw new UserNotFoundException(email);
             }
             return folder;
         }

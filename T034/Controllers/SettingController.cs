@@ -7,6 +7,7 @@ using AutoMapper;
 using Db.Api;
 using Db.Entity;
 using Ninject;
+using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 
@@ -14,6 +15,10 @@ namespace T034.Controllers
 {
     public class SettingController : BaseController
     {
+        public SettingController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [Inject]
         public ISettingService SettingService { get; set; }
         [Inject]

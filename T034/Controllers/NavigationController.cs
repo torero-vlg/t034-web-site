@@ -6,13 +6,17 @@ using AutoMapper;
 using Db.Api;
 using Db.Entity;
 using Ninject;
-using T034.Tools.Auth;
+using OAuth2;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class NavigationController : BaseController
     {
+        public NavigationController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [Inject]
         public IUserService UserService { get; set; }
 
@@ -43,9 +47,8 @@ namespace T034.Controllers
         public ActionResult ManagementMenu()
         {
             //если есть пользователь в БД, то показываем меню
-            var userModel = YandexAuth.GetUser(Request);
-
-            var user = UserService.GetUser(userModel.default_email);
+            var userInfo = GetClient().GetUserInfo(Request.QueryString);
+            var user = UserService.GetUser(userInfo.Email);
             if (user != null)
             {
                 return PartialView();

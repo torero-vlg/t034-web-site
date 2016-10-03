@@ -8,14 +8,19 @@ using Db.Api;
 using Db.Api.Common.Exceptions;
 using Db.Entity;
 using Ninject;
+using OAuth2;
+using OAuth2.Models;
 using T034.Tools.Attribute;
-using T034.Tools.Auth;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class FolderController : BaseController
     {
+        public FolderController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [Inject]
         public IFileService FileService { get; set; }
 
@@ -96,7 +101,8 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
-            var r = FileService.Upload(path, Request, YandexAuth.GetUser(Request));
+            var userInfo = GetClient().GetUserInfo(Request.QueryString);
+            var r = FileService.Upload(path, Request, userInfo.Email);
             //TODO надо что-то возвращать
             return Json(r);
         }
@@ -137,7 +143,8 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult CreateFolder(FolderViewModel model)
         {
-            var user = YandexAuth.GetUser(Request);
+            //TODO попробовать перенести в OnActionExecuting BaseController
+            var userInfo = GetClient().GetUserInfo(Request.QueryString);
 
             var item = new Folder();
             if (model.Id > 0)
@@ -148,7 +155,7 @@ namespace T034.Controllers
 
             try
             {
-                FileService.CreateFolder(user, item);
+                FileService.CreateFolder(userInfo.Email, item);
             }
             catch (UserNotFoundException ex)
             {
