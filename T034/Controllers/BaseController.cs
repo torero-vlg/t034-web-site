@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Web.Mvc;
 using Db.DataAccess;
 using Ninject;
@@ -49,10 +51,37 @@ namespace T034.Controllers
             var actionName = context.ActionDescriptor.ActionName;
 
             var user = "";
-            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request: {Request?.QueryString}");
+            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request.QueryString: {Request?.QueryString}");
 
-            UserInfo = GetClient()?.GetUserInfo(Request.QueryString);
-            
+            try
+            {
+                var authCode = Request.Cookies["auth_code"];
+                Logger.Trace($"Request.Cookies[auth_code]: {Request.Cookies["auth_code"]}");
+
+                var nameValueCollection = new NameValueCollection();
+                if (authCode != null)
+                {
+                    Logger.Trace($"Request.QueryString[code]: {Request.QueryString["code"]}");
+                    if (Request.QueryString["code"] == null)
+                    {
+                        Logger.Trace($"Устанавливаем code: {authCode.Value}.");
+                        nameValueCollection.Add("code", authCode.Value);
+                    }
+                    else
+                    {
+                        nameValueCollection = Request.QueryString;
+                    }
+                }
+
+                var str = nameValueCollection.AllKeys.Aggregate("", (current, key) => current + $"{key}[{nameValueCollection[key]}]");
+                Logger.Trace($"Получаем информацию о пользователе. nameValueCollection: {str}.");
+                UserInfo = GetClient()?.GetUserInfo(nameValueCollection) ?? new UserInfo();
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+            }
+
             base.OnActionExecuting(context);
         }
 

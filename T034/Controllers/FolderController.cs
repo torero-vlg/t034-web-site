@@ -101,8 +101,7 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
-            var userInfo = GetClient().GetUserInfo(Request.QueryString);
-            var r = FileService.Upload(path, Request, userInfo.Email);
+            var r = FileService.Upload(path, Request, UserInfo.Email);
             //TODO надо что-то возвращать
             return Json(r);
         }
@@ -143,9 +142,6 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult CreateFolder(FolderViewModel model)
         {
-            //TODO попробовать перенести в OnActionExecuting BaseController
-            var userInfo = GetClient().GetUserInfo(Request.QueryString);
-
             var item = new Folder();
             if (model.Id > 0)
             {
@@ -155,7 +151,7 @@ namespace T034.Controllers
 
             try
             {
-                FileService.CreateFolder(userInfo.Email, item);
+                FileService.CreateFolder(UserInfo.Email, item);
             }
             catch (UserNotFoundException ex)
             {

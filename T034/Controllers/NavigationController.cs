@@ -47,13 +47,14 @@ namespace T034.Controllers
         public ActionResult ManagementMenu()
         {
             //если есть пользователь в БД, то показываем меню
-            var userInfo = GetClient().GetUserInfo(Request.QueryString);
-            var user = UserService.GetUser(userInfo.Email);
-            if (user != null)
+            if (UserInfo != null)
             {
-                return PartialView();
+                var user = UserService.GetUser(UserInfo.Email);
+                if (user != null)
+                {
+                    return PartialView(user);
+                }
             }
-
             return null;
         }
     }
