@@ -18,7 +18,11 @@ namespace T034
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Соответствие метода-контроллера и роли
+        /// </summary>
         public static IEnumerable<ActionRole> ActionRoles { get; private set; }
+
         public static string FilesFolder = ConfigurationManager.AppSettings["FilesFolder"];
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)

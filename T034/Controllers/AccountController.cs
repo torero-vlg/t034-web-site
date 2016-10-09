@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Db.Entity.Administration;
 using OAuth2;
 using OAuth2.Models;
 using T034.ViewModel;
@@ -50,38 +51,12 @@ namespace T034.Controllers
             Response.Cookies.Set(userCookie);
             Logger.Trace($"Куки auth_code установлены: Request.QueryString[code]={Request.QueryString["code"]}, Response.Cookies[auth_code]={Response.Cookies["auth_code"].Value}");
 
+            UserInfo = GetClient()?.GetUserInfo(Request.QueryString) ?? new UserInfo();
 
-            //TODO первоначальная инициализация пользователя код скопирован из BaseController.OnActionExecuting
-            //////////
-            try
-            {
-                var authCode = Request.Cookies["auth_code"];
-                Logger.Trace($"Request.Cookies[auth_code]: {Request.Cookies["auth_code"]}");
+            var user = Db.SingleOrDefault<User>(u => u.Email == UserInfo.Email);
 
-                var nameValueCollection = new NameValueCollection();
-                if (authCode != null)
-                {
-                    Logger.Trace($"Request.QueryString[code]: {Request.QueryString["code"]}");
-                    if (Request.QueryString["code"] == null)
-                    {
-                        Logger.Trace($"Устанавливаем code: {authCode.Value}.");
-                        nameValueCollection.Add("code", authCode.Value);
-                    }
-                    else
-                    {
-                        nameValueCollection = Request.QueryString;
-                    }
-                }
-
-                var str = nameValueCollection.AllKeys.Aggregate("", (current, key) => current + $"{key}[{nameValueCollection[key]}]");
-                Logger.Trace($"Получаем информацию о пользователе. nameValueCollection: {str}.");
-                UserInfo = GetClient()?.GetUserInfo(nameValueCollection) ?? new UserInfo();
-            }
-            catch (Exception ex)
-            {
-                Logger.Fatal(ex);
-            }
-            //////////
+            var rolesCookie = new HttpCookie("roles") { Value = string.Join(",", user.UserRoles.Select(r => r.Code)), Expires = DateTime.Now.AddDays(30) };
+            Response.Cookies.Set(rolesCookie);
 
             return View(UserInfo);
         }
