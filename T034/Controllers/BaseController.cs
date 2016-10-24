@@ -63,19 +63,27 @@ namespace T034.Controllers
         {
             try
             {
-                var authCode = Request.Cookies["auth_code"];
-
                 var nameValueCollection = new NameValueCollection();
-                if (authCode != null)
+
+                if (Request.QueryString["code"] != null)
                 {
-                    Logger.Trace($"Устанавливаем code: {authCode.Value}.");
-                    nameValueCollection.Add("code", authCode.Value);
+                    nameValueCollection = Request.QueryString;
+                    Logger.Trace($"nameValueCollection заполняем из Request.QueryString[code].");
+                }
+                else
+                {
+                    var authCodeCookie = Request.Cookies["auth_code"];
+                    if (authCodeCookie != null)
+                    {
+                        Logger.Trace($"Устанавливаем code: {authCodeCookie.Value}.");
+                        nameValueCollection.Add("code", authCodeCookie.Value);
+                    }
                 }
 
-                var str = nameValueCollection.AllKeys.Aggregate("",
-                    (current, key) => current + $"{key}[{nameValueCollection[key]}]");
-                Logger.Trace($"Получаем информацию о пользователе. nameValueCollection: {str}.");
+                Logger.Trace($"nameValueCollection: {nameValueCollection}.");
                 var client = GetClient();
+                Logger.Trace($"Cервис авторизации: {client}. ProviderName:{ProviderName}.");
+
                 var userInfo = client?.GetUserInfo(nameValueCollection);
                 if (userInfo != null)
                 {

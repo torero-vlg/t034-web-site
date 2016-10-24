@@ -43,6 +43,7 @@ namespace T034.Controllers
         /// </summary>
         public ActionResult Auth()
         {
+            Logger.Trace(Request.QueryString["code"]);
             var userCookie = new HttpCookie("auth_code")
             {
                 Value = Request.QueryString["code"],
@@ -51,9 +52,26 @@ namespace T034.Controllers
             Response.Cookies.Set(userCookie);
             Logger.Trace($"Куки auth_code установлены: Request.QueryString[code]={Request.QueryString["code"]}, Response.Cookies[auth_code]={Response.Cookies["auth_code"].Value}");
 
-            UserInfo = GetClient()?.GetUserInfo(Request.QueryString) ?? new UserInfo();
+            Logger.Trace($"Получаем информацию о пользователе. Request.QueryString: {Request.QueryString}.");
+            var client = GetClient();
+            Logger.Trace($"Cервис авторизации: {client}");
+
+            UserInfo = client?.GetUserInfo(Request.QueryString) ?? new UserInfo();
+            Logger.Trace($"Пользователь: {UserInfo.Email}");
+
+            //try
+            //{
+            //    Logger.Trace($"Делаем повторный запрос: {UserInfo.Email}");
+            //    UserInfo = client?.GetUserInfo(Request.QueryString) ?? new UserInfo();
+            //    Logger.Trace($"Пользователь2: {UserInfo.Email}");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Fatal(ex);
+            //}
 
             var user = Db.SingleOrDefault<User>(u => u.Email == UserInfo.Email);
+            Logger.Trace($"Пользователь из БД: {user.Email}");
 
             var rolesCookie = new HttpCookie("roles") { Value = string.Join(",", user.UserRoles.Select(r => r.Code)), Expires = DateTime.Now.AddDays(30) };
             Response.Cookies.Set(rolesCookie);

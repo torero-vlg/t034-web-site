@@ -142,6 +142,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -268,6 +269,7 @@
     <Content Include="Content\DataTables-1.10.2\media\images\sort_desc_disabled.png" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\banner.jpg" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\yandex_icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

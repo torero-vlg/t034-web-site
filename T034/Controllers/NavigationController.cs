@@ -49,9 +49,11 @@ namespace T034.Controllers
             //если есть пользователь в БД, то показываем меню
             if (UserInfo != null)
             {
+                Logger.Trace(UserInfo.Email);
                 var user = UserService.GetUser(UserInfo.Email);
                 if (user != null)
                 {
+                    Logger.Trace(user.Email);
                     return PartialView(user);
                 }
             }
