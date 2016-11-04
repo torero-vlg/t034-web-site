@@ -74,7 +74,7 @@ namespace T034.Controllers
             }
             else
             {
-                return RedirectToAction("Logon", "Account", new { message = result.Message});
+                return RedirectToAction("Logon", "Account",  new LogonViewModel { Email = model.Email, Message = result.Message});
             }
         }
     }

@@ -5,7 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div role="alert" class="alert alert-danger">
+        @Model.Message
+    </div>
+}
 <div class="row">
     <div class="col-md-4 col-md-offset-4 col-sm-offset-3 col-sm-6">
         <div class="panel panel-default">
@@ -15,7 +20,6 @@
                 </h3>
             </div>
             <div class="panel-body">
-                @Model.Message
                 @Html.ValidationSummary(true)
 
                 @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new {@class = "form-horizontal"}))

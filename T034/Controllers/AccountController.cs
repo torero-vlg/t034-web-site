@@ -21,7 +21,7 @@ namespace T034.Controllers
         /// <summary>
         /// Renders home page with login link.
         /// </summary>
-        public ActionResult Logon(string message = null)
+        public ActionResult Logon(LogonViewModel model)
         {
             try
             {
@@ -29,11 +29,13 @@ namespace T034.Controllers
                 {
                     ProviderName = client.Name
                 });
-                return View(new LogonViewModel { Clients = clients, Message = message});
+                model.Clients = clients;
+                return View(model);
             }
             catch (Exception ex)
             {
-                return View(new LogonViewModel { Clients = new List<LoginInfoModel>()});
+                model.Clients = new List<LoginInfoModel>();
+                return View(model);
             }
             
         }
