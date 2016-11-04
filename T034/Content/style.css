@@ -212,14 +212,14 @@ A.mm:hover
 .dropdown-menu
 {
 	text-decoration: none;
-	background-color:#045104 !important;
+	background-color:#ffff00 !important;
 }
 
 a.list-group-item.active
 {
 	background-color: #3c9f3c !important;
 	border-color: #3c9f3c !important;
-	color: #ff8c00 !important;
+	color: #ffff00 !important;
 	font-size: 16px;
         font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
 	margin-top: 0px !important;
@@ -258,13 +258,15 @@ section {
 /*cтили главного меню*/
 .main-menu {
     padding: 0;
-    background: #ffd700 !important; 
+    background: #ffff00 !important; 
 	text-decoration: none;
 }
 .main-menu a {
     font-style:italic;
-    color: #006400 !important;
+    color: #025802 !important;
+    font-size: 18px !important;
     margin: 0 !important;
+    font-family: Times New Roman, "Trebuchet MS", Verdana, Helvetica, Sans-Serif !important;
 }
 .main-menu a:hover {
     color: #029d0a !important;
@@ -276,4 +278,8 @@ section {
 .content {
     border: 15px solid #ff8c00;
     border-image: url(pic/border.png) 15 stretch stretch;
+}
+
+.navbar {
+    border: 0px solid !important;
 }
