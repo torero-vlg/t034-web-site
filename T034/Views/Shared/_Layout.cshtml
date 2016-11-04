@@ -7,10 +7,11 @@
         <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/DataTables-1.10.2/media/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
     
-        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
 
         <script src="/Scripts/require.js"></script>
         <script src="/Scripts/main.js"></script>
+
     </head>
 
     <body>
@@ -33,8 +34,9 @@
                 @{
                     Html.RenderAction("MainMenu", "Navigation");
                 }
-
-                @RenderBody()
+                <div class="content">
+                    @RenderBody()
+                </div>
 
 
             </div>

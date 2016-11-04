@@ -53,8 +53,8 @@ namespace T034.Controllers
             var user = "";
             Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request.QueryString: {Request?.QueryString}");
 
-            if(controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
-                SetUserInfo();
+            //if(controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
+            //    SetUserInfo();
 
             base.OnActionExecuting(context);
         }
