@@ -74,6 +74,10 @@ namespace T034.App_Start
             kernel.Bind<IUserService>().To<UserService>().InRequestScope();
             kernel.Bind<IFileService>().To<FileService>().InRequestScope();
             kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
+
+            kernel.Bind<Db.Services.Administration.IUserService>().To<Db.Services.Administration.UserService>().InRequestScope();
+            kernel.Bind<Db.Services.Administration.IRoleService>().To<Db.Services.Administration.RoleService>().InRequestScope();
+
         }
 
         private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }

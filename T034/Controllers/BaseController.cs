@@ -53,8 +53,8 @@ namespace T034.Controllers
             var user = "";
             Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request.QueryString: {Request?.QueryString}");
 
-            //if(controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
-            //    SetUserInfo();
+            if (controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
+                SetUserInfo();
 
             base.OnActionExecuting(context);
         }
@@ -63,6 +63,15 @@ namespace T034.Controllers
         {
             try
             {
+                if (Request.Cookies["auth"] != null)
+                {
+                    UserInfo = new UserInfo
+                    {
+                        Email = Request.Cookies["auth"].Value
+                    };
+                    return;
+                }
+
                 var nameValueCollection = new NameValueCollection();
 
                 if (Request.QueryString["code"] != null)

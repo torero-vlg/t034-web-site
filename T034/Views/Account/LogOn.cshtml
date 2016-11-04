@@ -15,24 +15,25 @@
                 </h3>
             </div>
             <div class="panel-body">
+                @Model.Message
                 @Html.ValidationSummary(true)
 
-                @using (Html.BeginForm("Login", "Authentication", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new {@class = "form-horizontal"}))
                 {
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Login, new { @class = "control-label" })
+                        @Html.LabelFor(m => m.Email, new {@class = "control-label"})
                         <div>
-                            @Html.TextBoxFor(m => m.Login, new { @class = "form-control", disabled = "" })
+                            @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        @Html.LabelFor(m => m.Password, new {@class = "control-label"})
                         <div>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", disabled ="" })
+                            @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary pull-right" disabled="">Войти</button>
+                        <button type="submit" class="btn btn-primary pull-right">Войти</button>
                     </div>
                 }
                 <div class="row text-center">
@@ -40,7 +41,7 @@
                     @foreach (var loginInfo in Model.Clients)
                     {
                         <div class="col-md-6">
-                            @Html.ActionLink(string.Format("Log In ({0})", loginInfo.ProviderName), "Login", "Account", new { providerName = @loginInfo.ProviderName }, null)
+                            @Html.ActionLink(string.Format("Log In ({0})", loginInfo.ProviderName), "Login", "Account", new {providerName = @loginInfo.ProviderName}, null)
                         </div>
 
                     }

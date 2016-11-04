@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Db.Dto;
-using T034.ViewModel;
+using Db.Entity.Administration;
 
-namespace T034.AutoMapper
+namespace Db.AutoMapper
 {
     public class RoleProfile : Profile
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<RoleDto, RoleViewModel>()
+            Mapper.CreateMap<Role, RoleDto>()
                 .ForMember(vm => vm.Selected, v => v.UseValue(true));
-            Mapper.CreateMap<RoleViewModel, RoleDto>();
+            Mapper.CreateMap<RoleDto, Role>();
         }
     }
 }

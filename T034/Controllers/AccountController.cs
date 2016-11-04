@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
@@ -20,13 +21,21 @@ namespace T034.Controllers
         /// <summary>
         /// Renders home page with login link.
         /// </summary>
-        public ActionResult Logon()
+        public ActionResult Logon(string message = null)
         {
-            var clients = AuthorizationRoot.Clients.Select(client => new LoginInfoModel
+            try
             {
-                ProviderName = client.Name
-            });
-            return View(new LogonViewModel { Clients = clients});
+                var clients = AuthorizationRoot.Clients.Select(client => new LoginInfoModel
+                {
+                    ProviderName = client.Name
+                });
+                return View(new LogonViewModel { Clients = clients, Message = message});
+            }
+            catch (Exception ex)
+            {
+                return View(new LogonViewModel { Clients = new List<LoginInfoModel>()});
+            }
+            
         }
 
         /// <summary>

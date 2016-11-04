@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Db.AutoMapper;
 using OAuth2;
 using OAuth2.Client;
 using RestSharp;
@@ -51,6 +52,7 @@ namespace T034
             RegisterRoutes(RouteTable.Routes);
 
             AutoMapperWebConfiguration.Configure(Server);
+            AutoMapperConfiguration.Configure(Server);
 
             ActionRoles = GetActionRoles();
         }
