@@ -1,4 +1,4 @@
-body
+﻿body
 {
     font-size: 12px;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
@@ -255,6 +255,7 @@ section {
     display: block;
 }
 
+/*cтили главного меню*/
 .main-menu {
     padding: 0;
     background: #ffd700 !important; 
@@ -270,4 +271,9 @@ section {
 }
 .main-menu a:focus {
     background-color: #daa520 !important;
+}
+/*cтили рамки контента*/
+.content {
+    border: 15px solid #ff8c00;
+    border-image: url(pic/border.png) 15 stretch stretch;
 }
