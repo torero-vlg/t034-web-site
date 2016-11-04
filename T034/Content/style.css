@@ -60,18 +60,6 @@ body
     margin-bottom: 10px !important;
 }
 
-
-.mheader
-{
-    font-size: 23px;
-    font-family: Times New Roman, "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
-    color: #008000;
-    text-align: center;
-    font-style: italic;
-    font-weight: bold;
-    padding: 0 0 5px 0;
-}
-
 .btn-group
 {
     padding: 0 0 5px 0;
@@ -80,9 +68,13 @@ body
 
 h2
 {
-    font-size: 21px !important;
-    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-size: 23px;
+    font-family: Times New Roman, "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #008000;
+    text-align: center;
+    font-style: italic;
     font-weight: bold;
+    padding: 0 0 5px 0;
 }
 
 h3
@@ -159,6 +151,11 @@ A:active
 	text-decoration: none;
 }
 
+A:visited
+{
+    color: #008600 !important;
+}
+
 A.down
 {
 	font-size: 12px;
@@ -222,12 +219,18 @@ a.list-group-item.active
 {
 	background-color: #3c9f3c !important;
 	border-color: #3c9f3c !important;
-	color: #fff !important;
+	color: #ff8c00 !important;
 	font-size: 16px;
         font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
 	margin-top: 0px !important;
+    background-image: linear-gradient(to bottom,#006400 0,#008000 100%);
 }
 
+a.list-group-item.active:hover
+{
+    background-image: linear-gradient(to bottom,#006400 0,#008000 100%);
+	color: #ffffff !important;
+}
 
 a.list-group-item
 {
@@ -239,9 +242,9 @@ a.list-group-item
 
 a.list-group-item:hover
 {
-	color: #5b5c5b !important;
+	color: # !important;
 	font-size: 13px !important;
-        font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
 }
 
 
@@ -252,3 +255,19 @@ section {
     display: block;
 }
 
+.main-menu {
+    padding: 0;
+    background: #ffd700 !important; 
+	text-decoration: none;
+}
+.main-menu a {
+    font-style:italic;
+    color: #006400 !important;
+    margin: 0 !important;
+}
+.main-menu a:hover {
+    color: #029d0a !important;
+}
+.main-menu a:focus {
+    background-color: #daa520 !important;
+}
