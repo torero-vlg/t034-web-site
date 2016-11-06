@@ -263,16 +263,21 @@ section {
 }
 .main-menu a {
     font-style:italic;
-    color: #025802 !important;
+    color: #033903 !important;
     font-size: 18px !important;
     margin: 0 !important;
     font-family: Times New Roman, "Trebuchet MS", Verdana, Helvetica, Sans-Serif !important;
+    background: linear-gradient(180deg, #033903 45%, #068906);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: table;
+    font-weight: bold;
 }
 .main-menu a:hover {
     color: #029d0a !important;
 }
 .main-menu a:focus {
-    background-color: #daa520 !important;
+    background-color: #ffd800 !important;
 }
 /*cтили рамки контента*/
 .content {
@@ -281,5 +286,16 @@ section {
 }
 
 .navbar {
-    border: 0px solid !important;
+border: 0px solid !important;
 }
+
+.row
+{
+    font-size: 5px;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #000000;
+    background-color: #368536;
+    height: 303px;
+    text-align: center;
+}
+
