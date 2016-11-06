@@ -286,10 +286,10 @@ section {
 }
 
 .navbar {
-border: 0px solid !important;
+    border: 0px solid !important;
 }
 
-.row
+.banner
 {
     font-size: 5px;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
