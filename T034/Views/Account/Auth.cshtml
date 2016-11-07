@@ -1,5 +1,4 @@
-﻿@using System.Web.WebPages
-@model OAuth2.Models.UserInfo
+﻿@model OAuth2.Models.UserInfo
 
 <p>
     @if (@Model.PhotoUri.IsEmpty())
@@ -14,5 +13,3 @@
 <p>
     @Model.FirstName @Model.LastName (@(Model.Email ?? "email is hidden")) [@Model.ProviderName @Model.Id]
 </p>
-
-@Html.ActionLink("Тест", "Auth2");
