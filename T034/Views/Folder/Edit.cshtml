@@ -26,7 +26,7 @@
             foreach (var item in Model.Files)
             {
                 <div class="list-group-item">
-                    <i class="fa @item.FileIcon"></i> <a href="@item.Url">@item.Name</a>
+                    <i class="fa @item.FileIcon"></i> <a href="@item.Url" target="_blank">@item.Name</a>
                     <span class="pull-right">@item.Size @item.DownloadCounter @item.User @item.LogDate <a href="@Url.Action("DeleteFile", "Folder", new { id = item.Id }, null)"><i class="fa fa-trash-o"></i></a></span>
                 </div>
             }
@@ -41,7 +41,7 @@
                 @foreach (var fileViewModel in item.Files)
                 {
                     <div class="list-group-item">
-                        <i class="fa @fileViewModel.FileIcon"></i> <a href="@fileViewModel.Url">@fileViewModel.Name</a>
+                        <i class="fa @fileViewModel.FileIcon"></i> <a href="@fileViewModel.Url" target="_blank">@fileViewModel.Name</a>
                         <span class="pull-right">@fileViewModel.Size @fileViewModel.User @fileViewModel.LogDate</span>
                     </div>
                 }

@@ -180,12 +180,45 @@ namespace T034.Controllers
 
                 item.DownloadCounter++;
                 Db.SaveOrUpdate(item);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
+                return File(fileBytes, GetMimeType(fileName));
             }
             catch (Exception ex)
             {
                 Logger.Fatal(ex);
                 return View("ServerError", (object)"Ошибка при загрузке файла");
+            }
+        }
+
+        private string GetMimeType(string filename)
+        {
+
+            var extension = string.IsNullOrEmpty(filename) ? "" : filename.Substring(filename.LastIndexOf(".", StringComparison.Ordinal)).ToLower();
+            switch (extension)
+            {
+                case ".pdf": return "application/pdf";
+
+                case ".jpeg": return "image/jpeg";
+                case ".jpg": return "image/jpeg";
+                case ".png": return "image/png";
+                case ".tiff": return "image/tiff";
+
+                case ".doc": return "application/msword";
+                case ".docx": return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+                case ".xls": return "application/vnd.ms-excel";
+                case ".xlsx": return "application/vnd.openxmlformats-officedocument.spreadsheetml.template";
+
+                case ".zip": return "application/zip";
+                case ".rar": return "application/x-rar-compressed";
+                case ".7z": return "application/zip";
+                case ".txt": return "text/plain";
+                case ".mp3": return "audio/mpeg";
+                case ".avi": return "video/mpeg";
+                case ".cs": return "text/plain";
+                case ".ppt": return "application/vnd.ms-powerpoint";
+                default:
+                    return "application/octet-stream";
             }
         }
     }
