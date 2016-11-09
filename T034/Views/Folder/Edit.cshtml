@@ -65,4 +65,16 @@
     Url = "/Folder/UploadFile",
     Folder = Model.Id.ToString()
 })
+    using (Html.BeginForm("Set", "Menu"))
+    {
+        @Html.Hidden("Url", Model.IndexUrl)
+        <label class="control-label">Пункт меню</label>
+        <div>
+            @Html.DropDownList("Id", Model.MenuItems, new {@class = "form-control"})
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Назначить</button>
+        </div>
+    }
 }

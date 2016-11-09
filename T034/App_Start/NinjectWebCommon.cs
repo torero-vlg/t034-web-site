@@ -2,6 +2,7 @@ using System.Configuration;
 using Db;
 using Db.Api;
 using Db.DataAccess;
+using Db.Services;
 using OAuth2;
 using T034.Repository;
 
@@ -77,6 +78,7 @@ namespace T034.App_Start
 
             kernel.Bind<Db.Services.Administration.IUserService>().To<Db.Services.Administration.UserService>().InRequestScope();
             kernel.Bind<Db.Services.Administration.IRoleService>().To<Db.Services.Administration.RoleService>().InRequestScope();
+            kernel.Bind<IMenuItemService>().To<MenuItemService>().InRequestScope();
 
         }
 
