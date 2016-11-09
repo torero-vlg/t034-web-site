@@ -5,12 +5,17 @@ using System.Web;
 using System.Web.Mvc;
 using Db.Entity;
 using Db.Entity.Administration;
+using OAuth2;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class UploadController : BaseController
     {
+        public UploadController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         public void UploadNow(HttpPostedFileWrapper upload)
         {
             if (upload != null)

@@ -7,10 +7,11 @@
         <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/DataTables-1.10.2/media/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
     
-        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
 
         <script src="/Scripts/require.js"></script>
         <script src="/Scripts/main.js"></script>
+
     </head>
 
     <body>
@@ -18,18 +19,24 @@
             Html.RenderAction("ManagementMenu", "Navigation");
         }
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-12 banner">
+                <img src="../../Content/pic/banner.png" class="center-block"/>
             </div>
-            <div class="col-md-8">
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
                 @{
                     Html.RenderAction("MainMenu", "Navigation");
                 }
-
-                @RenderBody()
+                <div class="content">
+                    @RenderBody()
+                </div>
 
 
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
             </div>
         </div>
 
@@ -40,5 +47,5 @@
         </script>
 
         @RenderSection("scripts", required: false)
-    </body>
+</body>
 </html>

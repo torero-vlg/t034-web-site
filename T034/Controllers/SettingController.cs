@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Db.Api;
 using Db.Entity;
-using Db.Entity.Administration;
+using Ninject;
+using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 
@@ -13,12 +15,21 @@ namespace T034.Controllers
 {
     public class SettingController : BaseController
     {
+        public SettingController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
+        [Inject]
+        public ISettingService SettingService { get; set; }
+        [Inject]
+        public IUserService UserService { get; set; }
+
         [Role("Administrator")]
         public ActionResult List()
         {
             try
             {
-                var items = Db.Select<Setting>();
+                var items = SettingService.Settings();
 
                 var model = new List<SettingViewModel>();
                 model = Mapper.Map(items, model);
@@ -39,7 +50,7 @@ namespace T034.Controllers
             var model = new SettingViewModel();
             if (id.HasValue)
             {
-                var item = Db.Get<Setting>(id.Value);
+                var item = SettingService.Get(id.Value);
                 model = Mapper.Map(item, model);
             }
 
@@ -52,49 +63,34 @@ namespace T034.Controllers
             var item = new Setting();
             if (model.Id > 0)
             {
-                item = Db.Get<Setting>(model.Id);
+                item = SettingService.Get(model.Id);
             }
             item = Mapper.Map(model, item);
 
-            var result = Db.SaveOrUpdate(item);
+            var result = SettingService.Save(item);
 
             return RedirectToAction("List");
         }
 
         public ActionResult Index()
         {
-            //инициализация настроек
-            if (Db.SingleOrDefault<Setting>(s => s.Code == "StartPage") == null)
-                Db.SaveOrUpdate(new Setting { Code = "StartPage", Name = "Стартовая страница", Value = ""});
-
-            if (Db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId") == null)
-                Db.SaveOrUpdate(new Setting { Code = "YandexClientId", Name = "YandexClientId", Value = "" });
-
-            if (Db.SingleOrDefault<Setting>(s => s.Code == "YandexPassword") == null)
-                Db.SaveOrUpdate(new Setting { Code = "YandexPassword", Name = "YandexPassword", Value = "" });
-
-            //инициализация ролей
-            if (Db.SingleOrDefault<Role>(u => u.Code == "Administrator") == null)
-                Db.SaveOrUpdate(new Role { Code = "Administrator", Name = "Администратор" });
-
-            if (Db.SingleOrDefault<Role>(u => u.Code == "Moderator") == null)
-                Db.SaveOrUpdate(new Role { Code = "Moderator", Name = "Модератор" });
+            SettingService.Init();
 
             //инициализация папок
-            var directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}", MvcApplication.FilesFolder)));
+            var directory = new DirectoryInfo(Server.MapPath($"/{MvcApplication.FilesFolder}"));
             if(!directory.Exists)
                 directory.Create();
 
-            directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}", "Upload")));
+            directory = new DirectoryInfo(Server.MapPath($"/{"Upload"}"));
             if (!directory.Exists)
                 directory.Create();
 
-            directory = new DirectoryInfo(Server.MapPath(string.Format("/{0}", "Upload/Images")));
+            directory = new DirectoryInfo(Server.MapPath($"/{"Upload/Images"}"));
             if (!directory.Exists)
                 directory.Create();
 
             //если ни одного пользователя в БД, то показваем форму с Email и полями для OAuth
-            if(!Db.Select<User>().Any())
+            if(!UserService.Users().Any())
                 return View("CreateUserAndOAuth");
 
             return RedirectToAction("Index", "Home");
@@ -102,23 +98,12 @@ namespace T034.Controllers
 
         public ActionResult CreateUserAndOAuth(FirstUserViewModel model)
         {
-            if (Db.SingleOrDefault<User>(u => u.Email == model.Email) == null)
+            if (UserService.GetUser(model.Email) == null)
             {
-                var user = new User
-                    {
-                        Name = "Администратор", 
-                        Email = model.Email, 
-                        UserRoles = Db.Select<Role>()
-                    };
-                Db.SaveOrUpdate(user);
+                SettingService.CreateFirstUser(model.Email);
 
-                var setting = Db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId");
-                setting.Value = model.YandexClientId;
-                Db.SaveOrUpdate(setting);
-
-                setting = Db.SingleOrDefault<Setting>(s => s.Code == "YandexPassword");
-                setting.Value = model.YandexPassword;
-                Db.SaveOrUpdate(setting);
+                SettingService.UpdateYandexClientId(model.YandexClientId);
+                SettingService.UpdateYandexPassword(model.YandexPassword);
 
                 return RedirectToAction("Logon", "Account");
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
+using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 
@@ -10,6 +11,10 @@ namespace T034.Controllers
 {
     public class PageController : BaseController
     {
+        public PageController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [HttpGet]
         [Role("Moderator")]
         public ActionResult AddOrEdit(int? id)

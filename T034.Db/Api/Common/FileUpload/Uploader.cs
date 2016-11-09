@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 
-namespace T034.Tools.FileUpload
+namespace Db.Api.Common.FileUpload
 {
     public class Uploader
     {

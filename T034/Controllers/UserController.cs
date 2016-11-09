@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Db.Dto;
 using Db.Entity.Administration;
+using Db.Services.Administration;
+using Ninject;
+using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 
@@ -11,15 +15,24 @@ namespace T034.Controllers
 {
     public class UserController : BaseController
     {
+        [Inject]
+        public IUserService UserService { get; set; }
+
+        [Inject]
+        public IRoleService RoleService { get; set; }
+
+        public UserController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         [Role("Administrator")]
         public ActionResult List()
         {
             try
             {
-                var items = Db.Select<User>();
-
+                var list = UserService.Select();
                 var model = new List<UserViewModel>();
-                model = Mapper.Map(items, model);
+                model = Mapper.Map(list, model);
 
                 return View(model);
             }
@@ -37,11 +50,11 @@ namespace T034.Controllers
             var model = new UserViewModel();
             if (id.HasValue)
             {
-                var item = Db.Get<User>(id.Value);
-                model = Mapper.Map(item, model);
+                var dto = UserService.Get(id.Value);
+                model = Mapper.Map(dto, model);
             }
             //добавим те роли, которых нет у пользователя, но есть в БД
-            foreach (var role in Db.Select<Role>())
+            foreach (var role in RoleService.Select())
             {
                 if (model.UserRoles.Any(ur => ur.Code == role.Code))
                     continue;
@@ -57,14 +70,15 @@ namespace T034.Controllers
         [Role("Administrator")]
         public ActionResult AddOrEdit(UserViewModel model)
         {
-            var item = new User();
             if (model.Id > 0)
             {
-                item = Db.Get<User>(model.Id);
+                UserService.Update(Mapper.Map<UserDto>(model));
             }
-            item = Mapper.Map(model, item);
+            else
+            {
+                UserService.Create(model.Name, model.Email, model.Password);
+            }
 
-            var result = Db.SaveOrUpdate(item);
 
             return RedirectToAction("List");
         }

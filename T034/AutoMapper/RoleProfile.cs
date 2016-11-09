@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Db.Entity.Administration;
+using Db.Dto;
 using T034.ViewModel;
 
 namespace T034.AutoMapper
@@ -8,9 +8,9 @@ namespace T034.AutoMapper
     {
         protected override void Configure()
         {
-            Mapper.CreateMap<Role, RoleViewModel>()
+            Mapper.CreateMap<RoleDto, RoleViewModel>()
                 .ForMember(vm => vm.Selected, v => v.UseValue(true));
-            Mapper.CreateMap<RoleViewModel, Role>();
+            Mapper.CreateMap<RoleViewModel, RoleDto>();
         }
     }
 }

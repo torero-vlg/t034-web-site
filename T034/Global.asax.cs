@@ -4,6 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Db.AutoMapper;
+using OAuth2;
+using OAuth2.Client;
+using RestSharp;
 using T034.AutoMapper;
 using T034.Models;
 using T034.Tools.Attribute;
@@ -15,7 +19,11 @@ namespace T034
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Соответствие метода-контроллера и роли
+        /// </summary>
         public static IEnumerable<ActionRole> ActionRoles { get; private set; }
+
         public static string FilesFolder = ConfigurationManager.AppSettings["FilesFolder"];
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
@@ -44,6 +52,7 @@ namespace T034
             RegisterRoutes(RouteTable.Routes);
 
             AutoMapperWebConfiguration.Configure(Server);
+            AutoMapperConfiguration.Configure(Server);
 
             ActionRoles = GetActionRoles();
         }

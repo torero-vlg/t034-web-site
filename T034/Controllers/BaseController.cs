@@ -1,7 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Web.Mvc;
 using Db.DataAccess;
 using Ninject;
 using NLog;
+using OAuth2;
+using OAuth2.Client;
+using OAuth2.Models;
 using T034.Repository;
 
 namespace T034.Controllers
@@ -14,7 +20,28 @@ namespace T034.Controllers
         [Inject]
         public IRepository Repository { get; set; }
 
+        protected readonly AuthorizationRoot AuthorizationRoot;
+
+        private const string ProviderNameKey = "providerName";
+
+        protected string ProviderName
+        {
+            get { return (string)Session[ProviderNameKey]; }
+            set { Session[ProviderNameKey] = value; }
+        }
+
         protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        protected UserInfo UserInfo;
+
+        public BaseController(AuthorizationRoot authorizationRoot)
+        {
+            AuthorizationRoot = authorizationRoot;
+        }
+
+        protected IClient GetClient()
+        {
+            return AuthorizationRoot.Clients.FirstOrDefault(c => c.Name == ProviderName);
+        }
 
         protected override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -24,9 +51,64 @@ namespace T034.Controllers
             var actionName = context.ActionDescriptor.ActionName;
 
             var user = "";
-            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}");
+            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request.QueryString: {Request?.QueryString}");
+
+            if (controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
+                SetUserInfo();
 
             base.OnActionExecuting(context);
+        }
+
+        private void SetUserInfo()
+        {
+            try
+            {
+                if (Request.Cookies["auth"] != null)
+                {
+                    UserInfo = new UserInfo
+                    {
+                        Email = Request.Cookies["auth"].Value
+                    };
+                    return;
+                }
+
+                var nameValueCollection = new NameValueCollection();
+
+                if (Request.QueryString["code"] != null)
+                {
+                    nameValueCollection = Request.QueryString;
+                    Logger.Trace($"nameValueCollection заполняем из Request.QueryString[code].");
+                }
+                else
+                {
+                    var authCodeCookie = Request.Cookies["auth_code"];
+                    if (authCodeCookie != null)
+                    {
+                        Logger.Trace($"Устанавливаем code: {authCodeCookie.Value}.");
+                        nameValueCollection.Add("code", authCodeCookie.Value);
+                    }
+                }
+
+                Logger.Trace($"nameValueCollection: {nameValueCollection}.");
+                var client = GetClient();
+                Logger.Trace($"Cервис авторизации: {client}. ProviderName:{ProviderName}.");
+
+                var userInfo = client?.GetUserInfo(nameValueCollection);
+                if (userInfo != null)
+                {
+                    Logger.Trace($"Cервис авторизации: {client.Name}. Пользователь: {userInfo.Email}.");
+                    UserInfo = userInfo;
+                }
+                else
+                {
+                    Logger.Trace("Не удалось получить пользователя.");
+                    UserInfo = new UserInfo();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+            }
         }
 
         protected override void OnActionExecuted(ActionExecutedContext context)

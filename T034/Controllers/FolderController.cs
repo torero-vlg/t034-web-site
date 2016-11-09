@@ -4,17 +4,26 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using Db.Api;
+using Db.Api.Common.Exceptions;
 using Db.Entity;
-using Db.Entity.Administration;
+using Ninject;
+using OAuth2;
+using OAuth2.Models;
 using T034.Tools.Attribute;
-using T034.Tools.Auth;
-using T034.Tools.FileUpload;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class FolderController : BaseController
     {
+        public FolderController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
+        [Inject]
+        public IFileService FileService { get; set; }
+
         public ActionResult Index(int? id)
         {
             //ViewData["MetMenuActive"] = folder.Contains("Методическая работа/") ? "active" : "";
@@ -91,62 +100,9 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult UploadFile()
         {
-            var path = Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
-            //path = Path.Combine(path, Request.Files.Keys[0]);
-            var uploader = new Uploader(path);
-
-            var r = new List<ViewDataUploadFilesResult>();
-            if (Request.Files.Cast<string>().Any())
-            {
-                try
-                {
-                    var statuses = new List<ViewDataUploadFilesResult>();
-                    var headers = Request.Headers;
-                    if (string.IsNullOrEmpty(headers["X-File-Name"]))
-                    {
-                        uploader.UploadWholeFile(Request, statuses);
-                    }
-                    else
-                    {
-                        uploader.UploadPartialFile(headers["X-File-Name"], Request, statuses);
-                    }
-                    JsonResult result = Json(statuses);
-                    result.ContentType = "text/plain";
-
-                    //запись в БД
-                    var user = YandexAuth.GetUser(Request);
-
-                    //найдём пользователя в БД
-                    var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
-                    if (userFromDb != null)
-                    {
-                        foreach (var filesResult in statuses)
-                        {
-                            //TODO выделить в метод репозитория, запускать в одной транзакции
-                            var fileByName = Db.SingleOrDefault<Files>(f => f.Name == filesResult.name);
-                            if (fileByName != null)
-                                Db.Delete(fileByName);
-
-                            var item = new Files
-                                {
-                                    LogDate = DateTime.Now,
-                                    Name = filesResult.name,
-                                    Size = filesResult.size,
-                                    User = new User {Id = userFromDb.Id},
-                                    Folder = new Folder {Id = int.Parse(Request.Files.Keys[0])}
-                                };
-
-                            Db.SaveOrUpdate(item);    
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    Logger.Fatal(ex);
-                    throw;
-                }
-            }
+            var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
+            var r = FileService.Upload(path, Request, UserInfo.Email);
+            //TODO надо что-то возвращать
             return Json(r);
         }
 
@@ -155,13 +111,9 @@ namespace T034.Controllers
         {
             try
             {
-                var item = Db.Get<Files>(id);
-                var result = Db.Delete(item);
+                var folder = FileService.DeleteFile(id, Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
 
-                var file = new FileInfo(Path.Combine(Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)), item.Name));
-                file.Delete();
-                
-                return RedirectToAction("Edit", new { id = item.Folder.Id });
+                return RedirectToAction("Edit", new { id = folder.Id });
             }
             catch (Exception ex)
             {
@@ -176,12 +128,12 @@ namespace T034.Controllers
             try
             {
                 var item = Mapper.Map<Folder>(model);
-                var result = Db.Delete(item);
+                FileService.DeleteFolder(item);
             }
             catch (Exception ex)
             {
                 Logger.Fatal(ex);
-                return View("ServerError", (object)string.Format("Ошибка при удалении папки {0}.", model.Name));
+                return View("ServerError", (object) $"Ошибка при удалении папки {model.Name}.");
             }
 
             return RedirectToAction("Edit", new { id = model.ParentFolderId });
@@ -190,35 +142,33 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult CreateFolder(FolderViewModel model)
         {
-            var user = YandexAuth.GetUser(Request);
-
-            //найдём пользователя в БД
-            var userFromDb = Db.SingleOrDefault<User>(u => u.Email == user.default_email);
-            if (userFromDb != null)
+            var item = new Folder();
+            if (model.Id > 0)
             {
-                var item = new Folder();
-                if (model.Id > 0)
-                {
-                    item = Db.Get<Folder>(model.Id);
-                }
-                item = Mapper.Map(model, item);
-
-                item.LogDate = DateTime.Now;
-                item.User = new User { Id = userFromDb.Id };
-
-                var result = Db.SaveOrUpdate(item);
-
-                return RedirectToAction("Edit", new {id = result});
+                item = FileService.GetFolder(model.Id); 
             }
-            return View("ServerError", (object)"Не удалось определить пользователя");
+            item = Mapper.Map(model, item);
+
+            try
+            {
+                FileService.CreateFolder(UserInfo.Email, item);
+            }
+            catch (UserNotFoundException ex)
+            {
+                return View("ServerError", ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return View("ServerError", (object)"Произошла непредвиденная ошибка");
+            }
+            return RedirectToAction("Edit", new { id =  item.Id});
         }
 
         public ActionResult Download(int id)
         {
             try
             {
-
-
                 var item = Db.Get<Files>(id);
                 if (item == null)
                 {
@@ -230,12 +180,45 @@ namespace T034.Controllers
 
                 item.DownloadCounter++;
                 Db.SaveOrUpdate(item);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
+                return File(fileBytes, GetMimeType(fileName));
             }
             catch (Exception ex)
             {
                 Logger.Fatal(ex);
                 return View("ServerError", (object)"Ошибка при загрузке файла");
+            }
+        }
+
+        private string GetMimeType(string filename)
+        {
+
+            var extension = string.IsNullOrEmpty(filename) ? "" : filename.Substring(filename.LastIndexOf(".", StringComparison.Ordinal)).ToLower();
+            switch (extension)
+            {
+                case ".pdf": return "application/pdf";
+
+                case ".jpeg": return "image/jpeg";
+                case ".jpg": return "image/jpeg";
+                case ".png": return "image/png";
+                case ".tiff": return "image/tiff";
+
+                case ".doc": return "application/msword";
+                case ".docx": return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+                case ".xls": return "application/vnd.ms-excel";
+                case ".xlsx": return "application/vnd.openxmlformats-officedocument.spreadsheetml.template";
+
+                case ".zip": return "application/zip";
+                case ".rar": return "application/x-rar-compressed";
+                case ".7z": return "application/zip";
+                case ".txt": return "text/plain";
+                case ".mp3": return "audio/mpeg";
+                case ".avi": return "video/mpeg";
+                case ".cs": return "text/plain";
+                case ".ppt": return "application/vnd.ms-powerpoint";
+                default:
+                    return "application/octet-stream";
             }
         }
     }

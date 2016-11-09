@@ -1,6 +1,8 @@
 using System.Configuration;
 using Db;
+using Db.Api;
 using Db.DataAccess;
+using OAuth2;
 using T034.Repository;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(T034.App_Start.NinjectWebCommon), "Start")]
@@ -68,6 +70,14 @@ namespace T034.App_Start
         {
             kernel.Bind<IBaseDb>().ToMethod(c => new NhDbFactory(ConnectionString).CreateBaseDb());
             kernel.Bind<IRepository>().To<Repository.Repository>().InRequestScope();
+            kernel.Bind<ISettingService>().To<SettingService>().InRequestScope();
+            kernel.Bind<IUserService>().To<UserService>().InRequestScope();
+            kernel.Bind<IFileService>().To<FileService>().InRequestScope();
+            kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
+
+            kernel.Bind<Db.Services.Administration.IUserService>().To<Db.Services.Administration.UserService>().InRequestScope();
+            kernel.Bind<Db.Services.Administration.IRoleService>().To<Db.Services.Administration.RoleService>().InRequestScope();
+
         }
 
         private static string ConnectionString { get { return ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }

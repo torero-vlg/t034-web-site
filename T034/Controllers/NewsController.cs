@@ -5,14 +5,18 @@ using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
+using OAuth2;
 using T034.Tools.Attribute;
-using T034.Tools.Auth;
 using T034.ViewModel;
 
 namespace T034.Controllers
 {
     public class NewsController : BaseController
     {
+        public NewsController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
         public ActionResult Index(int id)
         {
             var model = new NewsViewModel();
@@ -82,10 +86,8 @@ namespace T034.Controllers
         [ValidateInput(false)]
         public ActionResult AddOrEdit(NewsViewModel model)
         {
-            var user = YandexAuth.GetUser(Request);
-
             //найдём пользователя в БД
-            var userFromDb = Db.Where<User>(u => u.Email == user.default_email).FirstOrDefault();
+            var userFromDb = Db.Where<User>(u => u.Email == UserInfo.Email).FirstOrDefault();
             if (userFromDb != null)
             {
                 var item = new News();

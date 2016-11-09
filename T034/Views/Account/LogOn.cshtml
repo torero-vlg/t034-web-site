@@ -5,7 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div role="alert" class="alert alert-danger">
+        @Model.Message
+    </div>
+}
 <div class="row">
     <div class="col-md-4 col-md-offset-4 col-sm-offset-3 col-sm-6">
         <div class="panel panel-default">
@@ -17,36 +22,30 @@
             <div class="panel-body">
                 @Html.ValidationSummary(true)
 
-                @using (Html.BeginForm("Login", "Authentication", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new {@class = "form-horizontal"}))
                 {
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Login, new { @class = "control-label" })
+                        @Html.LabelFor(m => m.Email, new {@class = "control-label"})
                         <div>
-                            @Html.TextBoxFor(m => m.Login, new { @class = "form-control", disabled = "" })
+                            @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        @Html.LabelFor(m => m.Password, new {@class = "control-label"})
                         <div>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", disabled ="" })
+                            @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary pull-right" disabled="">Войти</button>
+                        @foreach (var loginInfo in Model.Clients)
+                        {
+                            <a class="" href="@Url.Action("Login", "Account", new {providerName = @loginInfo.ProviderName})">
+                                <img src="/Content/pic/yandex_icon.png" height="25px" width="25px" alt="Войти при помощи Mail.Ru" />
+                            </a>
+                        }
+                        <button type="submit" class="btn btn-primary pull-right">Войти</button>
                     </div>
                 }
-                <div class="row text-center">
-                    <div class="col-md-12">
-                        <a class="" href="@Url.Action("RedirectToYandex", "Auth")">
-                            <img src="/Content/pic/yandex_icon.png" height="25px" width="25px" alt="Войти при помощи Яндекса" />
-                        </a>
-
-                        @using (Html.BeginForm("RedirectToYandex", "Auth"))
-                        {
-                            @Html.Hidden("token")
-                        }
-                    </div>
-                </div>
             </div>
         </div>
     </div>

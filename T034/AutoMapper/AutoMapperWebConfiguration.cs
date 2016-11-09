@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using AutoMapper;
@@ -22,16 +23,10 @@ namespace T034.AutoMapper
 
         public static void Configure(HttpServerUtility server)
         {
-            Mapper.Initialize(cfg =>
+            foreach (var profile in Assembly.GetAssembly(typeof(AutoMapperWebConfiguration)).GetTypes().Where(t => typeof(Profile).IsAssignableFrom(t)))
             {
-                cfg.AddProfile(new UserProfile());
-                cfg.AddProfile(new RoleProfile());
-                cfg.AddProfile(new NewsProfile());
-                cfg.AddProfile(new PageProfile());
-                cfg.AddProfile(new MenuItemProfile());
-                cfg.AddProfile(new SettingProfile());
-                cfg.AddProfile(new FilesProfile());
-            });
+                Mapper.AddProfile(Activator.CreateInstance(profile) as Profile);
+            }
         }
 
         public static string GetSafeHtml(string htmlInputTxt)

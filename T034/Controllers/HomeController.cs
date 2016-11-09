@@ -1,16 +1,22 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using Db.Entity;
-using T034.Tools.Auth;
+﻿using System.Web.Mvc;
+using Db.Api;
+using Ninject;
+using OAuth2;
 
 namespace T034.Controllers
 {
     public class HomeController : BaseController
     {
+        public HomeController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        {
+        }
+
+        [Inject]
+        public ISettingService SettingService { get; set; }
+
         public ActionResult Index()
         {
-            var item = Db.Where<Setting>(s => s.Code == "StartPage").FirstOrDefault();
-
+            var item = SettingService.GetStartPage();
             if(item == null || item.Value == "")
                 return View();
 
@@ -23,9 +29,7 @@ namespace T034.Controllers
 
         public ActionResult Auth()
         {
-            var model = YandexAuth.GetUser(Request);
-
-            return PartialView("AuthPartialView", model);
+            return PartialView("AuthPartialView", UserInfo);
         }
     }
 }

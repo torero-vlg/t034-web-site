@@ -9,7 +9,7 @@
         {
             foreach (var item in Model.Files)
             {
-                <a class = "list-group-item" href="@item.Url">
+                <a class = "list-group-item" href="@item.Url" target="_blank">
                     <i class="fa @item.FileIcon"></i> @item.Name
                     <span class="pull-right">@item.User @item.LogDate @item.Size</span>
                 </a>
@@ -24,7 +24,7 @@
                 @Html.ActionLink(item.Name, "Index", "Folder", new {id = item.Id}, new {@class = "list-group-item active"})
                 @foreach (var fileViewModel in item.Files)
                 {
-                    <a class="list-group-item" href="@fileViewModel.Url">
+                    <a class="list-group-item" href="@fileViewModel.Url" target="_blank">
                         <i class="fa @fileViewModel.FileIcon"></i> @fileViewModel.Name
                         <span class="pull-right">@fileViewModel.Size</span>
                     </a>

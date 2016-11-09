@@ -26,7 +26,7 @@
         <td>@item.UserName</td>
         <td>@item.LogDate</td>
         <td>
-            @Html.ActionLink("Подробнее", "Index", new { id = item.Id })
+            @Html.ActionLink("Подробнее", "Index", new { id = item.Id }, new { @class = "mm"})
             @Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })
             @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
         </td>

@@ -13,6 +13,7 @@ namespace Db.Mapping.Administration
             Map(p => p.Email);
             Map(p => p.Login);
             Map(p => p.Password);
+            Map(p => p.Salt);
 
             HasManyToMany(p => p.UserRoles)
                 .Table("UserRole")

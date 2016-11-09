@@ -19,7 +19,10 @@ namespace T034.ViewModel
         
         [Display(Name = "Email")]
         public string Email { get; set; }
-        
+
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
+
         public List<RoleViewModel> UserRoles { get; set; }
     }
 }
