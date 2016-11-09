@@ -79,9 +79,9 @@ namespace T034.Controllers
         {
             var items = Mapper.Map<IEnumerable<FileViewModel>>(Db.Where<Files>(f => f.Folder.Id == model.Id));
 
+            //TODO дублирует код из PageController
             var menuItems = MenuItemService.Select();
             model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
-            model.MenuItems.Add(new SelectListItem { Value = null, Text = "-", Selected = true });
             
             var byUrl = MenuItemService.ByUrl(model.IndexUrl);
             if (byUrl != null)

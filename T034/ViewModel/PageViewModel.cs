@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace T034.ViewModel
 {
@@ -15,5 +17,17 @@ namespace T034.ViewModel
         
         [Display(Name = "Комментарий")]
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Назначеннй пункт меню
+        /// </summary>
+        public int? MenuItemId { get; set; }
+
+        /// <summary>
+        /// Список пунктов меню
+        /// </summary>
+        public ICollection<SelectListItem> MenuItems { get; set; }
+
+        public string IndexUrl => $"/Page/Index/{Id}";
     }
 }

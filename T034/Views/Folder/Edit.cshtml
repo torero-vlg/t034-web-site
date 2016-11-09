@@ -61,20 +61,34 @@
         </div>
     }
     @Html.Partial("FileUploadPartialView", new FileUploadModel
-{
-    Url = "/Folder/UploadFile",
-    Folder = Model.Id.ToString()
-})
-    using (Html.BeginForm("Set", "Menu"))
     {
-        @Html.Hidden("Url", Model.IndexUrl)
-        <label class="control-label">Пункт меню</label>
-        <div>
-            @Html.DropDownList("Id", Model.MenuItems, new {@class = "form-control"})
-        </div>
+        Url = "/Folder/UploadFile",
+        Folder = Model.Id.ToString()
+    })
 
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Назначить</button>
+    <br>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Назначить пункт меню
+                </a>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    @using (Html.BeginForm("Set", "Menu"))
+                {
+                        @Html.Hidden("Url", Model.IndexUrl)
+                        <div>
+                            @Html.DropDownList("Id", Model.MenuItems, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Назначить</button>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 }
