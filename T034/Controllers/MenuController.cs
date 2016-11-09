@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
+using Db.Services;
+using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
@@ -12,6 +14,9 @@ namespace T034.Controllers
 {
     public class MenuController : BaseController
     {
+        [Inject]
+        public IMenuItemService MenuItemService { get; set; }
+
         public MenuController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
         {
         }
@@ -21,6 +26,7 @@ namespace T034.Controllers
         {
             try
             {
+                //TODO MenuItemService
                 var items = Db.Select<MenuItem>();
 
                 var model = new List<MenuItemViewModel>();
@@ -39,6 +45,7 @@ namespace T034.Controllers
         [Role("Administrator")]
         public ActionResult AddOrEdit(int? id)
         {
+            //TODO MenuItemService
             var model = new MenuItemViewModel();
             if (id.HasValue)
             {
@@ -63,6 +70,7 @@ namespace T034.Controllers
         [Role("Administrator")]
         public ActionResult AddOrEdit(MenuItemViewModel model)
         {
+            //TODO MenuItemService
             var item = new MenuItem();
             if (model.Id > 0)
             {
@@ -77,6 +85,7 @@ namespace T034.Controllers
 
         public ActionResult Index(int id)
         {
+            //TODO MenuItemService
             var model = new MenuItemViewModel();
 
             var item = Db.Get<MenuItem>(id);
@@ -87,6 +96,26 @@ namespace T034.Controllers
             model = Mapper.Map(item, model);
 
             return View(model);
+        }
+
+        [Role("Administrator")]
+        public ActionResult Set(MenuItemViewModel model)
+        {
+            MenuItem item = null;
+            if (model.Id > 0)
+            {
+                item = Db.Get<MenuItem>(model.Id);
+            }
+            if (item == null)
+            {
+                Logger.Fatal($"Не найден указанный пункт меню: {model.Id}");
+                return View("ServerError", (object)"Не найден указанный пункт меню");
+            }
+            item.Url = model.Url;
+
+            var result = Db.SaveOrUpdate(item);
+
+            return RedirectToAction("List");
         }
     }
 }

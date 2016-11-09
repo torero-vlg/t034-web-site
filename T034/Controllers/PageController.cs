@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
+using Db.Services;
+using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
@@ -11,6 +14,9 @@ namespace T034.Controllers
 {
     public class PageController : BaseController
     {
+        [Inject]
+        public IMenuItemService MenuItemService { get; set; }
+
         public PageController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
         {
         }
@@ -24,6 +30,17 @@ namespace T034.Controllers
             {
                 var item = Db.Get<Page>(id.Value);
                 model = Mapper.Map(item, model);
+
+                //TODO дублирует код из FolderController
+                var menuItems = MenuItemService.Select();
+                model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
+
+                var byUrl = MenuItemService.ByUrl(model.IndexUrl);
+                if (byUrl != null)
+                {
+                    var selected = model.MenuItems.FirstOrDefault(m => m.Value == byUrl.Id.ToString());
+                    selected.Selected = true;
+                }
             }
 
             return View(model);

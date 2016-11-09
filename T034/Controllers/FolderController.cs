@@ -7,6 +7,7 @@ using AutoMapper;
 using Db.Api;
 using Db.Api.Common.Exceptions;
 using Db.Entity;
+using Db.Services;
 using Ninject;
 using OAuth2;
 using OAuth2.Models;
@@ -17,6 +18,9 @@ namespace T034.Controllers
 {
     public class FolderController : BaseController
     {
+        [Inject]
+        public IMenuItemService MenuItemService { get; set; }
+
         public FolderController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
         {
         }
@@ -74,6 +78,17 @@ namespace T034.Controllers
         private FolderViewModel CreateFolderViewModel(FolderViewModel model)
         {
             var items = Mapper.Map<IEnumerable<FileViewModel>>(Db.Where<Files>(f => f.Folder.Id == model.Id));
+
+            //TODO дублирует код из PageController
+            var menuItems = MenuItemService.Select();
+            model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
+            
+            var byUrl = MenuItemService.ByUrl(model.IndexUrl);
+            if (byUrl != null)
+            {
+                var selected = model.MenuItems.FirstOrDefault(m => m.Value == byUrl.Id.ToString());
+                selected.Selected = true;
+            }
 
             var subs = GetSubDirectories(model.Id);
 
