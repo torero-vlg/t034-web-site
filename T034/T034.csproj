@@ -373,6 +373,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="README.jQuery.vsdoc.txt" />
+    <Content Include="Scripts\app\layout.js" />
     <Content Include="Scripts\app\home\sites.js" />
     <Content Include="Scripts\app\home\index.js" />
     <Content Include="Scripts\app\folder\index.js" />

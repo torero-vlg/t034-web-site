@@ -14,7 +14,7 @@ namespace T034.Controllers
         {
         }
         
-        public ActionResult LowVision(string styleName)
+        public ActionResult Set(string styleName)
         {
             var userCookie = new HttpCookie("style")
             {
@@ -22,9 +22,12 @@ namespace T034.Controllers
                 Expires = DateTime.Now.AddDays(30)
             };
             Response.Cookies.Set(userCookie);
-
-            
-            return RedirectToAction("Index", "Home");
+            if(Request.UrlReferrer != null)
+                return Redirect(Request.UrlReferrer.AbsoluteUri);
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

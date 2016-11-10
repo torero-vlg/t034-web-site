@@ -18,6 +18,10 @@
                 {
                     <link href="@Url.Content("~/Content/lowVision.css")" rel="stylesheet" type="text/css" />
                 }
+                if (Request.Cookies["style"].Value == "General")
+                {
+                    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+                }
             }
 
         }
@@ -36,7 +40,10 @@
         {
             @Html.Hidden("StyleName", "LowVision")
             <div class="form-actions center">
-                <button type="submit" class="btn btn-primary">Назначить</button>
+                @Html.ActionLink("Слабовидящий", "Set", "Style", new { styleName = "LowVision" }, null)
+                @Html.ActionLink("Обычный", "Set", "Style", new { styleName = "General" }, null)
+                <button type="button" class="btn btn-primary" id="lowVisionButton">Слабовидящий</button>
+                <button type="button" class="btn btn-primary" id="generalStyleButton">Обычный</button>
             </div>
         }
         <div class="col-md-12 banner">
@@ -62,7 +69,8 @@
         </div>
 
         <script type="text/javascript">
-            require(['jquery', 'bootstrap', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, view) {
+            require(['jquery', 'bootstrap', 'layout', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, layout, view) {
+                layout.Initialize();
                 view.Initialize();
             });
         </script>
