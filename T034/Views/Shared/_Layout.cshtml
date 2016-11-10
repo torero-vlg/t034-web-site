@@ -6,8 +6,21 @@
         <link href="@Url.Content("~/Content/bootstrap-theme.min.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/DataTables-1.10.2/media/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
-    
-        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+
+        @{
+            if (Request.Cookies["style"] == null)
+            {
+                <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+            }
+            else
+            {
+                if (Request.Cookies["style"].Value == "LowVision")
+                {
+                    <link href="@Url.Content("~/Content/lowVision.css")" rel="stylesheet" type="text/css" />
+                }
+            }
+
+        }
 
         <script src="/Scripts/require.js"></script>
         <script src="/Scripts/main.js"></script>
@@ -18,11 +31,19 @@
         @{
             Html.RenderAction("ManagementMenu", "Navigation");
         }
-        <div class="row">
-            <div class="col-md-12 banner">
-                <img src="../../Content/pic/banner.png" class="center-block"/>
+    <div class="row">
+        @using (Html.BeginForm("LowVision", "Style"))
+        {
+            @Html.Hidden("StyleName", "LowVision")
+            <div class="form-actions center">
+                <button type="submit" class="btn btn-primary">Назначить</button>
             </div>
+        }
+        <div class="col-md-12 banner">
+            <img src="../../Content/pic/banner.png" class="center-block"/>
+
         </div>
+    </div>
         <div class="row">
             <div class="col-md-3">
             </div>

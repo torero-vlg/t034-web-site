@@ -176,6 +176,7 @@
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\StyleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -307,6 +308,7 @@
     <Content Include="Content\pic\x-office-document.png" />
     <Content Include="Content\pic\xml-icon.png" />
     <Content Include="Content\pic\yandex_icon.png" />
+    <Content Include="Content\lowVision.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
