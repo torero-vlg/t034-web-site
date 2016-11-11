@@ -14,20 +14,19 @@
             }
             else
             {
-                if (Request.Cookies["style"].Value == "BlackSpecial")
+                switch (Request.Cookies["style"].Value)
                 {
-                    <link href="@Url.Content("~/Content/blackspecial.css")" rel="stylesheet" type="text/css" />
-                }
-                if (Request.Cookies["style"].Value == "WhiteSpecial")
-                {
-                    <link href="@Url.Content("~/Content/whitespecial.css")" rel="stylesheet" type="text/css" />
-                }
-                if (Request.Cookies["style"].Value == "General")
-                {
-                    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+                    case "BlackSpecial":
+                        <link href="@Url.Content("~/Content/blackspecial.css")" rel="stylesheet" type="text/css"/>
+                        break;
+                    case "WhiteSpecial":
+                        <link href="@Url.Content("~/Content/whitespecial.css")" rel="stylesheet" type="text/css" />
+                        break;
+                    default:
+                        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+                        break;
                 }
             }
-
         }
 
         <script src="/Scripts/require.js"></script>
@@ -43,24 +42,25 @@
         <div class="col-md-12 banner">
             @{
 
-                if (Request.Cookies["style"] != null)
+                if (Request.Cookies["style"] == null)
                 {
-                    if (Request.Cookies["style"].Value != "General")
+                    <img src="../../Content/pic/banner.png" class="center-block" />
+                }
+                else
+                {
+                    switch (Request.Cookies["style"].Value)
                     {
-                        if (Request.Cookies["style"].Value == "WhiteSpecial")
-                        {
-                            <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
-                            <a href="@Url.Action("Set", "Style", new {styleName = "BlackSpecial"})">Инвертировать цвет</a>
-                        }
-                        if (Request.Cookies["style"].Value == "BlackSpecial")
-                        {
+                        case "BlackSpecial":
                             <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
                             <a href="@Url.Action("Set", "Style", new { styleName = "WhiteSpecial" })">Инвертировать цвет</a>
-                        }
-                    }
-                    if (Request.Cookies["style"].Value == "General")
-                    {
-                        <img src="../../Content/pic/banner.png" class="center-block" />
+                            break;
+                        case "WhiteSpecial":
+                            <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
+                            <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })">Инвертировать цвет</a>
+                            break;
+                        default:
+                            <img src="../../Content/pic/banner.png" class="center-block" />
+                            break;
                     }
                 }
             }
@@ -74,10 +74,10 @@
                     Html.RenderAction("MainMenu", "Navigation");
                 }
                 <div class="style-menu">
-                    @{
-                        if (Request.Cookies["style"] == null || Request.Cookies["style"].Value == "General")
+                    <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png" /> Версия для слабовидящих</a>
+                    @{if (Request.Cookies["auth"] != null && string.IsNullOrEmpty(Request.Cookies["auth"].Value))
                         {
-                            <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png"/> Версия для слабовидящих</a>
+                            <span class="pull-right"><a href="@Url.Action("Logon", "Account")"><i class="fa fa-sign-in" aria-hidden="true"></i></a></span>
                         }
                     }
                 </div>
