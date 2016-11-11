@@ -222,6 +222,7 @@
       <Link>AutoMapper.Net4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\blackspecial.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -295,6 +296,7 @@
     <Content Include="Content\pic\favicon.ico" />
     <Content Include="Content\pic\file-icon.png" />
     <Content Include="Content\pic\image-x-generic.png" />
+    <Content Include="Content\pic\lowvision.png" />
     <Content Include="Content\pic\mailru_icon.png" />
     <Content Include="Content\pic\main.png" />
     <Content Include="Content\pic\menu01.png" />
@@ -308,7 +310,6 @@
     <Content Include="Content\pic\x-office-document.png" />
     <Content Include="Content\pic\xml-icon.png" />
     <Content Include="Content\pic\yandex_icon.png" />
-    <Content Include="Content\lowVision.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -370,6 +371,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\whitespecial.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="README.jQuery.vsdoc.txt" />

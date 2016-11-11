@@ -298,3 +298,11 @@ section {
     text-align: center;
 }
 
+/*стили для панели управления стилями*/
+.style-menu {
+}
+
+.style-menu img {
+    height: 20px;
+}
+

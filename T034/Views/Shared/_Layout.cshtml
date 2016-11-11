@@ -14,9 +14,13 @@
             }
             else
             {
-                if (Request.Cookies["style"].Value == "LowVision")
+                if (Request.Cookies["style"].Value == "BlackSpecial")
                 {
-                    <link href="@Url.Content("~/Content/lowVision.css")" rel="stylesheet" type="text/css" />
+                    <link href="@Url.Content("~/Content/blackspecial.css")" rel="stylesheet" type="text/css" />
+                }
+                if (Request.Cookies["style"].Value == "WhiteSpecial")
+                {
+                    <link href="@Url.Content("~/Content/whitespecial.css")" rel="stylesheet" type="text/css" />
                 }
                 if (Request.Cookies["style"].Value == "General")
                 {
@@ -36,19 +40,30 @@
             Html.RenderAction("ManagementMenu", "Navigation");
         }
     <div class="row">
-        @using (Html.BeginForm("LowVision", "Style"))
-        {
-            @Html.Hidden("StyleName", "LowVision")
-            <div class="form-actions center">
-                @Html.ActionLink("Слабовидящий", "Set", "Style", new { styleName = "LowVision" }, null)
-                @Html.ActionLink("Обычный", "Set", "Style", new { styleName = "General" }, null)
-                <button type="button" class="btn btn-primary" id="lowVisionButton">Слабовидящий</button>
-                <button type="button" class="btn btn-primary" id="generalStyleButton">Обычный</button>
-            </div>
-        }
         <div class="col-md-12 banner">
-            <img src="../../Content/pic/banner.png" class="center-block"/>
+            @{
 
+                if (Request.Cookies["style"] != null)
+                {
+                    if (Request.Cookies["style"].Value != "General")
+                    {
+                        if (Request.Cookies["style"].Value == "WhiteSpecial")
+                        {
+                            <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
+                            <a href="@Url.Action("Set", "Style", new {styleName = "BlackSpecial"})">Инвертировать цвет</a>
+                        }
+                        if (Request.Cookies["style"].Value == "BlackSpecial")
+                        {
+                            <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
+                            <a href="@Url.Action("Set", "Style", new { styleName = "WhiteSpecial" })">Инвертировать цвет</a>
+                        }
+                    }
+                    if (Request.Cookies["style"].Value == "General")
+                    {
+                        <img src="../../Content/pic/banner.png" class="center-block" />
+                    }
+                }
+            }
         </div>
     </div>
         <div class="row">
@@ -58,11 +73,17 @@
                 @{
                     Html.RenderAction("MainMenu", "Navigation");
                 }
+                <div class="style-menu">
+                    @{
+                        if (Request.Cookies["style"] == null || Request.Cookies["style"].Value == "General")
+                        {
+                            <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png"/> Версия для слабовидящих</a>
+                        }
+                    }
+                </div>
                 <div class="content">
                     @RenderBody()
                 </div>
-
-
             </div>
             <div class="col-md-3">
             </div>
