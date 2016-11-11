@@ -282,6 +282,7 @@ section {
 .content {
     border: 15px solid #ff8c00;
     border-image: url(pic/border.png) 15 stretch stretch;
+    height: 500px;
 }
 
 .navbar {
