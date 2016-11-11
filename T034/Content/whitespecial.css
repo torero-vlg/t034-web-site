@@ -1,0 +1,24 @@
+﻿body
+{
+    font-size: 150% !important;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+h2 {
+    font-size: 150% !important;
+}
+
+a {
+    font-size: 150% !important;
+    color: #000000;
+}
+a :hover{
+    font-size: 150% !important;
+    color: #000000;
+    font-weight: bold !important;
+}
+.content {
+    font-size: 150% !important;
+}

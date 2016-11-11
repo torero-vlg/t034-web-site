@@ -282,6 +282,7 @@ section {
 .content {
     border: 15px solid #ff8c00;
     border-image: url(pic/border.png) 15 stretch stretch;
+    height: 500px;
 }
 
 .navbar {
@@ -296,5 +297,13 @@ section {
     background-color: #368536;
     height: 303px;
     text-align: center;
+}
+
+/*стили для панели управления стилями*/
+.style-menu {
+}
+
+.style-menu img {
+    height: 20px;
 }
 

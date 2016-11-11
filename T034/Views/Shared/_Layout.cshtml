@@ -6,8 +6,28 @@
         <link href="@Url.Content("~/Content/bootstrap-theme.min.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
         <link href="@Url.Content("~/Content/DataTables-1.10.2/media/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
-    
-        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+
+        @{
+            if (Request.Cookies["style"] == null)
+            {
+                <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+            }
+            else
+            {
+                switch (Request.Cookies["style"].Value)
+                {
+                    case "BlackSpecial":
+                        <link href="@Url.Content("~/Content/blackspecial.css")" rel="stylesheet" type="text/css"/>
+                        break;
+                    case "WhiteSpecial":
+                        <link href="@Url.Content("~/Content/whitespecial.css")" rel="stylesheet" type="text/css" />
+                        break;
+                    default:
+                        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+                        break;
+                }
+            }
+        }
 
         <script src="/Scripts/require.js"></script>
         <script src="/Scripts/main.js"></script>
@@ -20,7 +40,30 @@
         }
         <div class="row">
             <div class="col-md-12 banner">
-                <img src="../../Content/pic/banner.png" class="center-block"/>
+                @{
+
+                    if (Request.Cookies["style"] == null)
+                    {
+                        <img src="../../Content/pic/banner.png" class="center-block" />
+                    }
+                    else
+                    {
+                        switch (Request.Cookies["style"].Value)
+                        {
+                            case "BlackSpecial":
+                                <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
+                                <a href="@Url.Action("Set", "Style", new { styleName = "WhiteSpecial" })">Инвертировать цвет</a>
+                                break;
+                            case "WhiteSpecial":
+                                <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
+                                <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })">Инвертировать цвет</a>
+                                break;
+                            default:
+                                <img src="../../Content/pic/banner.png" class="center-block" />
+                                break;
+                        }
+                    }
+                }
             </div>
         </div>
         <div class="row">
@@ -30,18 +73,33 @@
                 @{
                     Html.RenderAction("MainMenu", "Navigation");
                 }
+                <div class="style-menu">
+                    <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png" /> Версия для слабовидящих</a>
+                    @{if (Request.Cookies["auth"] != null && string.IsNullOrEmpty(Request.Cookies["auth"].Value))
+                        {
+                            <span class="pull-right"><a href="@Url.Action("Logon", "Account")"><i class="fa fa-sign-in" aria-hidden="true"></i></a></span>
+                        }
+                    }
+                </div>
                 <div class="content">
                     @RenderBody()
                 </div>
-
-
             </div>
             <div class="col-md-3">
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+                <span class="pull-right"><a href="@Url.Action("Index", "Home")">2011-2016 © СДЮСШОР № 9</a></span>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
         <script type="text/javascript">
-            require(['jquery', 'bootstrap', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, view) {
+            require(['jquery', 'bootstrap', 'layout', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, layout, view) {
+                layout.Initialize();
                 view.Initialize();
             });
         </script>

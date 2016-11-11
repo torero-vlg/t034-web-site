@@ -77,7 +77,7 @@
             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
                     @using (Html.BeginForm("Set", "Menu"))
-                {
+                    {
                         @Html.Hidden("Url", Model.IndexUrl)
                         <div>
                             @Html.DropDownList("Id", Model.MenuItems, new { @class = "form-control" })

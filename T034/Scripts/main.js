@@ -23,7 +23,9 @@
         'load-image-meta': '/Scripts/lib/jQuery.FileUpload/load-image/load-image-meta',
         'load-image-exif': ['/Scripts/lib/jQuery.FileUpload/load-image/load-image-meta', '/Scripts/lib/jQuery.FileUpload/load-image/load-image-exif'],
         'canvas-to-blob': '/Scripts/lib/jQuery.FileUpload/canvas-to-blob/canvas-to-blob',
-        'tmpl': '/Scripts/lib/jQuery.FileUpload/tmpl'
+        'tmpl': '/Scripts/lib/jQuery.FileUpload/tmpl',
+        
+        'layout': 'app/layout'
     },
     shim: {
         jqueryui: {
