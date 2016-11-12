@@ -13,6 +13,7 @@ namespace Db.Services
     {
         IEnumerable<MenuItemDto> Select();
         MenuItemDto ByUrl(string url);
+        OperationResult Delete(int menuItemId);
     }
 
     public class MenuItemService : IMenuItemService
@@ -34,5 +35,26 @@ namespace Db.Services
             var dto = Mapper.Map<MenuItemDto>(item);
             return dto;
         }
+
+        public OperationResult Delete(int menuItemId)
+        {
+            if(Db.Where<MenuItem>(m => m.Parent.Id == menuItemId).Any())
+                return new OperationResult { Status = StatusOperation.Error, Message = "Существует пункт меню, у которого удаляемый является родителем"};
+
+            var item = Db.Get<MenuItem>(menuItemId);
+            var result = Db.Delete(item);
+            return new OperationResult { Status = StatusOperation.Success };
+        }
+    }
+
+    public class OperationResult
+    {
+        public StatusOperation Status { get; set; }
+        public string Message { get; set; }
+    }
+    public enum StatusOperation
+    {
+        Success,
+        Error
     }
 }
