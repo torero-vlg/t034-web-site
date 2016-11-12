@@ -267,9 +267,8 @@ section {
     margin: 0 !important;
     font-family: Times New Roman, "Trebuchet MS", Verdana, Helvetica, Sans-Serif !important;
     background: linear-gradient(180deg, #033903 45%, #068906);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: table;
+    -webkit-background-clip: text;
+    display: table;
     font-weight: bold;
 }
 .main-menu a:hover {
@@ -282,7 +281,6 @@ section {
 .content {
     border: 15px solid #ff8c00;
     border-image: url(pic/border.png) 15 stretch stretch;
-    height: 500px;
 }
 
 .navbar {
