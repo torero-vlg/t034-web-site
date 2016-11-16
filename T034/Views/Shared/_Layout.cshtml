@@ -76,7 +76,8 @@
                 }
                 <div class="style-menu">
                     <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png" /> Версия для слабовидящих</a>
-                    @{if (Request.Cookies["auth"] != null && string.IsNullOrEmpty(Request.Cookies["auth"].Value))
+                    @{
+                        if (Request.Cookies["auth"] == null || string.IsNullOrEmpty(Request.Cookies["auth"].Value))
                         {
                             <span class="pull-right"><a href="@Url.Action("Logon", "Account")"><i class="fa fa-sign-in" aria-hidden="true"></i></a></span>
                         }
