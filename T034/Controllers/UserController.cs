@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Dto;
-using Db.Entity.Administration;
 using Db.Services.Administration;
 using Ninject;
 using OAuth2;
@@ -87,7 +86,7 @@ namespace T034.Controllers
         {
             var model = new UserViewModel();
 
-            var item = Db.Get<User>(id);
+            var item = UserService.Get(id);
             if (item == null)
             {
                 return View("ServerError", (object)"Страница не найдена");

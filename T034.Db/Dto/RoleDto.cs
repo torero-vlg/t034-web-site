@@ -1,9 +1,9 @@
-﻿namespace Db.Dto
-{
-    public class RoleDto
-    {
-        public int Id { get; set; }
+﻿using Db.Dto.Common;
 
+namespace Db.Dto
+{
+    public class RoleDto : AbstractDto<int>
+    {
         public string Name { get; set; }
 
         public string Code { get; set; }

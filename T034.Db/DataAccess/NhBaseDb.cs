@@ -16,7 +16,27 @@ namespace Db.DataAccess
             SessionFactory = sessionFactory;
         }
 
+        [Obsolete("Использовать Get<T>(object id)")]
         public T Get<T>(int id) where T : Entity.Entity
+        {
+            Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {id}");
+
+            using (var session = SessionFactory.OpenSession())
+            {
+                try
+                {
+                    return session.Get<T>(id);
+
+                }
+                catch (Exception ex)
+                {
+                    Logger.Fatal(ex);
+                    throw;
+                }
+            }
+        }
+
+        public T Get<T>(object id) where T : Entity.Entity
         {
             Logger.Trace($"{System.Reflection.MethodBase.GetCurrentMethod().Name}<{typeof(T)}>.Параметры: {id}");
 

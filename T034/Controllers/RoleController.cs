@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
-using Db.Entity.Administration;
+using Db.Dto;
+using Db.Services.Administration;
+using Ninject;
 using OAuth2;
 using T034.ViewModel;
 
@@ -10,6 +12,9 @@ namespace T034.Controllers
 {
     public class RoleController : BaseController
     {
+        [Inject]
+        public IRoleService RoleService { get; set; }
+
         public RoleController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
         {
         }
@@ -19,10 +24,9 @@ namespace T034.Controllers
         {
             try
             {
-                var items = Db.Select<Role>();
-
+                var list = RoleService.Select();
                 var model = new List<RoleViewModel>();
-                model = Mapper.Map(items, model);
+                model = Mapper.Map(list, model);
 
                 return View(model);
             }
@@ -40,8 +44,8 @@ namespace T034.Controllers
             var model = new RoleViewModel();
             if (id.HasValue)
             {
-                var item = Db.Get<Role>(id.Value);
-                model = Mapper.Map(item, model);
+                var dto = RoleService.Get(id.Value);
+                model = Mapper.Map(dto, model);
             }
 
             return View(model);
@@ -50,14 +54,15 @@ namespace T034.Controllers
         [Tools.Attribute.Role("Administrator")]
         public ActionResult AddOrEdit(RoleViewModel model)
         {
-            var item = new Role();
             if (model.Id > 0)
             {
-                item = Db.Get<Role>(model.Id);
+                RoleService.Update(Mapper.Map<RoleDto>(model));
             }
-            item = Mapper.Map(model, item);
+            else
+            {
+                RoleService.Create(Mapper.Map<RoleDto>(model));
+            }
 
-            var result = Db.SaveOrUpdate(item);
 
             return RedirectToAction("List");
         }
@@ -67,7 +72,7 @@ namespace T034.Controllers
         {
             var model = new RoleViewModel();
 
-            var item = Db.Get<Role>(id);
+            var item = RoleService.Get(id);
             if (item == null)
             {
                 return View("ServerError", (object)"Страница не найдена");
