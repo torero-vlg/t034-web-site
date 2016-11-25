@@ -65,7 +65,7 @@ namespace Db.Services.Administration
             item = Db.Get<User>(dto.Id);
             item = Mapper.Map(dto, item);
 
-            if (dto.Password != "")
+            if(!string.IsNullOrEmpty(dto.Password))
             {
                 item.ChangePassword(dto.Password);
             }
