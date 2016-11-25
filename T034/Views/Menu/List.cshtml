@@ -27,8 +27,8 @@
         <td>@item.Parent</td>
         <td>@item.OrderIndex</td>
         <td>
-            <a href="@Url.Action("AddOrEdit", "Menu", new { id = item.Id})" title="Редактировать"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-            <a href="@Url.Action("Delete", "Menu", new { menuItemId = item.Id})" title="Удалить"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+            <a href="@Url.Action("AddOrEdit", new { id = item.Id})" title="Редактировать"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            <a href="@Url.Action("Delete", new { menuItemId = item.Id})" title="Удалить"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
         </td>
       </tr>
     }

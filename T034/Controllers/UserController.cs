@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using Db.Dto;
+using Db.Services;
 using Db.Services.Administration;
+using Db.Services.Common;
 using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
@@ -94,6 +96,26 @@ namespace T034.Controllers
             model = Mapper.Map(item, model);
 
             return View(model);
+        }
+
+        [Role("Administrator")]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var result = UserService.Delete(id);
+                if (result.Status != StatusOperation.Success)
+                {
+                    Logger.Error(result.Message);
+                    return View("ServerError", (object)result.Message);
+                }
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return View("ServerError", (object)"Ошибка");
+            }
         }
     }
 }

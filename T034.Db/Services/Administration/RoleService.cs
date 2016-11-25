@@ -12,6 +12,7 @@ namespace Db.Services.Administration
         Role Update(RoleDto dto);
         IEnumerable<RoleDto> Select();
         RoleDto Get(object id);
+        OperationResult Delete(object id);
     }
 
     public class RoleService : AbstractRepository<Role, RoleDto, int>, IRoleService

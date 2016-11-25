@@ -14,6 +14,7 @@ namespace Db.Services.Administration
         User Update(UserDto dto);
         IEnumerable<UserDto> Select();
         UserDto Get(object id);
+        OperationResult Delete(object id);
     }
 
     public class UserService : AbstractRepository<User, UserDto, int>, IUserService

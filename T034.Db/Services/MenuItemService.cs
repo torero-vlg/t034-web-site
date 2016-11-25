@@ -46,15 +46,4 @@ namespace Db.Services
             return new OperationResult { Status = StatusOperation.Success };
         }
     }
-
-    public class OperationResult
-    {
-        public StatusOperation Status { get; set; }
-        public string Message { get; set; }
-    }
-    public enum StatusOperation
-    {
-        Success,
-        Error
-    }
 }

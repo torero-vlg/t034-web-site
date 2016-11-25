@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Db.DataAccess;
 using Db.Dto.Common;
@@ -47,6 +48,22 @@ namespace Db.Services.Common
             var item = Db.Get<TEntity>(id);
             dto = Mapper.Map(item, dto);
             return dto;
+        }
+
+        public OperationResult Delete(object id)
+        {
+            try
+            {
+                var entity = Db.Get<TEntity>(id);
+                var result = Db.Delete(entity);
+                if(result)
+                    return new OperationResult { Status = StatusOperation.Success };
+                return new OperationResult { Status = StatusOperation.InternalError, Message = "Удаление завершилось с ошибкой" };
+            }
+            catch (Exception)
+            {
+                return new OperationResult { Status = StatusOperation.InternalError, Message = "Произошла внутренняя ошибка" };
+            }
         }
     }
 }

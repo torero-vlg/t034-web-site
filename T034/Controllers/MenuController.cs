@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
 using Db.Services;
+using Db.Services.Common;
 using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;

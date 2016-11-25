@@ -131,6 +131,8 @@
     <Compile Include="Services\Administration\UserService.cs" />
     <Compile Include="Services\Common\AbstractRepository.cs" />
     <Compile Include="Services\Common\IService.cs" />
+    <Compile Include="Services\Common\OperationResult.cs" />
+    <Compile Include="Services\Common\StatusOperation.cs" />
     <Compile Include="Services\MenuItemService.cs" />
   </ItemGroup>
   <ItemGroup>
