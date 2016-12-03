@@ -40,7 +40,7 @@ namespace T034.Controllers
         }
 
         [HttpGet]
-        [Tools.Attribute.Role("Administrator")]
+        [Role("Administrator")]
         public ActionResult AddOrEdit(int? id)
         {
             var model = new RoleViewModel();
