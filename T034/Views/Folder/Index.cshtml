@@ -20,6 +20,11 @@
     {
         foreach (var item in Model.SubDirectories)
         {
+            if (string.IsNullOrEmpty(item.Name))
+            {
+                item.Name = "<Без имени>";
+            }
+            
             <div class="list-group">
                 @Html.ActionLink(item.Name, "Index", "Folder", new {id = item.Id}, new {@class = "list-group-item active"})
                 @foreach (var fileViewModel in item.Files)

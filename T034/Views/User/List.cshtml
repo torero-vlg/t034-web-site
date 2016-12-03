@@ -22,7 +22,10 @@
     <tr>
         <td>@item.Name</td>
         <td>@item.Email</td>
-        <td>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })</td>
+        <td>
+            <a href="@Url.Action("AddOrEdit", new { id = item.Id})" title="Редактировать"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            <a href="@Url.Action("Delete", new { id = item.Id})" title="Удалить"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+        </td>
       </tr>
     }
     </tbody>

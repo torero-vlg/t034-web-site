@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using Db.Dto.Common;
 
 namespace Db.Dto
 {
-    public class UserDto
+    public class UserDto : AbstractDto<int>
     {
         public UserDto()
         {
             UserRoles = new List<RoleDto>();
         }
-
-        public int Id { get; set; }
 
         public string Name { get; set; }
 

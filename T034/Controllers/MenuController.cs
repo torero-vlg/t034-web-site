@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
 using Db.Services;
+using Db.Services.Common;
 using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
@@ -116,6 +117,26 @@ namespace T034.Controllers
             var result = Db.SaveOrUpdate(item);
 
             return RedirectToAction("List");
+        }
+
+        [Role("Administrator")]
+        public ActionResult Delete(int menuItemId)
+        {
+            try
+            {
+                var result = MenuItemService.Delete(menuItemId);
+                if (result.Status == StatusOperation.Error)
+                {
+                    Logger.Error(result.Message);
+                    return View("ServerError", (object)result.Message);
+                }
+                return RedirectToAction("List");
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return View("ServerError", (object)"Получение списка");
+            }
         }
     }
 }

@@ -101,6 +101,8 @@
     <Compile Include="DataAccess\NhBaseDb.cs" />
     <Compile Include="DataAccess\NhBaseMessageDb.cs" />
     <Compile Include="DataAccess\IBaseMessageDb.cs" />
+    <Compile Include="Dto\Common\AbstractDto.cs" />
+    <Compile Include="Dto\Common\IDto.cs" />
     <Compile Include="Dto\MenuItemDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\UserDto.cs" />
@@ -127,7 +129,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Administration\RoleService.cs" />
     <Compile Include="Services\Administration\UserService.cs" />
+    <Compile Include="Services\Common\AbstractRepository.cs" />
     <Compile Include="Services\Common\IService.cs" />
+    <Compile Include="Services\Common\OperationResult.cs" />
+    <Compile Include="Services\Common\StatusOperation.cs" />
     <Compile Include="Services\MenuItemService.cs" />
   </ItemGroup>
   <ItemGroup>

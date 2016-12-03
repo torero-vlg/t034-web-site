@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Db.DataAccess;
 using Db.Dto;
 using Db.Entity.Administration;
 using Db.Services.Common;
-using Ninject;
 
 namespace Db.Services.Administration
 {
@@ -15,18 +13,15 @@ namespace Db.Services.Administration
         AuthenticateResult Authenticate(string email, string password);
         User Update(UserDto dto);
         IEnumerable<UserDto> Select();
-        UserDto Get(int id);
+        UserDto Get(object id);
+        OperationResult Delete(object id);
     }
 
-    public class UserService : IUserService
+    public class UserService : AbstractRepository<User, UserDto, int>, IUserService
     {
-        [Inject]
-        public IBaseDb Db { get; set; }
-
         public User Create(string name, string email, string password)
         {
             var user = new User(email, name, password);
-
             var result = Db.SaveOrUpdate(user);
             return user;
         }
@@ -59,13 +54,13 @@ namespace Db.Services.Administration
             return result;
         }
 
-        public User Update(UserDto dto)
+        public new User Update(UserDto dto)
         {
             var item = new User();
-            item = Db.Get<User>(dto.Id);
+            item = Db.Get<User>((object)dto.Id);
             item = Mapper.Map(dto, item);
 
-            if (dto.Password != "")
+            if(!string.IsNullOrEmpty(dto.Password))
             {
                 item.ChangePassword(dto.Password);
             }
@@ -73,22 +68,6 @@ namespace Db.Services.Administration
             var result = Db.SaveOrUpdate(item);
 
             return item;
-        }
-
-        public IEnumerable<UserDto> Select()
-        {
-            var list = new List<UserDto>();
-            var items = Db.Select<User>();
-            list = Mapper.Map(items, list);
-            return list;
-        }
-
-        public UserDto Get(int id)
-        {
-            var dto = new UserDto();
-            var item = Db.Get<User>(id);
-            dto = Mapper.Map(item, dto);
-            return dto;
         }
     }
 
