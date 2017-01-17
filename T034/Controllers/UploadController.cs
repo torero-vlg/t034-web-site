@@ -31,7 +31,8 @@ namespace T034.Controllers
             var appData = Server.MapPath("~/Upload/Images");//TODO перенести путь в config
             var images = Directory.GetFiles(appData).Select(x => new ImageViewModel
             {
-                Url = Url.Content("/Upload/Images/" + Path.GetFileName(x))//TODO перенести путь в config
+                Url = Url.Content("/Upload/Images/" + Path.GetFileName(x)),//TODO перенести путь в config
+                Alt = Path.GetFileName(x)
             });
             return View(images);
         }
