@@ -111,6 +111,7 @@
     <Compile Include="Entity\Administration\User.cs" />
     <Compile Include="Entity\Folder.cs" />
     <Compile Include="Entity\Files.cs" />
+    <Compile Include="Entity\Newsline.cs" />
     <Compile Include="Entity\Setting.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Finder\Finder.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Mapping\Administration\UserMap.cs" />
     <Compile Include="Mapping\FilesMap.cs" />
     <Compile Include="Mapping\FolderMap.cs" />
+    <Compile Include="Mapping\NewslineMap.cs" />
     <Compile Include="Mapping\SettingMap.cs" />
     <Compile Include="Mapping\NewsMap.cs" />
     <Compile Include="Mapping\PageMap.cs" />
