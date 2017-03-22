@@ -1,0 +1,21 @@
+﻿@model IEnumerable<T034.ViewModel.NewsViewModel>
+
+    @{
+    ViewBag.Title = "СДЮСШОР №9 - Волгоград";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Новости</h2>
+
+    <div>
+        @foreach (var item in Model)
+        {
+        <div><h4>@Html.ActionLink(item.Title, "Index", new { id = item.Id })</h4></div>
+        <div><h6>Добавил @item.UserName @item.LogDate</h6></div>
+        <div>@Html.Raw(@item.Resume)</div>
+        <div>@Html.ActionLink("Подробнее", "Index", new { id = item.Id }, new { @class = "mm" })</div>
+
+        <hr />
+        }
+    </div>
+

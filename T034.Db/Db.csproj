@@ -94,6 +94,8 @@
     <Compile Include="Api\UserService.cs" />
     <Compile Include="Api\SettingService.cs" />
     <Compile Include="AutoMapper\AutoMapperConfiguration.cs" />
+    <Compile Include="AutoMapper\NewsProfile.cs" />
+    <Compile Include="AutoMapper\NewslineProfile.cs" />
     <Compile Include="AutoMapper\RoleProfile.cs" />
     <Compile Include="AutoMapper\MenuItemProfile.cs" />
     <Compile Include="AutoMapper\UserProfile.cs" />
@@ -103,6 +105,8 @@
     <Compile Include="DataAccess\IBaseMessageDb.cs" />
     <Compile Include="Dto\Common\AbstractDto.cs" />
     <Compile Include="Dto\Common\IDto.cs" />
+    <Compile Include="Dto\NewsDto.cs" />
+    <Compile Include="Dto\NewslineDto.cs" />
     <Compile Include="Dto\MenuItemDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\UserDto.cs" />
@@ -136,6 +140,7 @@
     <Compile Include="Services\Common\OperationResult.cs" />
     <Compile Include="Services\Common\StatusOperation.cs" />
     <Compile Include="Services\MenuItemService.cs" />
+    <Compile Include="Services\NewslineService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\Directory\" />

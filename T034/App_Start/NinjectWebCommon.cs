@@ -79,6 +79,7 @@ namespace T034.App_Start
             kernel.Bind<Db.Services.Administration.IUserService>().To<Db.Services.Administration.UserService>().InRequestScope();
             kernel.Bind<Db.Services.Administration.IRoleService>().To<Db.Services.Administration.RoleService>().InRequestScope();
             kernel.Bind<IMenuItemService>().To<MenuItemService>().InRequestScope();
+            kernel.Bind<INewslineService>().To<NewslineService>().InRequestScope();
 
         }
 

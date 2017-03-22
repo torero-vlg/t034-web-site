@@ -1,0 +1,31 @@
+﻿@model IEnumerable<T034.ViewModel.NewslineViewModel>
+
+    @{
+    ViewBag.Title = "Новостные ленты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    @Html.ActionLink("Добавить", "AddOrEdit", "Newsline")
+
+    <h2>Новостные ленты</h2>
+
+    <table id="newslineTable" class="display">
+        <thead>
+            <tr>
+                <th>Наименование</th>
+                <th>Операции</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    @Html.ActionLink("Подробнее", "Index", new { id = item.Id })
+                    @Html.ActionLink("Редактировать", "AddOrEdit", new { id = item.Id })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+

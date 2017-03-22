@@ -8,18 +8,23 @@
 {
     <legend>Редактирование новости</legend>
     <div class="control-group warning">
-        <label class="control-label">Заголовок</label>
+        <label class="control-label">@Html.LabelFor(m => m.NewslineId)</label>
         <div>
-            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.NewslineId, Model.Newslines, new {@class = "form-control"})
+        </div>
+
+        <label class="control-label">@Html.LabelFor(m => m.Title)</label>
+        <div>
+            @Html.TextBoxFor(m => m.Title, new {@class = "form-control"})
             @Html.HiddenFor(m => m.Id)
         </div>
 
-        <label class="control-label">Краткое описание</label>
+        <label class="control-label">@Html.LabelFor(m => m.Resume)</label>
         <div>
             @Html.TextBoxFor(m => m.Resume)
         </div>
-    
-        <label class="control-label">Содержание</label>
+
+        <label class="control-label">@Html.LabelFor(m => m.Body)</label>
         <div>
             @Html.TextAreaFor(m => m.Body)
         </div>
