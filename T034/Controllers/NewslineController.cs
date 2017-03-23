@@ -91,7 +91,7 @@ namespace T034.Controllers
                 var model = new List<NewsViewModel>();
                 model = Mapper.Map<List<NewsViewModel>>(items);
 
-                return View(model);
+                return View(model.OrderBy(m => m.LogDate));
             }
             catch (Exception ex)
             {
