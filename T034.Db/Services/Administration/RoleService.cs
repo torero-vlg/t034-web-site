@@ -8,8 +8,8 @@ namespace Db.Services.Administration
 {
     public interface IRoleService : IService
     {
-        Role Create(RoleDto dto);
-        Role Update(RoleDto dto);
+        RoleDto Create(RoleDto dto);
+        RoleDto Update(RoleDto dto);
         IEnumerable<RoleDto> Select();
         RoleDto Get(object id);
         OperationResult Delete(object id);

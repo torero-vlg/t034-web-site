@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using AutoMapper;
 using Db.Entity;
 using Db.Entity.Administration;
+using Db.Services;
+using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
@@ -13,6 +15,9 @@ namespace T034.Controllers
 {
     public class NewsController : BaseController
     {
+        [Inject]
+        public INewslineService NewslineService { get; set; }
+
         public NewsController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
         {
         }
@@ -77,6 +82,17 @@ namespace T034.Controllers
             {
                 var item = Db.Get<News>(id.Value);
                 model = Mapper.Map(item, model);
+            }
+
+            //TODO дублирует код из FolderController
+            var newslines = NewslineService.Select();
+            model.Newslines = Mapper.Map<ICollection<SelectListItem>>(newslines);
+
+            var newsline = NewslineService.Get(model.NewslineId);
+            if (newsline != null)
+            {
+                var selected = model.Newslines.FirstOrDefault(m => m.Value == newsline.Id.ToString());
+                selected.Selected = true;
             }
 
             return View(model);

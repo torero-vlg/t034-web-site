@@ -161,6 +161,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="AutoMapper\AutoMapperWebConfiguration.cs" />
     <Compile Include="AutoMapper\FilesProfile.cs" />
+    <Compile Include="AutoMapper\NewslineProfile.cs" />
     <Compile Include="AutoMapper\SettingProfile.cs" />
     <Compile Include="AutoMapper\MenuItemProfile.cs" />
     <Compile Include="AutoMapper\NewsProfile.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\NewslineController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
@@ -207,6 +209,7 @@
     <Compile Include="ViewModel\FirstUserViewModel.cs" />
     <Compile Include="ViewModel\LoginInfoModel.cs" />
     <Compile Include="ViewModel\LogonViewModel.cs" />
+    <Compile Include="ViewModel\NewslineViewModel.cs" />
     <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\FileViewModel.cs" />
@@ -374,6 +377,9 @@
     <Content Include="Scripts\app\folder\index.js" />
     <Content Include="Scripts\app\folder\edit.js" />
     <Content Include="Scripts\app\account\logon.js" />
+    <Content Include="Scripts\app\newsline\addoredit.js" />
+    <Content Include="Scripts\app\newsline\index.js" />
+    <Content Include="Scripts\app\newsline\list.js" />
     <Content Include="Scripts\app\upload\export.js" />
     <Content Include="Scripts\app\user\addoredit.js" />
     <Content Include="Scripts\app\user\list.js" />
@@ -851,6 +857,9 @@
     <Content Include="Views\Upload\Export.cshtml" />
     <Content Include="Scripts\lib\jQuery.FileUpload\vendor\jquery.ui.widget.js" />
     <Content Include="Views\Account\Auth.cshtml" />
+    <Content Include="Views\Newsline\AddOrEdit.cshtml" />
+    <Content Include="Views\Newsline\Index.cshtml" />
+    <Content Include="Views\Newsline\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />

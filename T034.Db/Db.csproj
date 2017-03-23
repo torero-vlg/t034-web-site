@@ -94,6 +94,8 @@
     <Compile Include="Api\UserService.cs" />
     <Compile Include="Api\SettingService.cs" />
     <Compile Include="AutoMapper\AutoMapperConfiguration.cs" />
+    <Compile Include="AutoMapper\NewsProfile.cs" />
+    <Compile Include="AutoMapper\NewslineProfile.cs" />
     <Compile Include="AutoMapper\RoleProfile.cs" />
     <Compile Include="AutoMapper\MenuItemProfile.cs" />
     <Compile Include="AutoMapper\UserProfile.cs" />
@@ -103,6 +105,8 @@
     <Compile Include="DataAccess\IBaseMessageDb.cs" />
     <Compile Include="Dto\Common\AbstractDto.cs" />
     <Compile Include="Dto\Common\IDto.cs" />
+    <Compile Include="Dto\NewsDto.cs" />
+    <Compile Include="Dto\NewslineDto.cs" />
     <Compile Include="Dto\MenuItemDto.cs" />
     <Compile Include="Dto\RoleDto.cs" />
     <Compile Include="Dto\UserDto.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="Entity\Administration\User.cs" />
     <Compile Include="Entity\Folder.cs" />
     <Compile Include="Entity\Files.cs" />
+    <Compile Include="Entity\Newsline.cs" />
     <Compile Include="Entity\Setting.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\Finder\Finder.cs" />
@@ -121,6 +126,7 @@
     <Compile Include="Mapping\Administration\UserMap.cs" />
     <Compile Include="Mapping\FilesMap.cs" />
     <Compile Include="Mapping\FolderMap.cs" />
+    <Compile Include="Mapping\NewslineMap.cs" />
     <Compile Include="Mapping\SettingMap.cs" />
     <Compile Include="Mapping\NewsMap.cs" />
     <Compile Include="Mapping\PageMap.cs" />
@@ -134,6 +140,7 @@
     <Compile Include="Services\Common\OperationResult.cs" />
     <Compile Include="Services\Common\StatusOperation.cs" />
     <Compile Include="Services\MenuItemService.cs" />
+    <Compile Include="Services\NewslineService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\Directory\" />

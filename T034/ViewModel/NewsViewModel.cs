@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace T034.ViewModel
 {
@@ -19,5 +21,12 @@ namespace T034.ViewModel
         public virtual int UserId { get; set; }
         [DisplayName("Автор")]
         public virtual string UserName { get; set; }
+
+        public ICollection<SelectListItem> Newslines { get; set; }
+
+        [DisplayName("Новостная лента")]
+        public int NewslineId { get; set; }
+        [DisplayName("Новостная лента")]
+        public string Newsline { get; set; }
     }
 }

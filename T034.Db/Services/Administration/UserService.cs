@@ -9,9 +9,9 @@ namespace Db.Services.Administration
 {
     public interface IUserService : IService
     {
-        User Create(string name, string email, string password);
+        UserDto Create(string name, string email, string password);
         AuthenticateResult Authenticate(string email, string password);
-        User Update(UserDto dto);
+        UserDto Update(UserDto dto);
         IEnumerable<UserDto> Select();
         UserDto Get(object id);
         OperationResult Delete(object id);
@@ -19,11 +19,11 @@ namespace Db.Services.Administration
 
     public class UserService : AbstractRepository<User, UserDto, int>, IUserService
     {
-        public User Create(string name, string email, string password)
+        public UserDto Create(string name, string email, string password)
         {
             var user = new User(email, name, password);
             var result = Db.SaveOrUpdate(user);
-            return user;
+            return Mapper.Map<UserDto>(user);
         }
 
         public AuthenticateResult Authenticate(string email, string password)
@@ -54,7 +54,7 @@ namespace Db.Services.Administration
             return result;
         }
 
-        public new User Update(UserDto dto)
+        public new UserDto Update(UserDto dto)
         {
             var item = new User();
             item = Db.Get<User>((object)dto.Id);
@@ -67,7 +67,7 @@ namespace Db.Services.Administration
 
             var result = Db.SaveOrUpdate(item);
 
-            return item;
+            return Mapper.Map<UserDto>(item);
         }
     }
 

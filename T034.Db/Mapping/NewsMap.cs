@@ -15,6 +15,8 @@ namespace Db.Mapping
             Map(p => p.LogDate);
             References(p => p.User).Column("UserId")
                 .Not.LazyLoad();
+            References(p => p.Newsline).Column("NewslineId")
+                .Not.LazyLoad();
         }
     }
 }
