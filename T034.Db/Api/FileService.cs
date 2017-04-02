@@ -6,7 +6,6 @@ using System.Web;
 using Db.Api.Common;
 using Db.Api.Common.Exceptions;
 using Db.Api.Common.FileUpload;
-using Db.Dto;
 using Db.Entity;
 using Db.Entity.Administration;
 using NLog;
@@ -19,7 +18,7 @@ namespace Db.Api
         /// Загрузить файлы
         /// </summary>
         /// <returns></returns>
-        List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email);
+        List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email, int? folderId = null);
 
         /// <summary>
         /// Удалить файл
@@ -52,7 +51,7 @@ namespace Db.Api
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email)
+        public List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email, int? folderId = null)
         {
             var r = new List<ViewDataUploadFilesResult>();
             var uploader = new Uploader(path);
@@ -90,7 +89,7 @@ namespace Db.Api
                                 Name = filesResult.name,
                                 Size = filesResult.size,
                                 User = new User { Id = userFromDb.Id },
-                                Folder = new Folder { Id = int.Parse(request.Files.Keys[0]) }
+                                Folder = folderId.HasValue ? new Folder { Id = folderId.Value } : null
                             };
 
                             Db.SaveOrUpdate(item);

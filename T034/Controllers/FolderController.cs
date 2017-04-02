@@ -116,7 +116,7 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
-            var r = FileService.Upload(path, Request, UserInfo.Email);
+            var r = FileService.Upload(path, Request, UserInfo.Email, int.Parse(Request.Files.Keys[0]));
             //TODO надо что-то возвращать
             return Json(r);
         }
