@@ -6,7 +6,28 @@ namespace T034.Controllers
     {
         public ActionResult Unauthorized()
         {
-            return View("ServerError", (object)"Недостаточно прав");
+            if (!Request.IsAjaxRequest())
+                return View();
+
+
+            return Json(new { });
+        }
+
+        public ActionResult NotFound()
+        {
+            if (!Request.IsAjaxRequest())
+                return View();
+
+
+            return Json(new { });
+        }
+
+        public ActionResult InternalServerError()
+        {
+            if (!Request.IsAjaxRequest())
+                return View();
+
+            return Json(new { });
         }
     }
 }

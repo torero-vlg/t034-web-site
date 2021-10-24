@@ -853,6 +853,9 @@
     <Content Include="Views\Newsline\AddOrEdit.cshtml" />
     <Content Include="Views\Newsline\Index.cshtml" />
     <Content Include="Views\Newsline\List.cshtml" />
+    <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Errors\InternalServerError.cshtml" />
+    <Content Include="Views\Errors\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
