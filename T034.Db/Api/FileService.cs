@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using Db.Api.Common;
 using Db.Api.Common.Exceptions;
-using Db.Api.Common.FileUpload;
+using Db.Dto;
 using Db.Entity;
 using Db.Entity.Administration;
 using NLog;
@@ -15,10 +13,10 @@ namespace Db.Api
     public interface IFileService
     {
         /// <summary>
-        /// Загрузить файлы
+        /// Добавить записи о файлах в БД
         /// </summary>
         /// <returns></returns>
-        List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email, int? folderId = null);
+        void AddFile(IEnumerable<FileDto> files, string email, int? folderId = null);
 
         /// <summary>
         /// Удалить файл
@@ -51,59 +49,40 @@ namespace Db.Api
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public List<ViewDataUploadFilesResult> Upload(string path, HttpRequestBase request, string email, int? folderId = null)
+        public void AddFile(IEnumerable<FileDto> files, string email, int? folderId = null)
         {
-            var r = new List<ViewDataUploadFilesResult>();
-            var uploader = new Uploader(path);
-            if (request.Files.Cast<string>().Any())
+            try
             {
-                try
+                //найдём пользователя в БД
+                var userFromDb = Db.SingleOrDefault<User>(u => u.Email == email);
+                if (userFromDb != null)
                 {
-                    var statuses = new List<ViewDataUploadFilesResult>();
-                    var headers = request.Headers;
-                    if (string.IsNullOrEmpty(headers["X-File-Name"]))
+                    foreach (var file in files)
                     {
-                        uploader.UploadWholeFile(request, statuses);
-                    }
-                    else
-                    {
-                        uploader.UploadPartialFile(headers["X-File-Name"], request, statuses);
-                    }
-                    //JsonResult result = Json(statuses);
-                    //result.ContentType = "text/plain";
+                        //TODO выделить в метод репозитория, запускать в одной транзакции
+                        var fileByName = Db.SingleOrDefault<Files>(f => f.Name == file.Name);
+                        if (fileByName != null)
+                            Db.Delete(fileByName);
 
-                    //найдём пользователя в БД
-                    var userFromDb = Db.SingleOrDefault<User>(u => u.Email == email);
-                    if (userFromDb != null)
-                    {
-                        foreach (var filesResult in statuses)
+                        var item = new Files
                         {
-                            //TODO выделить в метод репозитория, запускать в одной транзакции
-                            var fileByName = Db.SingleOrDefault<Files>(f => f.Name == filesResult.name);
-                            if (fileByName != null)
-                                Db.Delete(fileByName);
+                            LogDate = DateTime.Now,
+                            Name = file.Name,
+                            Size = file.Size,
+                            User = new User { Id = userFromDb.Id },
+                            Folder = folderId.HasValue ? new Folder { Id = folderId.Value } : null
+                        };
 
-                            var item = new Files
-                            {
-                                LogDate = DateTime.Now,
-                                Name = filesResult.name,
-                                Size = filesResult.size,
-                                User = new User { Id = userFromDb.Id },
-                                Folder = folderId.HasValue ? new Folder { Id = folderId.Value } : null
-                            };
-
-                            Db.SaveOrUpdate(item);
-                        }
+                        Db.SaveOrUpdate(item);
                     }
+                }
 
-                }
-                catch (Exception ex)
-                {
-                    _logger.Fatal(ex);
-                    throw;
-                }
             }
-            return r;
+            catch (Exception ex)
+            {
+                _logger.Fatal(ex);
+                throw;
+            }
         }
 
         public Folder DeleteFile(int id, string filesFolder)

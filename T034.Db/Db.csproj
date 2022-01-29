@@ -82,12 +82,11 @@
     <Compile Include="AbstractDbFactory.cs" />
     <Compile Include="Api\Common\AbstractService.cs" />
     <Compile Include="Api\Common\Exceptions\BusinessException.cs" />
-    <Compile Include="Api\Common\FileUpload\Uploader.cs" />
-    <Compile Include="Api\Common\FileUpload\ViewDataUploadFilesResult.cs" />
     <Compile Include="Api\Common\Exceptions\UserNotFoundException.cs" />
     <Compile Include="Api\FileService.cs" />
     <Compile Include="Api\UserService.cs" />
     <Compile Include="Api\SettingService.cs" />
+    <Compile Include="Dto\FileDto.cs" />
     <Compile Include="Profiles\AutoMapperConfiguration.cs" />
     <Compile Include="Profiles\NewsProfile.cs" />
     <Compile Include="Profiles\NewslineProfile.cs" />

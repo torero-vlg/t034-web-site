@@ -193,6 +193,7 @@
     <Compile Include="Tools\Auth\UserProvider.cs" />
     <Compile Include="Tools\Auth\YandexAuth.cs" />
     <Compile Include="Tools\HttpTools.cs" />
+    <Compile Include="Tools\IO\FileUploader.cs" />
     <Compile Include="Tools\SerializeTools.cs" />
     <Compile Include="ViewModel\FirstUserViewModel.cs" />
     <Compile Include="ViewModel\LoginInfoModel.cs" />
