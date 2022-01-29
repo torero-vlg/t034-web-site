@@ -29,7 +29,9 @@ namespace T034.Profiles
 
 
 
-            CreateMap<NewsDto, NewsViewModel>();
+            CreateMap<NewsDto, NewsViewModel>()
+                  .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)));
+
             CreateMap<NewsViewModel, NewsDto>();
         }
     }

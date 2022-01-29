@@ -1,5 +1,4 @@
-﻿using System.Web;
-using AutoMapper;
+﻿using AutoMapper;
 using Db.Dto;
 using Db.Entity;
 using Db.Entity.Administration;
@@ -11,7 +10,6 @@ namespace Db.Profiles
         public NewsProfile()
         {
             CreateMap<News, NewsDto>()
-              .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)))
               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id))
               .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name))
               .ForMember(dest => dest.NewslineId, opt => opt.MapFrom(src => src.Newsline.Id))
