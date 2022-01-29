@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 
-namespace Db.DataAccess
+namespace T034.Core.DataAccess
 {
     /// <summary>
     /// Базовый класс по работе с сообщениями

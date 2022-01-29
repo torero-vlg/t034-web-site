@@ -1,4 +1,4 @@
-﻿namespace Db.Entity.Administration
+﻿namespace T034.Core.Entity.Administration
 {
     public class Role : Entity
     {

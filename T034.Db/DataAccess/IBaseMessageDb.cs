@@ -1,4 +1,4 @@
-﻿namespace Db.DataAccess
+﻿namespace T034.Core.DataAccess
 {
     /// <summary>
     /// Базовый интерфейс по работе с сообщениями

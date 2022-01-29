@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Db.DataAccess;
-using Db.Dto;
-using Db.Entity;
-using Db.Profiles;
-using Db.Services.Common;
+using T034.Core.DataAccess;
+using T034.Core.Dto;
+using T034.Core.Entity;
+using T034.Core.Profiles;
+using T034.Core.Services.Common;
 using Ninject;
 
-namespace Db.Services
+namespace T034.Core.Services
 {
     public interface IMenuItemService : IService
     {

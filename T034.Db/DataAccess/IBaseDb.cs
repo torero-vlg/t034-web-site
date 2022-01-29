@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Db.DataAccess
+namespace T034.Core.DataAccess
 {
     public interface IBaseDb
     {

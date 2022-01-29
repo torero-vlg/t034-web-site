@@ -1,5 +1,5 @@
 ﻿using System.Security.Principal;
-using Db.Entity.Administration;
+using T034.Core.Entity.Administration;
 using T034.Repository;
 
 namespace T034.Tools.Auth

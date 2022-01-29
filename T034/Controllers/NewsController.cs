@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Db.Entity;
-using Db.Entity.Administration;
-using Db.Services;
+using T034.Core.Entity;
+using T034.Core.Entity.Administration;
+using T034.Core.Services;
 using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;

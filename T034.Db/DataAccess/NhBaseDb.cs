@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using NHibernate;
 using NLog;
 
-namespace Db.DataAccess
+namespace T034.Core.DataAccess
 {
     public class NhBaseDb : IBaseDb
     {

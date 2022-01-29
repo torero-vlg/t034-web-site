@@ -1,4 +1,4 @@
-﻿namespace Db.Dto
+﻿namespace T034.Core.Dto
 {
     public class MenuItemDto
     {

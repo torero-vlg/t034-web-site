@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Db.Entity
+namespace T034.Core.Entity
 {
     /// <summary>
     /// Новостная лента

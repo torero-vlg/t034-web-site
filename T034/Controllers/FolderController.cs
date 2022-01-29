@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Db.Api;
-using Db.Api.Common.Exceptions;
-using Db.Entity;
-using Db.Services;
+using T034.Core.Api;
+using T034.Core.Api.Common.Exceptions;
+using T034.Core.Entity;
+using T034.Core.Services;
 using Ninject;
 using OAuth2;
 using OAuth2.Models;
@@ -118,7 +118,7 @@ namespace T034.Controllers
         {
             var result = Upload(Request);
             
-            FileService.AddFile(result.Select(f => new Db.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
+            FileService.AddFile(result.Select(f => new T034.Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
             //TODO надо что-то возвращать
             return Json(result);
         }

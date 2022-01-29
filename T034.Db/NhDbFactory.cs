@@ -1,14 +1,13 @@
 ﻿using System;
-using Db.DataAccess;
-using Db.Mapping;
+using T034.Core.DataAccess;
+using T034.Core.Mapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Context;
 using NLog;
 
-
-namespace Db
+namespace T034.Core
 {
     public class NhDbFactory : AbstractDbFactory
     {

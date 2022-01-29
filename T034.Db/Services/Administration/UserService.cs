@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Db.Dto;
-using Db.Entity.Administration;
-using Db.Services.Common;
+using T034.Core.Dto;
+using T034.Core.Entity.Administration;
+using T034.Core.Services.Common;
 
-namespace Db.Services.Administration
+namespace T034.Core.Services.Administration
 {
     public interface IUserService : IService
     {

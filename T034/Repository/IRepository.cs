@@ -1,4 +1,4 @@
-﻿using Db.Entity.Administration;
+﻿using T034.Core.Entity.Administration;
 
 namespace T034.Repository
 {

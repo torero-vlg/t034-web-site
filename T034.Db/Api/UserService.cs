@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Db.Api.Common;
-using Db.Entity.Administration;
+using T034.Core.Api.Common;
+using T034.Core.Entity.Administration;
 
-namespace Db.Api
+namespace T034.Core.Api
 {
     public interface IUserService
     {

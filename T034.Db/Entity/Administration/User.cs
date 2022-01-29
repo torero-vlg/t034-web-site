@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Db.Entity.Administration
+namespace T034.Core.Entity.Administration
 {
     public class User : Entity
     {

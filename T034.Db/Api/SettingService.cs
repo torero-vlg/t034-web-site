@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Db.Api.Common;
-using Db.Entity;
-using Db.Entity.Administration;
+using T034.Core.Api.Common;
+using T034.Core.Entity;
+using T034.Core.Entity.Administration;
 using NLog;
 
-namespace Db.Api
+namespace T034.Core.Api
 {
     public interface ISettingService
     {

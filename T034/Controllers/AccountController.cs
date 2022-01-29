@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Db.Entity.Administration;
+using T034.Core.Entity.Administration;
 using OAuth2;
 using OAuth2.Models;
 using T034.ViewModel;

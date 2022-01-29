@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Db.Dto;
-using Db.Entity;
+using T034.Core.Dto;
+using T034.Core.Entity;
 
 namespace Db.Profiles
 {

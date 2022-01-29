@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using AutoMapper;
 
-namespace Db.Profiles
+namespace T034.Core.Profiles
 {
     /// <summary>
     /// Конфигурация AutoMapper

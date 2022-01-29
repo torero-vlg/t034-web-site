@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Db.Dto;
-using Db.Entity.Administration;
+using T034.Core.Dto;
+using T034.Core.Entity.Administration;
 
-namespace Db.Profiles
+namespace T034.Core.Profiles
 {
     public class UserProfile : Profile
     {

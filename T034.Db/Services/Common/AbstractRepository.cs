@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
-using Db.DataAccess;
-using Db.Dto.Common;
-using Db.Profiles;
+using T034.Core.DataAccess;
+using T034.Core.Dto.Common;
+using T034.Core.Profiles;
 using Ninject;
 
-namespace Db.Services.Common
+namespace T034.Core.Services.Common
 {
     /// <summary>
     /// Основные операции справочника

@@ -1,4 +1,4 @@
-﻿namespace Db.Services.Common
+﻿namespace T034.Core.Services.Common
 {
     public enum StatusOperation
     {

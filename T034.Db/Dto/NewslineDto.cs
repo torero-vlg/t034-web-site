@@ -1,6 +1,6 @@
-﻿using Db.Dto.Common;
+﻿using T034.Core.Dto.Common;
 
-namespace Db.Dto
+namespace T034.Core.Dto
 {
     /// <summary>
     /// Новостная лента

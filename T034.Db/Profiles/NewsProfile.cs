@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Db.Dto;
-using Db.Entity;
-using Db.Entity.Administration;
+using T034.Core.Dto;
+using T034.Core.Entity;
+using T034.Core.Entity.Administration;
 
 namespace Db.Profiles
 {

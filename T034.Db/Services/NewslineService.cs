@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using Db.Dto;
-using Db.Entity;
-using Db.Services.Common;
+using T034.Core.Dto;
+using T034.Core.Entity;
+using T034.Core.Services.Common;
 
-namespace Db.Services
+namespace T034.Core.Services
 {
     public interface INewslineService : IService
     {

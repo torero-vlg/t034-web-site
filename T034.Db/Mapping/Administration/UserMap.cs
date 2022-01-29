@@ -1,7 +1,7 @@
-﻿using Db.Entity.Administration;
+﻿using T034.Core.Entity.Administration;
 using FluentNHibernate.Mapping;
 
-namespace Db.Mapping.Administration
+namespace T034.Core.Mapping.Administration
 {
     public class UserMap : ClassMap<User>
     {

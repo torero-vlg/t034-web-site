@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{544881EF-066B-4AB2-86F3-D75CAB64AF48}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{544881
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T034", "T034\T034.csproj", "{8196906D-5E35-44FE-BD8C-0E0941680B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Db", "T034.Db\Db.csproj", "{EE87A612-15E2-4801-98B5-AA8CC579628A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T034.Core", "T034.Db\T034.Core.csproj", "{EE87A612-15E2-4801-98B5-AA8CC579628A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62ED7143-8FE2-4E14-AF2C-BD79DB150AE9}
 	EndGlobalSection
 EndGlobal

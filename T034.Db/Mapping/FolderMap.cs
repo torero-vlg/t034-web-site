@@ -1,7 +1,7 @@
-﻿using Db.Entity;
+﻿using T034.Core.Entity;
 using FluentNHibernate.Mapping;
 
-namespace Db.Mapping
+namespace T034.Core.Mapping
 {
     public class FolderMap : ClassMap<Folder>
     {

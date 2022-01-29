@@ -1,4 +1,4 @@
-﻿namespace Db.Entity
+﻿namespace T034.Core.Entity
 {
     public class Setting : Entity
     {

@@ -904,9 +904,9 @@
     <Content Include="Views\Setting\CreateUserAndOAuth.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\T034.Db\Db.csproj">
+    <ProjectReference Include="..\T034.Db\T034.Core.csproj">
       <Project>{EE87A612-15E2-4801-98B5-AA8CC579628A}</Project>
-      <Name>Db</Name>
+      <Name>T034.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

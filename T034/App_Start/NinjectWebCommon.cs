@@ -1,8 +1,8 @@
 using System.Configuration;
-using Db;
-using Db.Api;
-using Db.DataAccess;
-using Db.Services;
+using T034.Core;
+using T034.Core.Api;
+using T034.Core.DataAccess;
+using T034.Core.Services;
 using OAuth2;
 using T034.Repository;
 
@@ -77,8 +77,8 @@ namespace T034.App_Start
             kernel.Bind<IFileService>().To<FileService>().InRequestScope();
             kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
 
-            kernel.Bind<Db.Services.Administration.IUserService>().To<Db.Services.Administration.UserService>().InRequestScope();
-            kernel.Bind<Db.Services.Administration.IRoleService>().To<Db.Services.Administration.RoleService>().InRequestScope();
+            kernel.Bind<T034.Core.Services.Administration.IUserService>().To<T034.Core.Services.Administration.UserService>().InRequestScope();
+            kernel.Bind<T034.Core.Services.Administration.IRoleService>().To<T034.Core.Services.Administration.RoleService>().InRequestScope();
             kernel.Bind<IMenuItemService>().To<MenuItemService>().InRequestScope();
             kernel.Bind<INewslineService>().To<NewslineService>().InRequestScope();
 

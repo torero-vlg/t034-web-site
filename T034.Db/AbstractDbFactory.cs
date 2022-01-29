@@ -1,6 +1,6 @@
-﻿using Db.DataAccess;
+﻿using T034.Core.DataAccess;
 
-namespace Db
+namespace T034.Core
 {
     /// <summary>
     /// Абстрактная фабрика

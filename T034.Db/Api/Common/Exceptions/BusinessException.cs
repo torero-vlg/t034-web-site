@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Db.Api.Common.Exceptions
+namespace T034.Core.Api.Common.Exceptions
 {
     /// <summary>
     /// Исключение, произошедшее в бизнес логике

@@ -1,4 +1,4 @@
-﻿namespace Db.Entity.Finder
+﻿namespace T034.Core.Entity.Finder
 {
     public class Finder
     {

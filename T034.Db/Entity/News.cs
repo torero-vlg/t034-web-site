@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Db.Entity.Administration;
+using T034.Core.Entity.Administration;
 
-namespace Db.Entity
+namespace T034.Core.Entity
 {
     public class News : Entity
     {

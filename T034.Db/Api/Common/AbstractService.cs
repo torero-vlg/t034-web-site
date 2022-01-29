@@ -1,7 +1,7 @@
-﻿using Db.DataAccess;
+﻿using T034.Core.DataAccess;
 using Ninject;
 
-namespace Db.Api.Common
+namespace T034.Core.Api.Common
 {
     public abstract class AbstractService
     {

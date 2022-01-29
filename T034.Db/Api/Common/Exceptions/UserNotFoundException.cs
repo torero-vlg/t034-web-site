@@ -1,4 +1,4 @@
-﻿namespace Db.Api.Common.Exceptions
+﻿namespace T034.Core.Api.Common.Exceptions
 {
     public class UserNotFoundException : BusinessException
     {
