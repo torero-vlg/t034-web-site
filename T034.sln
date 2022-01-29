@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{544881
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T034", "T034\T034.csproj", "{8196906D-5E35-44FE-BD8C-0E0941680B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T034.Core", "T034.Db\T034.Core.csproj", "{EE87A612-15E2-4801-98B5-AA8CC579628A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T034.Core", "T034.Core\T034.Core.csproj", "{EE87A612-15E2-4801-98B5-AA8CC579628A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

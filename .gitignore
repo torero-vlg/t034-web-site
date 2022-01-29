@@ -14,3 +14,5 @@ T034/files
 .vs/config/applicationhost.config
 .vs/T034/v14/.suo
 .vs
+T034.Core/obj
+T034.Core/bin
