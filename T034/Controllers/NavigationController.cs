@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Db.Api;
-using Db.Entity;
+using T034.Core.Api;
+using T034.Core.Entity;
 using Ninject;
 using OAuth2;
 using T034.ViewModel;

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Db.Dto;
+using T034.Core.Dto;
 using T034.ViewModel;
 
 namespace T034.Profiles

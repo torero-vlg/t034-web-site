@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Db.DataAccess;
+using T034.Core.DataAccess;
 using Ninject;
 
 namespace T034.Tools.Attribute

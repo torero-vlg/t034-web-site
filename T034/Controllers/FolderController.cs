@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using Db.Api;
-using Db.Api.Common.Exceptions;
-using Db.Entity;
-using Db.Services;
+using T034.Core.Api;
+using T034.Core.Api.Common.Exceptions;
+using T034.Core.Entity;
+using T034.Core.Services;
 using Ninject;
 using OAuth2;
 using OAuth2.Models;
 using T034.Tools.Attribute;
+using T034.Tools.IO;
 using T034.ViewModel;
 
 namespace T034.Controllers
@@ -114,10 +116,40 @@ namespace T034.Controllers
         [Role("Moderator")]
         public ActionResult UploadFile()
         {
-            var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
-            var r = FileService.Upload(path, Request, UserInfo.Email, int.Parse(Request.Files.Keys[0]));
+            var result = Upload(Request);
+            
+            FileService.AddFile(result.Select(f => new T034.Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
             //TODO надо что-то возвращать
-            return Json(r);
+            return Json(result);
+        }
+
+        private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequestBase request)
+        {
+            var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
+
+            var statuses = new List<ViewDataUploadFilesResult>();
+            var uploader = new FileUploader(path);
+            if (request.Files.Cast<string>().Any())
+            {
+                try
+                {
+                    var headers = request.Headers;
+                    if (string.IsNullOrEmpty(headers["X-File-Name"]))
+                    {
+                        statuses.AddRange(uploader.UploadWholeFile(request));
+                    }
+                    else
+                    {
+                        statuses.Add(uploader.UploadPartialFile(request));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Fatal(ex);
+                    throw;
+                }
+            }
+            return statuses;
         }
 
         [Role("Moderator")]

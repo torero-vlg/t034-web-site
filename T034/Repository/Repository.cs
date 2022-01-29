@@ -1,5 +1,5 @@
-﻿using Db.DataAccess;
-using Db.Entity.Administration;
+﻿using T034.Core.DataAccess;
+using T034.Core.Entity.Administration;
 using Ninject;
 
 namespace T034.Repository

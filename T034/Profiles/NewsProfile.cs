@@ -1,8 +1,8 @@
 ﻿using System.Web;
 using AutoMapper;
-using Db.Dto;
-using Db.Entity;
-using Db.Entity.Administration;
+using T034.Core.Dto;
+using T034.Core.Entity;
+using T034.Core.Entity.Administration;
 using T034.ViewModel;
 
 namespace T034.Profiles
@@ -29,7 +29,9 @@ namespace T034.Profiles
 
 
 
-            CreateMap<NewsDto, NewsViewModel>();
+            CreateMap<NewsDto, NewsViewModel>()
+                  .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)));
+
             CreateMap<NewsViewModel, NewsDto>();
         }
     }

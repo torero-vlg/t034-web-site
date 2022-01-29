@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web;
-using Db.DataAccess;
-using Db.Dto;
-using Db.Entity;
-using Db.Entity.Administration;
+using T034.Core.DataAccess;
+using T034.Core.Dto;
+using T034.Core.Entity;
+using T034.Core.Entity.Administration;
 using T034.Models;
 
 namespace T034.Tools.Auth

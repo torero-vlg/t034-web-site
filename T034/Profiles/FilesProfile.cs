@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoMapper;
-using Db.Entity;
+using T034.Core.Entity;
 using T034.ViewModel;
 
 namespace T034.Profiles
