@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Db</RootNamespace>
     <AssemblyName>Db</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -36,13 +36,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="FluentNHibernate, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
@@ -93,12 +88,12 @@
     <Compile Include="Api\FileService.cs" />
     <Compile Include="Api\UserService.cs" />
     <Compile Include="Api\SettingService.cs" />
-    <Compile Include="AutoMapper\AutoMapperConfiguration.cs" />
-    <Compile Include="AutoMapper\NewsProfile.cs" />
-    <Compile Include="AutoMapper\NewslineProfile.cs" />
-    <Compile Include="AutoMapper\RoleProfile.cs" />
-    <Compile Include="AutoMapper\MenuItemProfile.cs" />
-    <Compile Include="AutoMapper\UserProfile.cs" />
+    <Compile Include="Profiles\AutoMapperConfiguration.cs" />
+    <Compile Include="Profiles\NewsProfile.cs" />
+    <Compile Include="Profiles\NewslineProfile.cs" />
+    <Compile Include="Profiles\RoleProfile.cs" />
+    <Compile Include="Profiles\MenuItemProfile.cs" />
+    <Compile Include="Profiles\UserProfile.cs" />
     <Compile Include="DataAccess\IBaseDb.cs" />
     <Compile Include="DataAccess\NhBaseDb.cs" />
     <Compile Include="DataAccess\NhBaseMessageDb.cs" />

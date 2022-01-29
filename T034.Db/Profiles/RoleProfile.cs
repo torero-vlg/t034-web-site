@@ -2,15 +2,15 @@
 using Db.Dto;
 using Db.Entity.Administration;
 
-namespace Db.AutoMapper
+namespace Db.Profiles
 {
     public class RoleProfile : Profile
     {
-        protected override void Configure()
+        public RoleProfile()
         {
-            Mapper.CreateMap<Role, RoleDto>()
+            CreateMap<Role, RoleDto>()
                 .ForMember(vm => vm.Selected, v => v.UseValue(true));
-            Mapper.CreateMap<RoleDto, Role>();
+            CreateMap<RoleDto, Role>();
         }
     }
 }

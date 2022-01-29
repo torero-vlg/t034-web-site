@@ -3,16 +3,16 @@ using AutoMapper;
 using Db.Dto;
 using Db.Entity.Administration;
 
-namespace Db.AutoMapper
+namespace Db.Profiles
 {
     public class UserProfile : Profile
     {
-        protected override void Configure()
+        public UserProfile()
         {
-            Mapper.CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>();
                   //.ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => AutoMapperWebConfiguration.IdsToString(src.UserRoles)));
 
-            Mapper.CreateMap<UserDto, User>()
+            CreateMap<UserDto, User>()
                 .ForMember(dest => dest.UserRoles,
                        opt => opt.MapFrom(src => src.UserRoles.Where(ur => ur.Selected)))
                 .ForMember(dest => dest.Password, opt => opt.Ignore())

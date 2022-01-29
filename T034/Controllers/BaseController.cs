@@ -2,12 +2,14 @@
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using Db.DataAccess;
 using Ninject;
 using NLog;
 using OAuth2;
 using OAuth2.Client;
 using OAuth2.Models;
+using T034.Profiles;
 using T034.Repository;
 
 namespace T034.Controllers
@@ -120,5 +122,10 @@ namespace T034.Controllers
 
             base.OnActionExecuted(context);
         }
+
+        /// <summary>
+        /// Маппер
+        /// </summary>
+        protected IMapper Mapper => AutoMapperConfig.Mapper;
     }
 }

@@ -3,26 +3,26 @@ using AutoMapper;
 using Db.Entity;
 using T034.ViewModel;
 
-namespace T034.AutoMapper
+namespace T034.Profiles
 {
     public class FilesProfile : Profile
     {
-        protected override void Configure()
+        public FilesProfile()
         {
-            Mapper.CreateMap<Files, FileViewModel>()
+            CreateMap<Files, FileViewModel>()
                     .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id))
                     .ForMember(dest => dest.Size, opt => opt.MapFrom(src => SizeSuffix(src.Size)))
                     .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User.Name));
-            Mapper.CreateMap<FileViewModel, Files>();
+            CreateMap<FileViewModel, Files>();
 
-            Mapper.CreateMap<Folder, FolderViewModel>()
+            CreateMap<Folder, FolderViewModel>()
                 .ForMember(dest => dest.ParentFolderId, opt => opt.MapFrom(src => src.ParentFolder == null ? (int?)null : src.ParentFolder.Id));
-            Mapper.CreateMap<FolderViewModel, Folder>()
+            CreateMap<FolderViewModel, Folder>()
                 .ForMember(dest => dest.ParentFolder, opt => opt.MapFrom(src => src.ParentFolderId.HasValue ? new Folder {Id = src.ParentFolderId.Value} : null));
         }
 
-            static readonly string[] SizeSuffixes =
-                  { "Б", "Кбайт", "Мбайт", "Гбайт", "Тбайт", "Пбайт", "Эбайт", "Збайт", "Ибайт" };
+        static readonly string[] SizeSuffixes =
+                { "Б", "Кбайт", "Мбайт", "Гбайт", "Тбайт", "Пбайт", "Эбайт", "Збайт", "Ибайт" };
 
         static string SizeSuffix(long value)
         {
