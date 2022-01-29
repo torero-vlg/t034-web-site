@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using AutoMapper;
 using Db.Dto;
 using Db.Services.Administration;
 using Db.Services.Common;

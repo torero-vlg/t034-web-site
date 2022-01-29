@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using Db.DataAccess;
-using Db.Entity.Administration;
 using Ninject;
-using T034.Tools.Auth;
 
 namespace T034.Tools.Attribute
 {

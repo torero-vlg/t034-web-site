@@ -4,22 +4,22 @@ using Db.Dto;
 using Db.Entity;
 using T034.ViewModel;
 
-namespace T034.AutoMapper
+namespace T034.Profiles
 {
     public class MenuItemProfile : Profile
     {
-        protected override void Configure()
+        public MenuItemProfile()
         {
             //это должно убраться отсюда
             //========
-            Mapper.CreateMap<MenuItem, MenuItemViewModel>()
+            CreateMap<MenuItem, MenuItemViewModel>()
                 .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Parent == null ? null : (int?)src.Parent.Id))
                 .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.Parent == null ? "" : src.Parent.ToString()));
 
-            Mapper.CreateMap<MenuItemViewModel, MenuItem>()
+            CreateMap<MenuItemViewModel, MenuItem>()
                 .ForMember(dest => dest.Parent, opt => opt.MapFrom(src => src.ParentId.HasValue ? new MenuItem { Id = src.ParentId.Value } : null));
 
-            Mapper.CreateMap<MenuItem, SelectListItem>()
+            CreateMap<MenuItem, SelectListItem>()
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Title + (src.Parent == null ? "" : $" [{src.Parent}]")));
             //=========
@@ -27,12 +27,12 @@ namespace T034.AutoMapper
 
 
 
-            Mapper.CreateMap<MenuItemDto, SelectListItem>()
+            CreateMap<MenuItemDto, SelectListItem>()
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Title + (src.Parent == null ? "" : $" [{src.Parent}]")));
 
-            Mapper.CreateMap<MenuItemDto, MenuItemViewModel>();
-            Mapper.CreateMap<MenuItemViewModel, MenuItemDto>();
+            CreateMap<MenuItemDto, MenuItemViewModel>();
+            CreateMap<MenuItemViewModel, MenuItemDto>();
         }
     }
 }

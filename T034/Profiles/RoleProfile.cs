@@ -2,15 +2,15 @@
 using Db.Dto;
 using T034.ViewModel;
 
-namespace T034.AutoMapper
+namespace T034.Profiles
 {
     public class RoleProfile : Profile
     {
-        protected override void Configure()
+        public RoleProfile()
         {
-            Mapper.CreateMap<RoleDto, RoleViewModel>()
+            CreateMap<RoleDto, RoleViewModel>()
                 .ForMember(vm => vm.Selected, v => v.UseValue(true));
-            Mapper.CreateMap<RoleViewModel, RoleDto>();
+            CreateMap<RoleViewModel, RoleDto>();
         }
     }
 }

@@ -3,16 +3,16 @@ using AutoMapper;
 using Db.Entity;
 using T034.ViewModel;
 
-namespace T034.AutoMapper
+namespace T034.Profiles
 {
     public class PageProfile : Profile
     {
-        protected override void Configure()
+        public PageProfile()
         {
-            Mapper.CreateMap<Page, PageViewModel>()
+            CreateMap<Page, PageViewModel>()
                   .ForMember(dest => dest.Content, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Content)));
 
-            Mapper.CreateMap<PageViewModel, Page>();
+            CreateMap<PageViewModel, Page>();
                   //.ForMember(dest => dest.Content, opt => opt.MapFrom(src => Sanitizer.GetSafeHtmlFragment(src.Content)));
                  // .ForMember(dest => dest.Content, opt => opt.MapFrom(src => AutoMapperWebConfiguration.GetSafeHtml(src.Content)));
         }

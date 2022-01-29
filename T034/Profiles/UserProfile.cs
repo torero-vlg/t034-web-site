@@ -3,16 +3,16 @@ using AutoMapper;
 using Db.Dto;
 using T034.ViewModel;
 
-namespace T034.AutoMapper
+namespace T034.Profiles
 {
     public class UserProfile : Profile
     {
-        protected override void Configure()
+        public UserProfile()
         {
-            Mapper.CreateMap<UserDto, UserViewModel>();
+            CreateMap<UserDto, UserViewModel>();
                   //.ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => AutoMapperWebConfiguration.IdsToString(src.UserRoles)));
 
-            Mapper.CreateMap<UserViewModel, UserDto>()
+            CreateMap<UserViewModel, UserDto>()
             .ForMember(dest => dest.UserRoles,
                        opt => opt.MapFrom(src => src.UserRoles.Where(ur => ur.Selected)));
         }

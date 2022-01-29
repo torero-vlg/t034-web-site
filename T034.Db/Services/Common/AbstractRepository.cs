@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using Db.DataAccess;
 using Db.Dto.Common;
+using Db.Profiles;
 using Ninject;
 
 namespace Db.Services.Common
@@ -65,5 +66,10 @@ namespace Db.Services.Common
                 return new OperationResult { Status = StatusOperation.InternalError, Message = "Произошла внутренняя ошибка" };
             }
         }
+
+        /// <summary>
+        /// Маппер
+        /// </summary>
+        protected IMapper Mapper => AutoMapperConfig.Mapper;
     }
 }

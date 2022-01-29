@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using AutoMapper;
 using Db.Api;
 using Db.Entity;
 using Ninject;
