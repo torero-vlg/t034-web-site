@@ -4,6 +4,7 @@ using AutoMapper;
 using Db.DataAccess;
 using Db.Dto;
 using Db.Entity;
+using Db.Profiles;
 using Db.Services.Common;
 using Ninject;
 
@@ -20,6 +21,11 @@ namespace Db.Services
     {
         [Inject]
         public IBaseDb Db { get; set; }
+
+        /// <summary>
+        /// Маппер
+        /// </summary>
+        protected IMapper Mapper => AutoMapperConfig.Mapper;
 
         public IEnumerable<MenuItemDto> Select()
         {
