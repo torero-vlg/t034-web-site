@@ -14,7 +14,7 @@ namespace T034.Controllers
         [Inject]
         public ISettingService SettingService { get; set; }
 
-        public ActionResult Index()
+        public Microsoft.AspNetCore.Mvc.ActionResult Index()
         {
             var item = SettingService.GetStartPage();
             if(item == null || item.Value == "")
@@ -22,12 +22,12 @@ namespace T034.Controllers
 
             return Redirect(item.Value);
         }
-        public ActionResult Sites()
+        public Microsoft.AspNetCore.Mvc.ActionResult Sites()
         {
             return View();
         }
 
-        public ActionResult Auth()
+        public Microsoft.AspNetCore.Mvc.ActionResult Auth()
         {
             return PartialView("AuthPartialView", UserInfo);
         }

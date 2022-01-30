@@ -5,12 +5,12 @@ using Ninject;
 
 namespace T034.Tools.Attribute
 {
-    public class PermissionFilterAttribute : ActionFilterAttribute
+    public class PermissionFilterAttribute : Microsoft.AspNetCore.Mvc.Filters.ActionFilterAttribute
     {
         [Inject]
         public IBaseDb Db { get; set; }
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext filterContext)
         {
             var action = filterContext.ActionDescriptor.ActionName;
             var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
@@ -22,11 +22,11 @@ namespace T034.Tools.Attribute
             if (rolesCookie != null && rolesCookie.Value != null && rolesCookie.Value.Contains(role.Role))
                 return;
             
-            filterContext.Result = new RedirectResult("~/Errors/Unauthorized");
+            filterContext.Result = new Microsoft.AspNetCore.Mvc.RedirectResult("~/Errors/Unauthorized");
         }
     }
 
-    public class Http403Result : ActionResult
+    public class Http403Result : Microsoft.AspNetCore.Mvc.ActionResult
     {
         public override void ExecuteResult(ControllerContext context)
         {

@@ -11,7 +11,7 @@ namespace T034.Controllers
         {
         }
         
-        public ActionResult Set(string styleName)
+        public Microsoft.AspNetCore.Mvc.ActionResult Set(string styleName)
         {
             var userCookie = new HttpCookie("style")
             {

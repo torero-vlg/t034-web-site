@@ -25,7 +25,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult List()
+        public Microsoft.AspNetCore.Mvc.ActionResult List()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Moderator")]
-        public ActionResult AddOrEdit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
         {
             var model = new NewslineViewModel();
             if (id.HasValue)
@@ -68,7 +68,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult AddOrEdit(NewslineViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(NewslineViewModel model)
         {
             if (model.Id > 0)
             {
@@ -82,7 +82,7 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult Index(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult Delete(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Delete(int id)
         {
             try
             {

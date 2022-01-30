@@ -22,7 +22,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult List()
+        public Microsoft.AspNetCore.Mvc.ActionResult List()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Administrator")]
-        public ActionResult AddOrEdit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
         {
             //TODO MenuItemService
             var model = new MenuItemViewModel();
@@ -68,7 +68,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult AddOrEdit(MenuItemViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(MenuItemViewModel model)
         {
             //TODO MenuItemService
             var item = new MenuItem();
@@ -83,7 +83,7 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult Index(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
         {
             //TODO MenuItemService
             var model = new MenuItemViewModel();
@@ -99,7 +99,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult Set(MenuItemViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult Set(MenuItemViewModel model)
         {
             MenuItem item = null;
             if (model.Id > 0)
@@ -119,7 +119,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult Delete(int menuItemId)
+        public Microsoft.AspNetCore.Mvc.ActionResult Delete(int menuItemId)
         {
             try
             {

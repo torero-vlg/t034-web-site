@@ -21,7 +21,7 @@ namespace T034.Controllers
         }
 
         [Tools.Attribute.Role("Administrator")]
-        public ActionResult List()
+        public Microsoft.AspNetCore.Mvc.ActionResult List()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Administrator")]
-        public ActionResult AddOrEdit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
         {
             var model = new RoleViewModel();
             if (id.HasValue)
@@ -53,7 +53,7 @@ namespace T034.Controllers
         }
 
         [Tools.Attribute.Role("Administrator")]
-        public ActionResult AddOrEdit(RoleViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(RoleViewModel model)
         {
             if (model.Id > 0)
             {
@@ -69,7 +69,7 @@ namespace T034.Controllers
         }
 
         [Tools.Attribute.Role("Administrator")]
-        public ActionResult Index(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
         {
             var model = new RoleViewModel();
 
@@ -84,7 +84,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult Delete(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Delete(int id)
         {
             try
             {

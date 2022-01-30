@@ -29,7 +29,7 @@ namespace T034.Controllers
         [Inject]
         public IFileService FileService { get; set; }
 
-        public ActionResult Index(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Index(int? id)
         {
             //ViewData["MetMenuActive"] = folder.Contains("Методическая работа/") ? "active" : "";
             //ViewData["DocsMenuActive"] = folder.Contains("Документы/") ? "active" : "";
@@ -55,7 +55,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult Edit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Edit(int? id)
         {
             var model = new FolderViewModel();
             if (id.HasValue)
@@ -114,7 +114,7 @@ namespace T034.Controllers
 
         [HttpPost]
         [Role("Moderator")]
-        public ActionResult UploadFile()
+        public Microsoft.AspNetCore.Mvc.ActionResult UploadFile()
         {
             var result = Upload(Request);
             
@@ -153,7 +153,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult DeleteFile(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult DeleteFile(int id)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult DeleteFolder(FolderViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult DeleteFolder(FolderViewModel model)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult CreateFolder(FolderViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult CreateFolder(FolderViewModel model)
         {
             var item = new Folder();
             if (model.Id > 0)
@@ -211,7 +211,7 @@ namespace T034.Controllers
             return RedirectToAction("Edit", new { id =  item.Id});
         }
 
-        public ActionResult Download(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Download(int id)
         {
             try
             {

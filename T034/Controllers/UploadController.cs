@@ -26,7 +26,7 @@ namespace T034.Controllers
             }
         }
 
-        public ActionResult UploadPartial()
+        public Microsoft.AspNetCore.Mvc.ActionResult UploadPartial()
         {
             var appData = Server.MapPath("~/Upload/Images");//TODO перенести путь в config
             var images = Directory.GetFiles(appData).Select(x => new ImageViewModel
@@ -38,13 +38,13 @@ namespace T034.Controllers
         }
 
         [HttpGet]
-        public ActionResult Export()
+        public Microsoft.AspNetCore.Mvc.ActionResult Export()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Export(FileViewModel file)
+        public Microsoft.AspNetCore.Mvc.ActionResult Export(FileViewModel file)
         {
             var csvLines = System.IO.File.ReadAllLines(Server.MapPath("~/Upload/Temp/news.csv"));
 

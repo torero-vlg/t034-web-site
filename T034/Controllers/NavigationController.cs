@@ -19,7 +19,7 @@ namespace T034.Controllers
         [Inject]
         public IUserService UserService { get; set; }
 
-        public ActionResult MainMenu()
+        public Microsoft.AspNetCore.Mvc.ActionResult MainMenu()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace T034.Controllers
             }
         }
 
-        public ActionResult ManagementMenu()
+        public Microsoft.AspNetCore.Mvc.ActionResult ManagementMenu()
         {
             //если есть пользователь в БД, то показываем меню
             if (UserInfo != null)

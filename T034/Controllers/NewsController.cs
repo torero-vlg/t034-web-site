@@ -21,7 +21,7 @@ namespace T034.Controllers
         {
         }
 
-        public ActionResult Index(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
         {
             var model = new NewsViewModel();
 
@@ -36,7 +36,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public ActionResult List()
+        public Microsoft.AspNetCore.Mvc.ActionResult List()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace T034.Controllers
             }
         }
 
-        public ActionResult Newsline()
+        public Microsoft.AspNetCore.Mvc.ActionResult Newsline()
         {
             try
             {
@@ -74,7 +74,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Moderator")]
-        public ActionResult AddOrEdit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
         {
             var model = new NewsViewModel();
             if (id.HasValue)
@@ -99,7 +99,7 @@ namespace T034.Controllers
 
         [Role("Moderator")]
         [ValidateInput(false)]
-        public ActionResult AddOrEdit(NewsViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(NewsViewModel model)
         {
             //найдём пользователя в БД
             var userFromDb = Db.Where<User>(u => u.Email == UserInfo.Email).FirstOrDefault();
@@ -124,7 +124,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Moderator")]
-        public ActionResult Delete(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Delete(int? id)
         {
             if (id.HasValue)
             {

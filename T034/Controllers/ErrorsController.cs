@@ -2,9 +2,9 @@
 
 namespace T034.Controllers
 {
-    public class ErrorsController : Controller
+    public class ErrorsController : Microsoft.AspNetCore.Mvc.Controller
     {
-        public ActionResult Unauthorized()
+        public Microsoft.AspNetCore.Mvc.ActionResult Unauthorized()
         {
             if (!Request.IsAjaxRequest())
                 return View();
@@ -13,7 +13,7 @@ namespace T034.Controllers
             return Json(new { });
         }
 
-        public ActionResult NotFound()
+        public Microsoft.AspNetCore.Mvc.ActionResult NotFound()
         {
             if (!Request.IsAjaxRequest())
                 return View();
@@ -22,7 +22,7 @@ namespace T034.Controllers
             return Json(new { });
         }
 
-        public ActionResult InternalServerError()
+        public Microsoft.AspNetCore.Mvc.ActionResult InternalServerError()
         {
             if (!Request.IsAjaxRequest())
                 return View();

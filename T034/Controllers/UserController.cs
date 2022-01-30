@@ -25,7 +25,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult List()
+        public Microsoft.AspNetCore.Mvc.ActionResult List()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Administrator")]
-        public ActionResult AddOrEdit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
         {
             var model = new UserViewModel();
             if (id.HasValue)
@@ -67,7 +67,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult AddOrEdit(UserViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(UserViewModel model)
         {
             if (model.Id > 0)
             {
@@ -82,7 +82,7 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult Index(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
         {
             var model = new UserViewModel();
 
@@ -97,7 +97,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult Delete(int id)
+        public Microsoft.AspNetCore.Mvc.ActionResult Delete(int id)
         {
             try
             {

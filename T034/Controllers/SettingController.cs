@@ -24,7 +24,7 @@ namespace T034.Controllers
         public IUserService UserService { get; set; }
 
         [Role("Administrator")]
-        public ActionResult List()
+        public Microsoft.AspNetCore.Mvc.ActionResult List()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Administrator")]
-        public ActionResult AddOrEdit(int? id)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
         {
             var model = new SettingViewModel();
             if (id.HasValue)
@@ -57,7 +57,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public ActionResult AddOrEdit(SettingViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(SettingViewModel model)
         {
             var item = new Setting();
             if (model.Id > 0)
@@ -71,7 +71,7 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult Index()
+        public Microsoft.AspNetCore.Mvc.ActionResult Index()
         {
             SettingService.Init();
 
@@ -95,7 +95,7 @@ namespace T034.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult CreateUserAndOAuth(FirstUserViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult CreateUserAndOAuth(FirstUserViewModel model)
         {
             if (UserService.GetUser(model.Email) == null)
             {

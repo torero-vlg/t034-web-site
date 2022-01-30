@@ -21,7 +21,7 @@ namespace T034.Controllers
         /// <summary>
         /// Renders home page with login link.
         /// </summary>
-        public ActionResult Logon(LogonViewModel model)
+        public Microsoft.AspNetCore.Mvc.ActionResult Logon(LogonViewModel model)
         {
             try
             {
@@ -43,16 +43,16 @@ namespace T034.Controllers
         /// <summary>
         /// Redirect to login url of selected provider.
         /// </summary>        
-        public RedirectResult Login(string providerName)
+        public Microsoft.AspNetCore.Mvc.RedirectResult Login(string providerName)
         {
             ProviderName = providerName;
-            return new RedirectResult(GetClient().GetLoginLinkUri());
+            return new Microsoft.AspNetCore.Mvc.RedirectResult(GetClient().GetLoginLinkUri());
         }
 
         /// <summary>
         /// Renders information received from authentication service.
         /// </summary>
-        public ActionResult Auth()
+        public Microsoft.AspNetCore.Mvc.ActionResult Auth()
         {
             try
             {
@@ -99,7 +99,7 @@ namespace T034.Controllers
         /// <summary>
         /// Renders information received from authentication service.
         /// </summary>
-        public ActionResult Auth2()
+        public Microsoft.AspNetCore.Mvc.ActionResult Auth2()
         {
             Logger.Trace(Request.Cookies["auth_code"]);
             var nameValueCollection = new NameValueCollection();

@@ -14,7 +14,7 @@ using T034.Repository;
 
 namespace T034.Controllers
 {
-    public class BaseController : Controller
+    public class BaseController : Microsoft.AspNetCore.Mvc.Controller
     {
         [Inject]
         public IBaseDb Db { get; set; }
@@ -45,7 +45,7 @@ namespace T034.Controllers
             return AuthorizationRoot.Clients.FirstOrDefault(c => c.Name == ProviderName);
         }
 
-        protected override void OnActionExecuting(ActionExecutingContext context)
+        protected override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
             var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
             if (controllerName == "Base") return;
@@ -113,7 +113,7 @@ namespace T034.Controllers
             }
         }
 
-        protected override void OnActionExecuted(ActionExecutedContext context)
+        protected override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
             var actionName = context.ActionDescriptor.ActionName;
             var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
