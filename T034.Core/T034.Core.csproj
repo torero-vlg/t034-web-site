@@ -1,160 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE87A612-15E2-4801-98B5-AA8CC579628A}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Db</RootNamespace>
     <AssemblyName>Db</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentNHibernate, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentNHibernate.1.4.0.0\lib\net35\FluentNHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.1.2\lib\net35\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OAuth2, Version=0.8.37.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OAuth2.0.8.37\lib\OAuth2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AbstractDbFactory.cs" />
-    <Compile Include="Api\Common\AbstractService.cs" />
-    <Compile Include="Api\Common\Exceptions\BusinessException.cs" />
-    <Compile Include="Api\Common\Exceptions\UserNotFoundException.cs" />
-    <Compile Include="Api\FileService.cs" />
-    <Compile Include="Api\UserService.cs" />
-    <Compile Include="Api\SettingService.cs" />
-    <Compile Include="Dto\FileDto.cs" />
-    <Compile Include="Profiles\AutoMapperConfiguration.cs" />
-    <Compile Include="Profiles\NewsProfile.cs" />
-    <Compile Include="Profiles\NewslineProfile.cs" />
-    <Compile Include="Profiles\RoleProfile.cs" />
-    <Compile Include="Profiles\MenuItemProfile.cs" />
-    <Compile Include="Profiles\UserProfile.cs" />
-    <Compile Include="DataAccess\IBaseDb.cs" />
-    <Compile Include="DataAccess\NhBaseDb.cs" />
-    <Compile Include="DataAccess\NhBaseMessageDb.cs" />
-    <Compile Include="DataAccess\IBaseMessageDb.cs" />
-    <Compile Include="Dto\Common\AbstractDto.cs" />
-    <Compile Include="Dto\Common\IDto.cs" />
-    <Compile Include="Dto\NewsDto.cs" />
-    <Compile Include="Dto\NewslineDto.cs" />
-    <Compile Include="Dto\MenuItemDto.cs" />
-    <Compile Include="Dto\RoleDto.cs" />
-    <Compile Include="Dto\UserDto.cs" />
-    <Compile Include="Dto\UserModel.cs" />
-    <Compile Include="Entity\Administration\Role.cs" />
-    <Compile Include="Entity\Administration\User.cs" />
-    <Compile Include="Entity\Folder.cs" />
-    <Compile Include="Entity\Files.cs" />
-    <Compile Include="Entity\Newsline.cs" />
-    <Compile Include="Entity\Setting.cs" />
-    <Compile Include="Entity\Entity.cs" />
-    <Compile Include="Entity\Finder\Finder.cs" />
-    <Compile Include="Entity\News.cs" />
-    <Compile Include="Entity\Page.cs" />
-    <Compile Include="Entity\MenuItem.cs" />
-    <Compile Include="Mapping\Administration\RoleMap.cs" />
-    <Compile Include="Mapping\Administration\UserMap.cs" />
-    <Compile Include="Mapping\FilesMap.cs" />
-    <Compile Include="Mapping\FolderMap.cs" />
-    <Compile Include="Mapping\NewslineMap.cs" />
-    <Compile Include="Mapping\SettingMap.cs" />
-    <Compile Include="Mapping\NewsMap.cs" />
-    <Compile Include="Mapping\PageMap.cs" />
-    <Compile Include="Mapping\MenuItemMap.cs" />
-    <Compile Include="NhDbFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Administration\RoleService.cs" />
-    <Compile Include="Services\Administration\UserService.cs" />
-    <Compile Include="Services\Common\AbstractRepository.cs" />
-    <Compile Include="Services\Common\IService.cs" />
-    <Compile Include="Services\Common\OperationResult.cs" />
-    <Compile Include="Services\Common\StatusOperation.cs" />
-    <Compile Include="Services\MenuItemService.cs" />
-    <Compile Include="Services\NewslineService.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Entity\Directory\" />
     <Folder Include="Mapping\Directory\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FluentNHibernate" Version="2.1.2" />
+    <PackageReference Include="NLog" Version="4.7.13" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="Ninject" Version="3.3.4" />
+    <PackageReference Include="OAuth2" Version="0.8.37" />
+  </ItemGroup>
 </Project>
