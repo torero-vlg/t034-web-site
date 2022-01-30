@@ -14,6 +14,7 @@ using OAuth2.Models;
 using T034.Tools.Attribute;
 using T034.Tools.IO;
 using T034.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace T034.Controllers
 {
@@ -123,7 +124,7 @@ namespace T034.Controllers
             return Json(result);
         }
 
-        private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequestBase request)
+        private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequest request)
         {
             var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
 
@@ -226,7 +227,7 @@ namespace T034.Controllers
 
                 item.DownloadCounter++;
                 Db.SaveOrUpdate(item);
-                Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
+                Response.Headers.Append("Content-Disposition", "inline; filename=" + fileName);
                 return File(fileBytes, GetMimeType(fileName));
             }
             catch (Exception ex)
