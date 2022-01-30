@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Dto;
 using T034.Core.Services.Administration;
 using T034.Core.Services.Common;
@@ -20,8 +20,8 @@ namespace T034.Controllers
         {
         }
 
-        [Tools.Attribute.Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult List()
+        [Role("Administrator")]
+        public ActionResult List()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
+        public ActionResult AddOrEdit(int? id)
         {
             var model = new RoleViewModel();
             if (id.HasValue)
@@ -52,8 +52,8 @@ namespace T034.Controllers
             return View(model);
         }
 
-        [Tools.Attribute.Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(RoleViewModel model)
+        [Role("Administrator")]
+        public ActionResult AddOrEdit(RoleViewModel model)
         {
             if (model.Id > 0)
             {
@@ -68,8 +68,8 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
-        [Tools.Attribute.Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
+        [Role("Administrator")]
+        public ActionResult Index(int id)
         {
             var model = new RoleViewModel();
 
@@ -84,7 +84,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             try
             {

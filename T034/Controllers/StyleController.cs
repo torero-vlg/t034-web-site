@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using OAuth2;
 
 namespace T034.Controllers
@@ -11,7 +11,7 @@ namespace T034.Controllers
         {
         }
         
-        public Microsoft.AspNetCore.Mvc.ActionResult Set(string styleName)
+        public ActionResult Set(string styleName)
         {
             var userCookie = new HttpCookie("style")
             {

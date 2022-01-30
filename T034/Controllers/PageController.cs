@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Entity;
 using T034.Core.Services;
 using Ninject;
@@ -22,7 +22,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
+        public ActionResult AddOrEdit(int? id)
         {
             var model = new PageViewModel();
             if (id.HasValue)
@@ -47,7 +47,7 @@ namespace T034.Controllers
 
         [ValidateInput(false)]
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(PageViewModel model)
+        public ActionResult AddOrEdit(PageViewModel model)
         {
             var item = new Page();
 
@@ -60,7 +60,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult List()
+        public ActionResult List()
         {
             try
             {
@@ -78,7 +78,7 @@ namespace T034.Controllers
             }
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Index(int id)
+        public ActionResult Index(int id)
         {
             if (id > 99)
                 return View("StaticPage" + id);
@@ -94,7 +94,7 @@ namespace T034.Controllers
             return View(model);
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Preview(int id)
+        public ActionResult Preview(int id)
         {
             var model = new PageViewModel();
 

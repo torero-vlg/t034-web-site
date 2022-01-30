@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using OAuth2;
@@ -26,7 +26,7 @@ namespace T034.Controllers
             }
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult UploadPartial()
+        public ActionResult UploadPartial()
         {
             var appData = Server.MapPath("~/Upload/Images");//TODO перенести путь в config
             var images = Directory.GetFiles(appData).Select(x => new ImageViewModel
@@ -38,13 +38,13 @@ namespace T034.Controllers
         }
 
         [HttpGet]
-        public Microsoft.AspNetCore.Mvc.ActionResult Export()
+        public ActionResult Export()
         {
             return View();
         }
 
         [HttpPost]
-        public Microsoft.AspNetCore.Mvc.ActionResult Export(FileViewModel file)
+        public ActionResult Export(FileViewModel file)
         {
             var csvLines = System.IO.File.ReadAllLines(Server.MapPath("~/Upload/Temp/news.csv"));
 
@@ -88,7 +88,7 @@ namespace T034.Controllers
         private DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
-            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }

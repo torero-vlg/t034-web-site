@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using T034.Core.Entity;
 using Ninject;
@@ -19,7 +19,7 @@ namespace T034.Controllers
         [Inject]
         public IUserService UserService { get; set; }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult MainMenu()
+        public ActionResult MainMenu()
         {
             try
             {
@@ -43,7 +43,7 @@ namespace T034.Controllers
             }
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult ManagementMenu()
+        public ActionResult ManagementMenu()
         {
             //если есть пользователь в БД, то показываем меню
             if (UserInfo != null)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using T034.Core.Api.Common.Exceptions;
 using T034.Core.Entity;
@@ -29,7 +29,7 @@ namespace T034.Controllers
         [Inject]
         public IFileService FileService { get; set; }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Index(int? id)
+        public ActionResult Index(int? id)
         {
             //ViewData["MetMenuActive"] = folder.Contains("Методическая работа/") ? "active" : "";
             //ViewData["DocsMenuActive"] = folder.Contains("Документы/") ? "active" : "";
@@ -55,7 +55,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             var model = new FolderViewModel();
             if (id.HasValue)
@@ -114,11 +114,11 @@ namespace T034.Controllers
 
         [HttpPost]
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult UploadFile()
+        public ActionResult UploadFile()
         {
             var result = Upload(Request);
             
-            FileService.AddFile(result.Select(f => new T034.Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
+            FileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
             //TODO надо что-то возвращать
             return Json(result);
         }
@@ -153,7 +153,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult DeleteFile(int id)
+        public ActionResult DeleteFile(int id)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult DeleteFolder(FolderViewModel model)
+        public ActionResult DeleteFolder(FolderViewModel model)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult CreateFolder(FolderViewModel model)
+        public ActionResult CreateFolder(FolderViewModel model)
         {
             var item = new Folder();
             if (model.Id > 0)
@@ -211,7 +211,7 @@ namespace T034.Controllers
             return RedirectToAction("Edit", new { id =  item.Id});
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Download(int id)
+        public ActionResult Download(int id)
         {
             try
             {

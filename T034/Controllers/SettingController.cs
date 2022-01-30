@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using T034.Core.Entity;
 using Ninject;
@@ -24,7 +24,7 @@ namespace T034.Controllers
         public IUserService UserService { get; set; }
 
         [Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult List()
+        public ActionResult List()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace T034.Controllers
 
         [HttpGet]
         [Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(int? id)
+        public ActionResult AddOrEdit(int? id)
         {
             var model = new SettingViewModel();
             if (id.HasValue)
@@ -57,7 +57,7 @@ namespace T034.Controllers
         }
 
         [Role("Administrator")]
-        public Microsoft.AspNetCore.Mvc.ActionResult AddOrEdit(SettingViewModel model)
+        public ActionResult AddOrEdit(SettingViewModel model)
         {
             var item = new Setting();
             if (model.Id > 0)
@@ -71,7 +71,7 @@ namespace T034.Controllers
             return RedirectToAction("List");
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Index()
+        public ActionResult Index()
         {
             SettingService.Init();
 
@@ -95,7 +95,7 @@ namespace T034.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult CreateUserAndOAuth(FirstUserViewModel model)
+        public ActionResult CreateUserAndOAuth(FirstUserViewModel model)
         {
             if (UserService.GetUser(model.Email) == null)
             {

@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using Ninject;
 using OAuth2;
@@ -14,7 +14,7 @@ namespace T034.Controllers
         [Inject]
         public ISettingService SettingService { get; set; }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Index()
+        public ActionResult Index()
         {
             var item = SettingService.GetStartPage();
             if(item == null || item.Value == "")
@@ -22,12 +22,12 @@ namespace T034.Controllers
 
             return Redirect(item.Value);
         }
-        public Microsoft.AspNetCore.Mvc.ActionResult Sites()
+        public ActionResult Sites()
         {
             return View();
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Auth()
+        public ActionResult Auth()
         {
             return PartialView("AuthPartialView", UserInfo);
         }
