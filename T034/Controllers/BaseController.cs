@@ -45,7 +45,7 @@ namespace T034.Controllers
             return AuthorizationRoot.Clients.FirstOrDefault(c => c.Name == ProviderName);
         }
 
-        protected override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
+        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
             var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
             if (controllerName == "Base") return;
