@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using T034.Core.Entity.Administration;
 using OAuth2;
 using OAuth2.Models;
 using T034.ViewModel;
+using Microsoft.AspNetCore.Mvc;
 
 namespace T034.Controllers
 {
@@ -21,7 +20,7 @@ namespace T034.Controllers
         /// <summary>
         /// Renders home page with login link.
         /// </summary>
-        public Microsoft.AspNetCore.Mvc.ActionResult Logon(LogonViewModel model)
+        public ActionResult Logon(LogonViewModel model)
         {
             try
             {
@@ -43,16 +42,16 @@ namespace T034.Controllers
         /// <summary>
         /// Redirect to login url of selected provider.
         /// </summary>        
-        public Microsoft.AspNetCore.Mvc.RedirectResult Login(string providerName)
+        public RedirectResult Login(string providerName)
         {
             ProviderName = providerName;
-            return new Microsoft.AspNetCore.Mvc.RedirectResult(GetClient().GetLoginLinkUri());
+            return new RedirectResult(GetClient().GetLoginLinkUri());
         }
 
         /// <summary>
         /// Renders information received from authentication service.
         /// </summary>
-        public Microsoft.AspNetCore.Mvc.ActionResult Auth()
+        public ActionResult Auth()
         {
             try
             {
@@ -99,7 +98,7 @@ namespace T034.Controllers
         /// <summary>
         /// Renders information received from authentication service.
         /// </summary>
-        public Microsoft.AspNetCore.Mvc.ActionResult Auth2()
+        public ActionResult Auth2()
         {
             Logger.Trace(Request.Cookies["auth_code"]);
             var nameValueCollection = new NameValueCollection();

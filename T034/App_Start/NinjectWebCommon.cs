@@ -73,8 +73,8 @@ namespace T034.App_Start
             kernel.Bind<IFileService>().To<FileService>().InRequestScope();
             kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
 
-            kernel.Bind<T034.Core.Services.Administration.IUserService>().To<T034.Core.Services.Administration.UserService>().InRequestScope();
-            kernel.Bind<T034.Core.Services.Administration.IRoleService>().To<T034.Core.Services.Administration.RoleService>().InRequestScope();
+            kernel.Bind<Core.Services.Administration.IUserService>().To<Core.Services.Administration.UserService>().InRequestScope();
+            kernel.Bind<Core.Services.Administration.IRoleService>().To<Core.Services.Administration.RoleService>().InRequestScope();
             kernel.Bind<IMenuItemService>().To<MenuItemService>().InRequestScope();
             kernel.Bind<INewslineService>().To<NewslineService>().InRequestScope();
 

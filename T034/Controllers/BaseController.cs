@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using T034.Core.DataAccess;
 using Ninject;
@@ -14,7 +14,7 @@ using T034.Repository;
 
 namespace T034.Controllers
 {
-    public class BaseController : Microsoft.AspNetCore.Mvc.Controller
+    public class BaseController : Controller
     {
         [Inject]
         public IBaseDb Db { get; set; }

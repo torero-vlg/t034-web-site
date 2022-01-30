@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Entity;
 using T034.Core.Services.Administration;
 using Ninject;
@@ -21,7 +19,7 @@ namespace T034.Controllers
         {
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult LoginWithYandex(string code)
+        public ActionResult LoginWithYandex(string code)
         {
             //            var userCookie = YandexAuth.GetAuthorizationCookie(Request);
             //  MonitorLog.WriteLog(string.Format("GetAuthorizationCookie({0})", Repository), MonitorLog.typelog.Info, true);
@@ -33,7 +31,7 @@ namespace T034.Controllers
             return RedirectToActionPermanent("Index", "Home");
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Logout()
+        public ActionResult Logout()
         {
             HttpCookie aCookie;
             string cookieName;
@@ -50,14 +48,14 @@ namespace T034.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult RedirectToYandex()
+        public ActionResult RedirectToYandex()
         {
             var clientId = Db.SingleOrDefault<Setting>(s => s.Code == "YandexClientId").Value;
 
             return Redirect(string.Format("https://oauth.yandex.ru/authorize?response_type=code&client_id={0}", clientId)); 
         }
 
-        public Microsoft.AspNetCore.Mvc.ActionResult Login(LogonViewModel model)
+        public ActionResult Login(LogonViewModel model)
         {
             var result = UserService.Authenticate(model.Email, model.Password);
 
