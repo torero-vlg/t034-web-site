@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,9 +16,9 @@ namespace T034.Tools.IO
 
         public ViewDataUploadFilesResult UploadPartialFile(HttpRequest request)
         {
-            if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
+            if (request.Form.Files.Count != 1) throw new Exception("Attempt to upload chunked file containing more than one fragment per request");
 
-            HttpPostedFileBase file = request.Files[0];
+            var file = request.Form.Files[0];
             var status = SaveFile(file);
             return status;
         }
@@ -25,9 +26,9 @@ namespace T034.Tools.IO
         public IEnumerable<ViewDataUploadFilesResult> UploadWholeFile(HttpRequest request)
         {
             var statuses = new List<ViewDataUploadFilesResult>();
-            for (int i = 0; i < request.Files.Count; i++)
+            for (int i = 0; i < request.Form.Files.Count; i++)
             {
-                HttpPostedFileBase file = request.Files[i];
+                var file = request.Form.Files[i];
                 var status = SaveFile(file);
                 statuses.Add(status);
             }
@@ -35,7 +36,7 @@ namespace T034.Tools.IO
             return statuses;
         }
 
-        private ViewDataUploadFilesResult SaveFile(HttpPostedFileBase file)
+        private ViewDataUploadFilesResult SaveFile(IFormFile file)
         {
             var fileName = Path.GetFileName(file.FileName.Replace("..", "."));
             var fullPath = Path.Combine(_storageRoot, fileName);
@@ -43,12 +44,15 @@ namespace T034.Tools.IO
             if (!Directory.Exists(_storageRoot))
                 Directory.CreateDirectory(_storageRoot);
 
-            file.SaveAs(fullPath);
+            using (Stream fileStream = new FileStream(fullPath, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
 
             return new ViewDataUploadFilesResult()
             {
                 name = file.FileName,
-                size = file.ContentLength,
+                size = file.Length,
                 type = file.ContentType,
                 url = "/Home/Download/" + file.FileName,
                 delete_url = "/Home/Delete/" + file.FileName,
@@ -60,7 +64,7 @@ namespace T034.Tools.IO
     public class ViewDataUploadFilesResult
     {
         public string name { get; set; }
-        public int size { get; set; }
+        public long size { get; set; }
         public string type { get; set; }
         public string url { get; set; }
         public string delete_url { get; set; }
