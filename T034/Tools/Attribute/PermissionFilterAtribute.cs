@@ -25,12 +25,4 @@ namespace T034.Tools.Attribute
             filterContext.Result = new Microsoft.AspNetCore.Mvc.RedirectResult("~/Errors/Unauthorized");
         }
     }
-
-    public class Http403Result : Microsoft.AspNetCore.Mvc.ActionResult
-    {
-        public override void ExecuteResult(ControllerContext context)
-        {
-            context.HttpContext.Response.StatusCode = 403;
-        }
-    }
 }
