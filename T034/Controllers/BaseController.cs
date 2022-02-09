@@ -113,7 +113,7 @@ namespace T034.Controllers
             }
         }
 
-        protected override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
+        public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
             var actionName = context.ActionDescriptor.ActionName;
             var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
