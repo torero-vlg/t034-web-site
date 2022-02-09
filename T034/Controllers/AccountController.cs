@@ -55,20 +55,25 @@ namespace T034.Controllers
         {
             try
             {
-                Logger.Trace(Request.QueryString["code"]);
-                var userCookie = new HttpCookie("auth_code")
-                {
-                    Value = Request.QueryString["code"],
-                    Expires = DateTime.Now.AddDays(30)
-                };
-                Response.Cookies.Set(userCookie);
-                Logger.Trace($"Куки auth_code установлены: Request.QueryString[code]={Request.QueryString["code"]}, Response.Cookies[auth_code]={Response.Cookies["auth_code"].Value}");
+                Logger.Trace(HttpContext.Request.Query["code"]);
+                HttpContext.Response.Cookies.Append("auth_code",
+                   HttpContext.Request.Query["code"],
+                   new Microsoft.AspNetCore.Http.CookieOptions
+                   {
+                       Expires = DateTime.Now.AddDays(30)
+                   });
+
+                Logger.Trace($"Куки auth_code установлены: HttpContext.Request.Query['code']={HttpContext.Request.Query["code"]}, HttpContext.Response.Cookies={HttpContext.Response.Cookies}");
 
                 Logger.Trace($"Получаем информацию о пользователе. Request.QueryString: {Request.QueryString}.");
                 var client = GetClient();
                 Logger.Trace($"Cервис авторизации: {client}");
 
-                UserInfo = client?.GetUserInfo(Request.QueryString) ?? new UserInfo();
+                var nameValueCollection = new NameValueCollection();
+                foreach (var key in Request.Query.Keys)
+                    nameValueCollection.Add(key, Request.Query[key]);
+
+                UserInfo = client?.GetUserInfo(nameValueCollection) ?? new UserInfo();
                 Logger.Trace($"Пользователь: {UserInfo.Email}");
 
                 //try
@@ -85,8 +90,12 @@ namespace T034.Controllers
                 var user = Db.SingleOrDefault<User>(u => u.Email == UserInfo.Email);
                 Logger.Trace($"Пользователь из БД: {user.Email}");
 
-                var rolesCookie = new HttpCookie("roles") { Value = string.Join(",", user.UserRoles.Select(r => r.Code)), Expires = DateTime.Now.AddDays(30) };
-                Response.Cookies.Set(rolesCookie);
+                HttpContext.Response.Cookies.Append("roles",
+                    string.Join(",", user.UserRoles.Select(r => r.Code)),
+                    new Microsoft.AspNetCore.Http.CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30)
+                    });
             }
             catch (Exception ex)
             {
@@ -105,8 +114,8 @@ namespace T034.Controllers
 
             if (Request.Cookies["auth_code"] != null)
             {
-                Logger.Trace(Request.Cookies["auth_code"].Value);
-                nameValueCollection.Add("code", Request.Cookies["auth_code"].Value);
+                Logger.Trace(Request.Cookies["auth_code"]);
+                nameValueCollection.Add("code", Request.Cookies["auth_code"]);
             }
 
             Logger.Trace($"Получаем информацию о пользователе. Request.QueryString: {Request.QueryString}.");
