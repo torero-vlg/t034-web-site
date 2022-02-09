@@ -99,7 +99,6 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        [ValidateInput(false)]
         public ActionResult AddOrEdit(NewsViewModel model)
         {
             //найдём пользователя в БД

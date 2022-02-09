@@ -46,7 +46,6 @@ namespace T034.Controllers
             return View(model);
         }
 
-        [ValidateInput(false)]
         [Role("Moderator")]
         public ActionResult AddOrEdit(PageViewModel model)
         {
