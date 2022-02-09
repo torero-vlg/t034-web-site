@@ -16,6 +16,7 @@ using T034.Tools.IO;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Primitives;
 
 namespace T034.Controllers
 {
@@ -122,8 +123,11 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var result = Upload(Request);
-            
-            FileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
+
+            //TODO t-29 get folderId from form: ... Request.Form.Files[0];
+            // old version: int.Parse(Request.Files.Keys[0]);
+            var folderId = 0; 
+            FileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, folderId);
             //TODO надо что-то возвращать
             return Json(result);
         }
