@@ -15,16 +15,20 @@ using T034.Tools.Attribute;
 using T034.Tools.IO;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace T034.Controllers
 {
     public class FolderController : BaseController
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         [Inject]
         public IMenuItemService MenuItemService { get; set; }
 
-        public FolderController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public FolderController(AuthorizationRoot authorizationRoot, IWebHostEnvironment webHostEnvironment) : base(authorizationRoot)
         {
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [Inject]
@@ -126,11 +130,14 @@ namespace T034.Controllers
 
         private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequest request)
         {
-            var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+            var path = Path.Combine(webRootPath, MvcApplication.FilesFolder);
 
             var statuses = new List<ViewDataUploadFilesResult>();
             var uploader = new FileUploader(path);
-            if (request.Files.Cast<string>().Any())
+            if (request.Form.Files.Cast<string>().Any())
             {
                 try
                 {
@@ -158,7 +165,12 @@ namespace T034.Controllers
         {
             try
             {
-                var folder = FileService.DeleteFile(id, Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+                var path = Path.Combine(webRootPath, MvcApplication.FilesFolder);
+
+                var folder = FileService.DeleteFile(id, path);
 
                 return RedirectToAction("Edit", new { id = folder.Id });
             }
@@ -222,7 +234,12 @@ namespace T034.Controllers
                     //TODO обработка
                 }
 
-                byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, item.Name)));
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+                var path = Path.Combine(webRootPath, MvcApplication.FilesFolder, item.Name);
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
                 string fileName = item.Name;
 
                 item.DownloadCounter++;
