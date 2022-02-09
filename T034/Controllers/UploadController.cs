@@ -7,28 +7,39 @@ using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using OAuth2;
 using T034.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 
 namespace T034.Controllers
 {
     public class UploadController : BaseController
     {
-        public UploadController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public UploadController(AuthorizationRoot authorizationRoot, IWebHostEnvironment webHostEnvironment) : base(authorizationRoot)
         {
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public void UploadNow(HttpPostedFileWrapper upload)
+        public void UploadNow()
         {
-            if (upload != null)
-            {
-                var imageName = upload.FileName;
-                var path = Path.Combine(Server.MapPath("~/Upload/Images"), imageName);//TODO перенести путь в config
-                upload.SaveAs(path);
-            }
+            var file = Request.Form.Files[0];
+            var imageName = file.FileName;
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+            var path = Path.Combine(webRootPath, "/Upload/Images", imageName);//TODO перенести путь в config
+
+            using Stream fileStream = new FileStream(path, FileMode.Create);
+            file.CopyTo(fileStream);
+
         }
 
         public ActionResult UploadPartial()
         {
-            var appData = Server.MapPath("~/Upload/Images");//TODO перенести путь в config
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+            var appData = Path.Combine(webRootPath, "/Upload/Images");//TODO перенести путь в config
             var images = Directory.GetFiles(appData).Select(x => new ImageViewModel
             {
                 Url = Url.Content("/Upload/Images/" + Path.GetFileName(x)),//TODO перенести путь в config
@@ -46,7 +57,10 @@ namespace T034.Controllers
         [HttpPost]
         public ActionResult Export(FileViewModel file)
         {
-            var csvLines = System.IO.File.ReadAllLines(Server.MapPath("~/Upload/Temp/news.csv"));
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
+
+            var csvLines = System.IO.File.ReadAllLines(Path.Combine(webRootPath, "/Upload/Temp/news.csv"));
 
             var siteUrl = "http://localhost:3893";
 
