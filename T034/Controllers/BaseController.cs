@@ -52,7 +52,7 @@ namespace T034.Controllers
 
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
-            //TODO get controllerName
+            //TODO t-29 get controllerName
             //var controllerName = context.ActionDescriptor.D ControllerDescriptor.ControllerName;
             var controllerName = "";
             if (controllerName == "Base") return;
@@ -124,7 +124,7 @@ namespace T034.Controllers
 
         public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
-            //TODO get controllerName actionName
+            //TODO t-29 get controllerName actionName
             //var controllerName = context.ActionDescriptor.D ControllerDescriptor.ControllerName;
 
             //var actionName = context.ActionDescriptor.ActionName;

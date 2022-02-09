@@ -26,24 +26,16 @@ namespace T034.Controllers
             var accessToken = YandexAuth.GetAuthorizationCookie(Response.Cookies, code, Db);
             //  MonitorLog.WriteLog(string.Format("accessToken = {0}", accessToken), MonitorLog.typelog.Info, true);
 
-            FormsAuthentication.SetAuthCookie(accessToken, true);
+           //TODO t-29
+        //    FormsAuthentication.SetAuthCookie(accessToken, true);
 
             return RedirectToActionPermanent("Index", "Home");
         }
 
         public ActionResult Logout()
         {
-            HttpCookie aCookie;
-            string cookieName;
-            int limit = Request.Cookies.Count;
-
-            for (int i = 0; i < limit; i++)
-            {
-                cookieName = Request.Cookies[i].Name;
-                aCookie = new HttpCookie(cookieName);
-                aCookie.Value = "";
-                Response.Cookies.Set(aCookie);
-            }
+            foreach (var key in Request.Cookies.Keys)
+                HttpContext.Response.Cookies.Delete(key);
 
             return RedirectToAction("Index", "Home");
         }
@@ -61,10 +53,19 @@ namespace T034.Controllers
 
             if (result.IsAuthenticated)
             {
-                var rolesCookie = new HttpCookie("roles") { Value = string.Join(",", result.User.UserRoles.Select(r => r.Code)), Expires = DateTime.Now.AddDays(30) };
-                var authCookie = new HttpCookie("auth") { Value = result.User.Email, Expires = DateTime.Now.AddDays(30) };
-                Response.Cookies.Set(rolesCookie);
-                Response.Cookies.Set(authCookie);
+                HttpContext.Response.Cookies.Append("auth",
+                    result.User.Email,
+                    new Microsoft.AspNetCore.Http.CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30)
+                    });
+
+                HttpContext.Response.Cookies.Append("roles",
+                    string.Join(",", result.User.UserRoles.Select(r => r.Code)),
+                    new Microsoft.AspNetCore.Http.CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30)
+                    });
 
                 return RedirectToAction("Index", "Home");
             }

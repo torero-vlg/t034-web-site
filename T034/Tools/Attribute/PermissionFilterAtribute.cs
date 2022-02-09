@@ -12,7 +12,7 @@ namespace T034.Tools.Attribute
 
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext filterContext)
         {
-            //TODO get controllerName action
+            //TODO t-29 get controllerName action
             //var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
             var controller = "";
 
