@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
-using System.Web;
 using T034.Core.DataAccess;
 using T034.Core.Dto;
 using T034.Core.Entity;
@@ -19,7 +19,7 @@ namespace T034.Tools.Auth
 
 
 
-        public static string GetAuthorizationCookie(HttpCookieCollection cookies, string code, IBaseDb db)
+        public static string GetAuthorizationCookie(IResponseCookies cookies, string code, IBaseDb db)
         {
             //var code = request.QueryString["code"];
 
@@ -31,47 +31,49 @@ namespace T034.Tools.Auth
 
             var model = SerializeTools.Deserialize<TokenModel>(stream);
 
-            var userCookie = new HttpCookie("yandex_token")
-            {
-                Value = model.access_token,
-                Expires = DateTime.Now.AddDays(30)
-            };
-
-
-            stream = HttpTools.PostStream(InfoUrl, string.Format("oauth_token={0}", userCookie.Value));
+            stream = HttpTools.PostStream(InfoUrl, string.Format("oauth_token={0}", model.access_token));
             var email = SerializeTools.Deserialize<UserModel>(stream).default_email;
 
             var user = db.SingleOrDefault<User>(u => u.Email == email);
 
-            cookies.Set(userCookie);
-            
-            var rolesCookie = new HttpCookie("roles") {Value = string.Join(",", user.UserRoles.Select(r => r.Code)), Expires = DateTime.Now.AddDays(30)};
-            cookies.Set(rolesCookie);
-            
+            cookies.Append("yandex_token",
+               model.access_token,
+               new CookieOptions
+               {
+                   Expires = DateTime.Now.AddDays(30)
+               });
+
+            cookies.Append("roles",
+               string.Join(",", user.UserRoles.Select(r => r.Code)),
+               new CookieOptions
+               {
+                   Expires = DateTime.Now.AddDays(30)
+               });
+
             return model.access_token;
 
         }
 
-        public static UserModel GetUser(HttpRequestBase request)
-        {
-            var model = new UserModel{IsAutharization = false};
-            try
-            {
-                var userCookie = request.Cookies["yandex_token"];
-                if (userCookie != null)
-                {
-                    var stream = HttpTools.PostStream(InfoUrl, string.Format("oauth_token={0}", userCookie.Value));
-                    model = SerializeTools.Deserialize<UserModel>(stream);
-                    model.IsAutharization = true;
-                }
-            }
-            catch (Exception)
-            {
-                //MonitorLog.WriteLog(ex.InnerException + ex.Message, MonitorLog.typelog.Error, true);
-                model.IsAutharization = false;
-            }
+        //public static UserModel GetUser(HttpRequestBase request)
+        //{
+        //    var model = new UserModel{IsAutharization = false};
+        //    try
+        //    {
+        //        var userCookie = request.Cookies["yandex_token"];
+        //        if (userCookie != null)
+        //        {
+        //            var stream = HttpTools.PostStream(InfoUrl, string.Format("oauth_token={0}", userCookie.Value));
+        //            model = SerializeTools.Deserialize<UserModel>(stream);
+        //            model.IsAutharization = true;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        //MonitorLog.WriteLog(ex.InnerException + ex.Message, MonitorLog.typelog.Error, true);
+        //        model.IsAutharization = false;
+        //    }
 
-            return model;
-        }
+        //    return model;
+        //}
     }
 }
