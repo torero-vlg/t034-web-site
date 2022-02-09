@@ -11,6 +11,7 @@ using OAuth2.Client;
 using OAuth2.Models;
 using T034.Profiles;
 using T034.Repository;
+using System.Text;
 
 namespace T034.Controllers
 {
@@ -28,8 +29,12 @@ namespace T034.Controllers
 
         protected string ProviderName
         {
-            get { return (string)Session[ProviderNameKey]; }
-            set { Session[ProviderNameKey] = value; }
+            get
+            {
+                HttpContext.Session.TryGetValue(ProviderNameKey, out byte[] providerName);
+                return Encoding.UTF8.GetString(providerName);
+            }
+            set => HttpContext.Session.Set(ProviderNameKey, Encoding.UTF8.GetBytes(value));
         }
 
         protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -47,13 +52,15 @@ namespace T034.Controllers
 
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
-            var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
+            //TODO get controllerName
+            //var controllerName = context.ActionDescriptor.D ControllerDescriptor.ControllerName;
+            var controllerName = "";
             if (controllerName == "Base") return;
 
-            var actionName = context.ActionDescriptor.ActionName;
+            var actionName = context.ActionDescriptor.DisplayName;
 
             var user = "";
-            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request.QueryString: {Request?.QueryString}");
+            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {HttpContext.Connection.RemoteIpAddress}, User:{user}, Request.QueryString: {Request?.QueryString}");
 
             if (controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
                 SetUserInfo();
@@ -69,16 +76,18 @@ namespace T034.Controllers
                 {
                     UserInfo = new UserInfo
                     {
-                        Email = Request.Cookies["auth"].Value
+                        Email = Request.Cookies["auth"]
                     };
                     return;
                 }
 
                 var nameValueCollection = new NameValueCollection();
-
-                if (Request.QueryString["code"] != null)
+                
+                if (!string.IsNullOrEmpty(HttpContext.Request.Query["code"]))
                 {
-                    nameValueCollection = Request.QueryString;
+                    foreach(var key in Request.Query.Keys)
+                        nameValueCollection.Add(key, Request.Query[key]);
+
                     Logger.Trace($"nameValueCollection заполняем из Request.QueryString[code].");
                 }
                 else
@@ -86,8 +95,8 @@ namespace T034.Controllers
                     var authCodeCookie = Request.Cookies["auth_code"];
                     if (authCodeCookie != null)
                     {
-                        Logger.Trace($"Устанавливаем code: {authCodeCookie.Value}.");
-                        nameValueCollection.Add("code", authCodeCookie.Value);
+                        Logger.Trace($"Устанавливаем code: {authCodeCookie}.");
+                        nameValueCollection.Add("code", authCodeCookie);
                     }
                 }
 
@@ -115,10 +124,15 @@ namespace T034.Controllers
 
         public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
-            var actionName = context.ActionDescriptor.ActionName;
-            var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
+            //TODO get controllerName actionName
+            //var controllerName = context.ActionDescriptor.D ControllerDescriptor.ControllerName;
+
+            //var actionName = context.ActionDescriptor.ActionName;
+            var actionName = context.ActionDescriptor.DisplayName;
+            //var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
+            var controllerName = "";
             var user = "";
-            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}");
+            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {HttpContext.Connection.RemoteIpAddress}, User:{user}");
 
             base.OnActionExecuted(context);
         }
