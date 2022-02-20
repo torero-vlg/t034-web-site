@@ -9,13 +9,17 @@ using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 
 namespace T034.Controllers
 {
     public class SettingController : BaseController
     {
-        public SettingController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public SettingController(AuthorizationRoot authorizationRoot, IWebHostEnvironment webHostEnvironment) : base(authorizationRoot)
         {
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [Inject]
@@ -76,15 +80,17 @@ namespace T034.Controllers
             SettingService.Init();
 
             //инициализация папок
-            var directory = new DirectoryInfo(Server.MapPath($"/{MvcApplication.FilesFolder}"));
+            string webRootPath = _webHostEnvironment.WebRootPath;
+
+            var directory = new DirectoryInfo(Path.Combine(webRootPath, $"/{Program.FilesFolder}"));
             if(!directory.Exists)
                 directory.Create();
 
-            directory = new DirectoryInfo(Server.MapPath($"/{"Upload"}"));
+            directory = new DirectoryInfo(Path.Combine(webRootPath, $"/Upload"));
             if (!directory.Exists)
                 directory.Create();
 
-            directory = new DirectoryInfo(Server.MapPath($"/{"Upload/Images"}"));
+            directory = new DirectoryInfo(Path.Combine(webRootPath, $"/Upload/Images"));
             if (!directory.Exists)
                 directory.Create();
 

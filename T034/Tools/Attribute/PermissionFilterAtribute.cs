@@ -18,7 +18,8 @@ namespace T034.Tools.Attribute
 
             var action = filterContext.ActionDescriptor.DisplayName;
 
-            var role = MvcApplication.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
+            //var role = MvcApplication.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
+            var role = Program.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
             if (role == null) return;
 
             var rolesCookie = filterContext.HttpContext.Request.Cookies["roles"];
