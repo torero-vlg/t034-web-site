@@ -1,7 +1,7 @@
 ﻿@model OAuth2.Models.UserInfo
 
 <p>
-    @if (@Model.PhotoUri.IsEmpty())
+    @if (string.IsNullOrEmpty(@Model.PhotoUri))
     {
         @:"No photo"
     }

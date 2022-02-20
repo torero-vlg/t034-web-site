@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using T034.Tools
+<!DOCTYPE html>
 <html>
     <head>
         <title>@ViewBag.Title</title>
@@ -9,13 +10,13 @@
         <link rel="icon" type="image/png" href="@Url.Content("~/Content/pic/favicon.ico")"/>
 
         @{
-            if (Request.Cookies["style"] == null)
+            if (@Context.Request.Cookies["style"] == null)
             {
                 <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
             }
             else
             {
-                switch (Request.Cookies["style"].Value)
+                switch (@Context.Request.Cookies["style"])
                 {
                     case "BlackSpecial":
                         <link href="@Url.Content("~/Content/blackspecial.css")" rel="stylesheet" type="text/css"/>
@@ -43,13 +44,13 @@
             <div class="col-md-12 banner">
                 @{
 
-                    if (Request.Cookies["style"] == null)
+                    if (@Context.Request.Cookies["style"] == null)
                     {
                         <img src="../../Content/pic/banner.png" class="center-block" />
                     }
                     else
                     {
-                        switch (Request.Cookies["style"].Value)
+                        switch (@Context.Request.Cookies["style"])
                         {
                             case "BlackSpecial":
                                 <a href="@Url.Action("Set", "Style", new { styleName = "General" })">Обычная версия сайта</a>
@@ -77,7 +78,7 @@
                 <div class="style-menu">
                     <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png" /> Версия для слабовидящих</a>
                     @{
-                        if (Request.Cookies["auth"] == null || string.IsNullOrEmpty(Request.Cookies["auth"].Value))
+                        if (@Context.Request.Cookies["auth"] == null || string.IsNullOrEmpty(@Context.Request.Cookies["auth"]))
                         {
                             <span class="pull-right"><a href="@Url.Action("Logon", "Account")"><i class="fa fa-sign-in" aria-hidden="true"></i></a></span>
                         }
