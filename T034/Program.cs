@@ -11,16 +11,29 @@ using Ninject.Web.AspNetCore.Hosting;
 using Ninject.Web.Common;
 using Ninject.Web.Common.SelfHost;
 using OAuth2;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
 using T034.Core;
 using T034.Core.Api;
 using T034.Core.DataAccess;
 using T034.Core.Services;
+using T034.Models;
 using T034.Repository;
+using T034.Tools.Attribute;
 
 namespace T034
 {
     public class Program
     {
+        /// <summary>
+        /// Соответствие метода-контроллера и роли
+        /// </summary>
+        public static IEnumerable<ActionRole> ActionRoles { get; private set; }
+        
+        public static string FilesFolder = ConfigurationManager.AppSettings["FilesFolder"];
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -32,6 +45,8 @@ namespace T034
 
             var host = new NinjectSelfHostBootstrapper(CreateKernel, hostConfiguration);
             host.Start();
+
+            ActionRoles = GetActionRoles();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -82,5 +97,22 @@ namespace T034
 
         private static string ConnectionString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }
 
+        private static IEnumerable<ActionRole> GetActionRoles()
+        {
+            var _assembly = Assembly.GetExecutingAssembly();
+
+            IEnumerable<MethodInfo> methods = _assembly.GetTypes().
+                            SelectMany(t => t.GetMethods())
+                            .Where(m => m.GetCustomAttributes(typeof(RoleAttribute), true).Length > 0);
+
+            var result = methods.Select(m => new ActionRole()
+            {
+                Action = m.Name.ToLower(),
+                Role = ((RoleAttribute)m.GetCustomAttributes(typeof(RoleAttribute), true).FirstOrDefault()).Role,
+                Controller = m.GetBaseDefinition().ReflectedType.Name.Replace("Controller", "").ToLower()
+            }).ToList();
+
+            return result;
+        }
     }
 }
