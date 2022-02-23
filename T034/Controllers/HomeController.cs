@@ -2,6 +2,7 @@
 using T034.Core.Api;
 using Ninject;
 using OAuth2;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
@@ -10,8 +11,9 @@ namespace T034.Controllers
         private readonly ISettingService _settingService;
 
         public HomeController(AuthorizationRoot authorizationRoot,
-            ISettingService settingService) 
-            : base(authorizationRoot)
+            ISettingService settingService,
+            IBaseDb db) 
+            : base(authorizationRoot, db)
         {
             _settingService = settingService;
         }

@@ -17,11 +17,7 @@ namespace T034.Controllers
 {
     public class BaseController : Controller
     {
-        [Inject]
-        public IBaseDb Db { get; set; }
-
-        [Inject]
-        public IRepository Repository { get; set; }
+        protected readonly IBaseDb Db;
 
         protected readonly AuthorizationRoot AuthorizationRoot;
 
@@ -40,9 +36,11 @@ namespace T034.Controllers
         protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected UserInfo UserInfo;
 
-        public BaseController(AuthorizationRoot authorizationRoot)
+        public BaseController(AuthorizationRoot authorizationRoot,
+            IBaseDb db)
         {
             AuthorizationRoot = authorizationRoot;
+            Db = db;
         }
 
         protected IClient GetClient()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using T034.Core.DataAccess;
 using T034.Core.Dto;
 using T034.Core.Entity.Administration;
 using T034.Core.Services.Common;
@@ -19,6 +20,10 @@ namespace T034.Core.Services.Administration
 
     public class UserService : AbstractRepository<User, UserDto, int>, IUserService
     {
+        public UserService(IBaseDb db)
+            : base(db)
+        { }
+
         public UserDto Create(string name, string email, string password)
         {
             var user = new User(email, name, password);

@@ -6,23 +6,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Dto;
 using T034.Core.Services;
 using T034.Core.Services.Common;
-using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class NewslineController : BaseController
     {
-        [Inject]
-        public INewslineService NewslineService { get; set; }
+        private readonly INewslineService _newslineService;
 
-        [Inject]
-        public IMenuItemService MenuItemService { get; set; }
+        private readonly IMenuItemService _menuItemService;
 
-        public NewslineController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public NewslineController(AuthorizationRoot authorizationRoot,
+            IMenuItemService menuItemService,
+            INewslineService newslineService,
+            IBaseDb db)
+            : base(authorizationRoot, db)
         {
+            _menuItemService = menuItemService;
+            _newslineService = newslineService;
         }
 
         [Role("Moderator")]
@@ -30,7 +34,7 @@ namespace T034.Controllers
         {
             try
             {
-                var list = NewslineService.Select();
+                var list = _newslineService.Select();
                 var model = new List<NewslineViewModel>();
                 model = Mapper.Map(list, model);
 
@@ -50,15 +54,15 @@ namespace T034.Controllers
             var model = new NewslineViewModel();
             if (id.HasValue)
             {
-                var dto = NewslineService.Get(id.Value);
+                var dto = _newslineService.Get(id.Value);
                 model = Mapper.Map(dto, model);
             }
 
             //TODO дублирует код из FolderController
-            var menuItems = MenuItemService.Select();
+            var menuItems = _menuItemService.Select();
             model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
 
-            var byUrl = MenuItemService.ByUrl(model.IndexUrl);
+            var byUrl = _menuItemService.ByUrl(model.IndexUrl);
             if (byUrl != null)
             {
                 var selected = model.MenuItems.FirstOrDefault(m => m.Value == byUrl.Id.ToString());
@@ -73,11 +77,11 @@ namespace T034.Controllers
         {
             if (model.Id > 0)
             {
-                NewslineService.Update(Mapper.Map<NewslineDto>(model));
+                _newslineService.Update(Mapper.Map<NewslineDto>(model));
             }
             else
             {
-                NewslineService.Create(Mapper.Map<NewslineDto>(model));
+                _newslineService.Create(Mapper.Map<NewslineDto>(model));
             }
 
             return RedirectToAction("List");
@@ -87,7 +91,7 @@ namespace T034.Controllers
         {
             try
             {
-                var items = NewslineService.GetNews(id);
+                var items = _newslineService.GetNews(id);
                 var model = new List<NewsViewModel>();
                 model = Mapper.Map<List<NewsViewModel>>(items);
 
@@ -105,7 +109,7 @@ namespace T034.Controllers
         {
             try
             {
-                var result = NewslineService.Delete(id);
+                var result = _newslineService.Delete(id);
                 if (result.Status != StatusOperation.Success)
                 {
                     Logger.Error(result.Message);

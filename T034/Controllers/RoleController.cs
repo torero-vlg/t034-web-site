@@ -4,20 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 using T034.Core.Dto;
 using T034.Core.Services.Administration;
 using T034.Core.Services.Common;
-using Ninject;
 using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class RoleController : BaseController
     {
-        [Inject]
-        public IRoleService RoleService { get; set; }
+        private readonly IRoleService _roleService;
 
-        public RoleController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public RoleController(AuthorizationRoot authorizationRoot,
+            IRoleService roleService,
+            IBaseDb db) 
+            : base(authorizationRoot, db)
         {
+            _roleService = roleService;
         }
 
         [Role("Administrator")]
@@ -25,7 +28,7 @@ namespace T034.Controllers
         {
             try
             {
-                var list = RoleService.Select();
+                var list = _roleService.Select();
                 var model = new List<RoleViewModel>();
                 model = Mapper.Map(list, model);
 
@@ -45,7 +48,7 @@ namespace T034.Controllers
             var model = new RoleViewModel();
             if (id.HasValue)
             {
-                var dto = RoleService.Get(id.Value);
+                var dto = _roleService.Get(id.Value);
                 model = Mapper.Map(dto, model);
             }
 
@@ -57,11 +60,11 @@ namespace T034.Controllers
         {
             if (model.Id > 0)
             {
-                RoleService.Update(Mapper.Map<RoleDto>(model));
+                _roleService.Update(Mapper.Map<RoleDto>(model));
             }
             else
             {
-                RoleService.Create(Mapper.Map<RoleDto>(model));
+                _roleService.Create(Mapper.Map<RoleDto>(model));
             }
 
 
@@ -73,7 +76,7 @@ namespace T034.Controllers
         {
             var model = new RoleViewModel();
 
-            var item = RoleService.Get(id);
+            var item = _roleService.Get(id);
             if (item == null)
             {
                 return View("ServerError", (object)"Страница не найдена");
@@ -88,7 +91,7 @@ namespace T034.Controllers
         {
             try
             {
-                var result = RoleService.Delete(id);
+                var result = _roleService.Delete(id);
                 if (result.Status != StatusOperation.Success)
                 {
                     Logger.Error(result.Message);

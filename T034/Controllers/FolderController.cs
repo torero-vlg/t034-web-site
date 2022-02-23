@@ -8,7 +8,6 @@ using T034.Core.Api;
 using T034.Core.Api.Common.Exceptions;
 using T034.Core.Entity;
 using T034.Core.Services;
-using Ninject;
 using OAuth2;
 using OAuth2.Models;
 using T034.Tools.Attribute;
@@ -17,6 +16,7 @@ using T034.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Primitives;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
@@ -24,16 +24,21 @@ namespace T034.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        [Inject]
-        public IMenuItemService MenuItemService { get; set; }
+        private readonly IMenuItemService _menuItemService;
 
-        public FolderController(AuthorizationRoot authorizationRoot, IWebHostEnvironment webHostEnvironment) : base(authorizationRoot)
+        private readonly IFileService _fileService;
+
+        public FolderController(AuthorizationRoot authorizationRoot, 
+            IWebHostEnvironment webHostEnvironment, 
+            IMenuItemService menuItemService, 
+            IFileService fileService, 
+            IBaseDb db) 
+            : base(authorizationRoot, db)
         {
             _webHostEnvironment = webHostEnvironment;
+            _menuItemService = menuItemService;
+            _fileService = fileService;
         }
-
-        [Inject]
-        public IFileService FileService { get; set; }
 
         public ActionResult Index(int? id)
         {
@@ -87,10 +92,10 @@ namespace T034.Controllers
             var items = Mapper.Map<IEnumerable<FileViewModel>>(Db.Where<Files>(f => f.Folder.Id == model.Id));
 
             //TODO дублирует код из PageController
-            var menuItems = MenuItemService.Select();
+            var menuItems = _menuItemService.Select();
             model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
             
-            var byUrl = MenuItemService.ByUrl(model.IndexUrl);
+            var byUrl = _menuItemService.ByUrl(model.IndexUrl);
             if (byUrl != null)
             {
                 var selected = model.MenuItems.FirstOrDefault(m => m.Value == byUrl.Id.ToString());
@@ -127,7 +132,7 @@ namespace T034.Controllers
             //TODO t-29 get folderId from form: ... Request.Form.Files[0];
             // old version: int.Parse(Request.Files.Keys[0]);
             var folderId = 0; 
-            FileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, folderId);
+            _fileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, folderId);
             //TODO надо что-то возвращать
             return Json(result);
         }
@@ -174,7 +179,7 @@ namespace T034.Controllers
 
                 var path = Path.Combine(webRootPath, Program.FilesFolder);
 
-                var folder = FileService.DeleteFile(id, path);
+                var folder = _fileService.DeleteFile(id, path);
 
                 return RedirectToAction("Edit", new { id = folder.Id });
             }
@@ -191,7 +196,7 @@ namespace T034.Controllers
             try
             {
                 var item = Mapper.Map<Folder>(model);
-                FileService.DeleteFolder(item);
+                _fileService.DeleteFolder(item);
             }
             catch (Exception ex)
             {
@@ -208,13 +213,13 @@ namespace T034.Controllers
             var item = new Folder();
             if (model.Id > 0)
             {
-                item = FileService.GetFolder(model.Id); 
+                item = _fileService.GetFolder(model.Id); 
             }
             item = Mapper.Map(model, item);
 
             try
             {
-                FileService.CreateFolder(UserInfo.Email, item);
+                _fileService.CreateFolder(UserInfo.Email, item);
             }
             catch (UserNotFoundException ex)
             {

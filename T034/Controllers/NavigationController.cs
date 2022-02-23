@@ -4,20 +4,22 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using T034.Core.Entity;
-using Ninject;
 using OAuth2;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class NavigationController : BaseController
     {
-        public NavigationController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        private readonly IUserService _userService;
+
+        public NavigationController(AuthorizationRoot authorizationRoot, 
+            IUserService userService, 
+            IBaseDb db) 
+            : base(authorizationRoot, db)
         {
         }
-
-        [Inject]
-        public IUserService UserService { get; set; }
 
         public ActionResult MainMenu()
         {
@@ -49,7 +51,7 @@ namespace T034.Controllers
             if (UserInfo != null)
             {
                 Logger.Trace(UserInfo.Email);
-                var user = UserService.GetUser(UserInfo.Email);
+                var user = _userService.GetUser(UserInfo.Email);
                 if (user != null)
                 {
                     Logger.Trace(user.Email);

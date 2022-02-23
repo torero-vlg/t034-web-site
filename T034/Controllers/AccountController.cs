@@ -7,13 +7,14 @@ using OAuth2;
 using OAuth2.Models;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
 
     public class AccountController : BaseController
     {
-        public AccountController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public AccountController(AuthorizationRoot authorizationRoot, IBaseDb db) : base(authorizationRoot, db)
         {
         }
 

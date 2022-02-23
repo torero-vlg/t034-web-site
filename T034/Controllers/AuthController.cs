@@ -3,20 +3,21 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.Entity;
 using T034.Core.Services.Administration;
-using Ninject;
 using OAuth2;
 using T034.Tools.Auth;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class AuthController : BaseController
     {
-        [Inject]
-        public IUserService UserService { get; set; }
+        private readonly IUserService _userService;
 
-        public AuthController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public AuthController(AuthorizationRoot authorizationRoot, IUserService userService, IBaseDb db) 
+            : base(authorizationRoot, db)
         {
+            _userService = userService;
         }
 
         public ActionResult LoginWithYandex(string code)
@@ -49,7 +50,7 @@ namespace T034.Controllers
 
         public ActionResult Login(LogonViewModel model)
         {
-            var result = UserService.Authenticate(model.Email, model.Password);
+            var result = _userService.Authenticate(model.Email, model.Password);
 
             if (result.IsAuthenticated)
             {

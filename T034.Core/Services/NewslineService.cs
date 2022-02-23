@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using T034.Core.DataAccess;
 using T034.Core.Dto;
 using T034.Core.Entity;
 using T034.Core.Services.Common;
@@ -25,6 +26,10 @@ namespace T034.Core.Services
 
     public class NewslineService : AbstractRepository<Newsline, NewslineDto, int>, INewslineService
     {
+        public NewslineService(IBaseDb db)
+            : base(db)
+        { }
+
         public IEnumerable<NewsDto> GetNews(int id)
         {
             var news = Db.Where<News>(n => n.Newsline.Id == id).OrderByDescending(n => n.LogDate);

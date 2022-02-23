@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using T034.Core.DataAccess;
 using T034.Core.Dto;
 using T034.Core.Entity.Administration;
 using T034.Core.Services.Common;
@@ -17,5 +18,8 @@ namespace T034.Core.Services.Administration
 
     public class RoleService : AbstractRepository<Role, RoleDto, int>, IRoleService
     {
+        public RoleService(IBaseDb db)
+            : base(db)
+        { }
     }
 }
