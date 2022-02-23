@@ -7,6 +7,7 @@ using T034.Core.Dto;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using NLog;
+using T034.Core.DataAccess;
 
 namespace T034.Core.Api
 {
@@ -48,6 +49,12 @@ namespace T034.Core.Api
     public class FileService : AbstractService, IFileService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+        public FileService(IBaseDb db)
+            : base(db)
+        {
+        }
+
 
         public void AddFile(IEnumerable<FileDto> files, string email, int? folderId = null)
         {

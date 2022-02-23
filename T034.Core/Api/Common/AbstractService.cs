@@ -5,7 +5,11 @@ namespace T034.Core.Api.Common
 {
     public abstract class AbstractService
     {
-        [Inject]
-        public IBaseDb Db { get; set; }
+        public AbstractService(IBaseDb db)
+        {
+            Db = db;
+        }
+
+        protected IBaseDb Db { get; set; }
     }
 }

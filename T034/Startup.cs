@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using T034.Core;
+using T034.Core.Api;
+using T034.Core.DataAccess;
+using T034.Core.Services;
 
 namespace T034
 {
@@ -39,6 +43,7 @@ namespace T034
                     options.UseMemberCasing();
                 });
 
+            RegisterServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,5 +68,36 @@ namespace T034
         private void ConfigureMvcOptions(MvcOptions mvcOptions)
         { 
         }
+
+
+        /// <summary>
+        /// Регистрация сервисов
+        /// </summary>
+        /// <param name="kernel">The kernel.</param>
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddTransient(sp =>
+            {
+                var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
+                var path = webHostEnvironment.ContentRootPath;
+
+                var str = $"Data Source={path.Replace("\\", "/")}/{ConnectionString};Version=3;";
+                return new NhDbFactory(str).CreateBaseDb();
+            });
+
+            services.AddTransient<Repository.IRepository, Repository.Repository>();
+            services.AddTransient<ISettingService, SettingService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<OAuth2.AuthorizationRoot, OAuth2.AuthorizationRoot>();
+
+            services.AddTransient<Core.Services.Administration.IUserService, Core.Services.Administration.UserService>();
+            services.AddTransient<Core.Services.Administration.IRoleService, Core.Services.Administration.RoleService>();
+            services.AddTransient<IMenuItemService, MenuItemService>();
+            services.AddTransient<INewslineService, NewslineService>();
+
+        }
+
+
     }
 }

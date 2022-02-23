@@ -51,10 +51,8 @@ namespace T034.Core
         {
             try
             {
-                var str =
-                    $"Data Source={AppDomain.CurrentDomain.BaseDirectory.Replace("\\", "/")}{connectionString};Version=3;";
                 var factory = Fluently.Configure()
-                    .Database(SQLiteConfiguration.Standard.ConnectionString(str))
+                    .Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
                     .ExposeConfiguration(c => c.Properties.Add("current_session_context_class",
                         typeof(CallSessionContext).FullName))
                     .Mappings(x => x.FluentMappings.AddFromAssemblyOf<NewsMap>())

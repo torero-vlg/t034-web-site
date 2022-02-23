@@ -7,16 +7,18 @@ namespace T034.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
-        {
-        }
+        private readonly ISettingService _settingService;
 
-        [Inject]
-        public ISettingService SettingService { get; set; }
+        public HomeController(AuthorizationRoot authorizationRoot,
+            ISettingService settingService) 
+            : base(authorizationRoot)
+        {
+            _settingService = settingService;
+        }
 
         public ActionResult Index()
         {
-            var item = SettingService.GetStartPage();
+            var item = _settingService.GetStartPage();
             if(item == null || item.Value == "")
                 return View();
 
