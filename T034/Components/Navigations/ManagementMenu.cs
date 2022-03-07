@@ -27,7 +27,7 @@ namespace T034.Components.Navigations
                 }
             }
 
-            return View("ErrorMessage", (object)"Пользователь не определён");
+            return Content(string.Empty);
         }
     }
 }

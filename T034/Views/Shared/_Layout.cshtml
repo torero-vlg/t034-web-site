@@ -37,10 +37,8 @@
     </head>
 
     <body>
-        @{
-            if (!string.IsNullOrEmpty(@Context.Request.Cookies["auth"]))
-                await Component.InvokeAsync("ManagementMenu");
-        }
+        
+        @await Component.InvokeAsync("ManagementMenu")
 
         <div class="row">
             <div class="col-md-12 banner">
