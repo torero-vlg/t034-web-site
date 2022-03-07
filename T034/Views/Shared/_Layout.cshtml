@@ -25,11 +25,11 @@
                         <link href="@Url.Content("~/Content/whitespecial.css")" rel="stylesheet" type="text/css" />
                         break;
                     default:
-                        <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
-                        break;
-                }
+                    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css"/>
+                    break;
             }
         }
+    }
 
         <script src="/Scripts/require.js"></script>
         <script src="/Scripts/main.js"></script>
@@ -38,8 +38,10 @@
 
     <body>
         @{
-            Html.RenderAction("ManagementMenu", "Navigation");
+            if (!string.IsNullOrEmpty(@Context.Request.Cookies["auth"]))
+                await Component.InvokeAsync("ManagementMenu");
         }
+
         <div class="row">
             <div class="col-md-12 banner">
                 @{
@@ -72,9 +74,9 @@
             <div class="col-md-3">
             </div>
             <div class="col-md-6">
-                @{
-                    Html.RenderAction("MainMenu", "Navigation");
-                }
+         
+                @await Component.InvokeAsync("MainMenu");
+                
                 <div class="style-menu">
                     <a href="@Url.Action("Set", "Style", new { styleName = "BlackSpecial" })"><img src="../../Content/pic/lowvision.png" /> Версия для слабовидящих</a>
                     @{

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<T034.ViewModel.MenuItemViewModel>
+<div class="center-block">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse main-menu" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    @{
+                        foreach (var menuItem in Model)
+                        {
+                            <li class="dropdown @menuItem.Active">
+                                @if (menuItem.Url == "#")
+                                {
+                                    <a href="@menuItem.Url" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@menuItem.Title</a>
+                                }
+                                else
+                                {
+                                    <a href="@menuItem.Url" cla>@menuItem.Title</a>
+                                }
+                                @if (menuItem.Childs.Any())
+                                {
+                                    <ul class="dropdown-menu">
+                                        @foreach (var subMenuItem in menuItem.Childs)
+                                        {
+                                            <li><a class="" href="@subMenuItem.Url">@subMenuItem.Title</a></li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    }
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
