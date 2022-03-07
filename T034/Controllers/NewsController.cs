@@ -17,7 +17,7 @@ namespace T034.Controllers
     {
         private readonly INewslineService _newslineService;
 
-        public NewsController(AuthorizationRoot authorizationRoot, NewslineService newslineService, IBaseDb db) 
+        public NewsController(AuthorizationRoot authorizationRoot, INewslineService newslineService, IBaseDb db) 
             : base(authorizationRoot, db)
         {
             _newslineService = newslineService;
