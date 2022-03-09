@@ -40,7 +40,7 @@ namespace T034.Controllers
             string webRootPath = _webHostEnvironment.WebRootPath;
             string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-            var appData = Path.Combine(webRootPath, "/Upload/Images");//TODO перенести путь в config
+            var appData = Path.Combine(contentRootPath, "/Upload/Images");//TODO перенести путь в config
             var images = Directory.GetFiles(appData).Select(x => new ImageViewModel
             {
                 Url = Url.Content("/Upload/Images/" + Path.GetFileName(x)),//TODO перенести путь в config
@@ -61,7 +61,7 @@ namespace T034.Controllers
             string webRootPath = _webHostEnvironment.WebRootPath;
             string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-            var csvLines = System.IO.File.ReadAllLines(Path.Combine(webRootPath, "/Upload/Temp/news.csv"));
+            var csvLines = System.IO.File.ReadAllLines(Path.Combine(contentRootPath, "/Upload/Temp/news.csv"));
 
             var siteUrl = "http://localhost:3893";
 

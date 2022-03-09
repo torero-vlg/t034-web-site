@@ -139,7 +139,7 @@ namespace T034.Controllers
             string webRootPath = _webHostEnvironment.WebRootPath;
             string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-            var path = Path.Combine(webRootPath, Program.FilesFolder);
+            var path = Path.Combine(contentRootPath, Program.FilesFolder);
 
             var statuses = new List<ViewDataUploadFilesResult>();
             var uploader = new FileUploader(path);
@@ -174,7 +174,7 @@ namespace T034.Controllers
                 string webRootPath = _webHostEnvironment.WebRootPath;
                 string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-                var path = Path.Combine(webRootPath, Program.FilesFolder);
+                var path = Path.Combine(contentRootPath, Program.FilesFolder);
 
                 var folder = _fileService.DeleteFile(id, path);
 
@@ -243,7 +243,7 @@ namespace T034.Controllers
                 string webRootPath = _webHostEnvironment.WebRootPath;
                 string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-                var path = Path.Combine(webRootPath, Program.FilesFolder, item.Name);
+                var path = Path.Combine(contentRootPath, Program.FilesFolder, item.Name);
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(path);
                 string fileName = item.Name;

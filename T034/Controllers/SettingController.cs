@@ -82,17 +82,17 @@ namespace T034.Controllers
             _settingService.Init();
 
             //инициализация папок
-            string webRootPath = _webHostEnvironment.WebRootPath;
+            string contentRootPath = _webHostEnvironment.ContentRootPath;
 
-            var directory = new DirectoryInfo(Path.Combine(webRootPath, $"/{Program.FilesFolder}"));
+            var directory = new DirectoryInfo(Path.Combine(contentRootPath, $"/{Program.FilesFolder}"));
             if(!directory.Exists)
                 directory.Create();
 
-            directory = new DirectoryInfo(Path.Combine(webRootPath, $"/Upload"));
+            directory = new DirectoryInfo(Path.Combine(contentRootPath, $"/Upload"));
             if (!directory.Exists)
                 directory.Create();
 
-            directory = new DirectoryInfo(Path.Combine(webRootPath, $"/Upload/Images"));
+            directory = new DirectoryInfo(Path.Combine(contentRootPath, $"/Upload/Images"));
             if (!directory.Exists)
                 directory.Create();
 
