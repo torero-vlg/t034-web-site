@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.Entity;
 using T034.Core.Services.Administration;
-using OAuth2;
 using T034.Tools.Auth;
 using T034.ViewModel;
 using T034.Core.DataAccess;
@@ -14,8 +13,8 @@ namespace T034.Controllers
     {
         private readonly IUserService _userService;
 
-        public AuthController(AuthorizationRoot authorizationRoot, IUserService userService, IBaseDb db) 
-            : base(authorizationRoot, db)
+        public AuthController(IUserService userService, IBaseDb db) 
+            : base(db)
         {
             _userService = userService;
         }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Entity;
 using T034.Core.Services;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 using T034.Core.DataAccess;
@@ -16,10 +15,9 @@ namespace T034.Controllers
     {
         private readonly IMenuItemService _menuItemService;
 
-        public PageController(AuthorizationRoot authorizationRoot,
-            IMenuItemService menuItemService,
+        public PageController(IMenuItemService menuItemService,
             IBaseDb db)
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _menuItemService = menuItemService;
         }

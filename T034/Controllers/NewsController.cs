@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using T034.Core.Services;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 using T034.Core.DataAccess;
@@ -17,8 +16,8 @@ namespace T034.Controllers
     {
         private readonly INewslineService _newslineService;
 
-        public NewsController(AuthorizationRoot authorizationRoot, INewslineService newslineService, IBaseDb db) 
-            : base(authorizationRoot, db)
+        public NewsController(INewslineService newslineService, IBaseDb db) 
+            : base(db)
         {
             _newslineService = newslineService;
         }

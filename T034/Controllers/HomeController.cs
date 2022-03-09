@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
-using Ninject;
-using OAuth2;
 using T034.Core.DataAccess;
 
 namespace T034.Controllers
@@ -10,10 +8,9 @@ namespace T034.Controllers
     {
         private readonly ISettingService _settingService;
 
-        public HomeController(AuthorizationRoot authorizationRoot,
-            ISettingService settingService,
+        public HomeController(ISettingService settingService,
             IBaseDb db) 
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _settingService = settingService;
         }

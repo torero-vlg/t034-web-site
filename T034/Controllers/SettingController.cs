@@ -5,7 +5,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using T034.Core.Entity;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Hosting;
@@ -19,12 +18,11 @@ namespace T034.Controllers
         private readonly ISettingService _settingService;
         private readonly IUserService _userService;
 
-        public SettingController(AuthorizationRoot authorizationRoot, 
-            IWebHostEnvironment webHostEnvironment,
+        public SettingController(IWebHostEnvironment webHostEnvironment,
             ISettingService settingService,
             IUserService userService,
             IBaseDb db) 
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
             _settingService = settingService;

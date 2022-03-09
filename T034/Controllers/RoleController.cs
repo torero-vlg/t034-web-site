@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using T034.Core.Dto;
 using T034.Core.Services.Administration;
 using T034.Core.Services.Common;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 using T034.Core.DataAccess;
@@ -15,10 +14,9 @@ namespace T034.Controllers
     {
         private readonly IRoleService _roleService;
 
-        public RoleController(AuthorizationRoot authorizationRoot,
-            IRoleService roleService,
+        public RoleController(IRoleService roleService,
             IBaseDb db) 
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _roleService = roleService;
         }

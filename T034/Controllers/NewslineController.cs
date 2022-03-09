@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Dto;
 using T034.Core.Services;
 using T034.Core.Services.Common;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 using T034.Core.DataAccess;
@@ -19,11 +18,10 @@ namespace T034.Controllers
 
         private readonly IMenuItemService _menuItemService;
 
-        public NewslineController(AuthorizationRoot authorizationRoot,
-            IMenuItemService menuItemService,
+        public NewslineController(IMenuItemService menuItemService,
             INewslineService newslineService,
             IBaseDb db)
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _menuItemService = menuItemService;
             _newslineService = newslineService;

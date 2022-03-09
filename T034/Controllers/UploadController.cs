@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
-using OAuth2;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using T034.Core.DataAccess;
@@ -15,10 +14,9 @@ namespace T034.Controllers
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UploadController(AuthorizationRoot authorizationRoot, 
-            IWebHostEnvironment webHostEnvironment,
+        public UploadController(IWebHostEnvironment webHostEnvironment,
             IBaseDb db) 
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
         }

@@ -1,16 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OAuth2;
 using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class StyleController : BaseController
     {
-        public StyleController(AuthorizationRoot authorizationRoot,
-            IBaseDb db) 
-            : base(authorizationRoot, db)
+        public StyleController(IBaseDb db) 
+            : base(db)
         {
         }
         

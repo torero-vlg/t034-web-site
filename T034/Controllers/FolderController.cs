@@ -8,8 +8,6 @@ using T034.Core.Api;
 using T034.Core.Api.Common.Exceptions;
 using T034.Core.Entity;
 using T034.Core.Services;
-using OAuth2;
-using OAuth2.Models;
 using T034.Tools.Attribute;
 using T034.Tools.IO;
 using T034.ViewModel;
@@ -28,12 +26,11 @@ namespace T034.Controllers
 
         private readonly IFileService _fileService;
 
-        public FolderController(AuthorizationRoot authorizationRoot, 
-            IWebHostEnvironment webHostEnvironment, 
+        public FolderController(IWebHostEnvironment webHostEnvironment, 
             IMenuItemService menuItemService, 
             IFileService fileService, 
             IBaseDb db) 
-            : base(authorizationRoot, db)
+            : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
             _menuItemService = menuItemService;
