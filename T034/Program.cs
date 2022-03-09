@@ -5,21 +5,11 @@
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Ninject;
-using Ninject.Web.AspNetCore;
-using Ninject.Web.AspNetCore.Hosting;
-using Ninject.Web.Common;
-using Ninject.Web.Common.SelfHost;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
-using T034.Core;
-using T034.Core.Api;
-using T034.Core.DataAccess;
-using T034.Core.Services;
 using T034.Models;
-using T034.Repository;
 using T034.Tools.Attribute;
 
 namespace T034
@@ -37,14 +27,6 @@ namespace T034
         {
             CreateHostBuilder(args).Build().Run();
 
-            var hostConfiguration = new AspNetCoreHostConfiguration(args)
-                .UseStartup<Startup>()
-                .UseKestrel()
-                .BlockOnStart();
-
-            var host = new NinjectSelfHostBootstrapper(CreateKernel, hostConfiguration);
-            host.Start();
-
             ActionRoles = GetActionRoles();
         }
 
@@ -54,44 +36,6 @@ namespace T034
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        public static IKernel CreateKernel()
-        {
-            var settings = new NinjectSettings();
-            // Unfortunately, in .NET Core projects, referenced NuGet assemblies are not copied to the output directory
-            // in a normal build which means that the automatic extension loading does not work _reliably_ and it is
-            // much more reasonable to not rely on that and load everything explicitly.
-            settings.LoadExtensions = false;
-
-            var kernel = new AspNetCoreKernel(settings);
-
-            RegisterServices(kernel);
-
-
-            kernel.Load(typeof(AspNetCoreHostConfiguration).Assembly);
-
-            return kernel;
-        }
-
-        /// <summary>
-        /// Load your modules or register your services here!
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
-        private static void RegisterServices(IKernel kernel)
-        {
-            kernel.Bind<IBaseDb>().ToMethod(c => new NhDbFactory(ConnectionString).CreateBaseDb());
-            kernel.Bind<IRepository>().To<Repository.Repository>().InRequestScope();
-            kernel.Bind<ISettingService>().To<SettingService>().InRequestScope();
-            kernel.Bind<IUserService>().To<UserService>().InRequestScope();
-            kernel.Bind<IFileService>().To<FileService>().InRequestScope();
-
-            kernel.Bind<Core.Services.Administration.IUserService>().To<Core.Services.Administration.UserService>().InRequestScope();
-            kernel.Bind<Core.Services.Administration.IRoleService>().To<Core.Services.Administration.RoleService>().InRequestScope();
-            kernel.Bind<IMenuItemService>().To<MenuItemService>().InRequestScope();
-            kernel.Bind<INewslineService>().To<NewslineService>().InRequestScope();
-
-            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["WingtipToys"].ConnectionString;
-        }
 
         private static string ConnectionString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }
 
