@@ -113,7 +113,6 @@ namespace T034
             services.AddTransient<ISettingService, SettingService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IFileService, FileService>();
-            services.AddTransient<OAuth2.AuthorizationRoot, OAuth2.AuthorizationRoot>();
 
             services.AddTransient<Core.Services.Administration.IUserService, Core.Services.Administration.UserService>();
             services.AddTransient<Core.Services.Administration.IRoleService, Core.Services.Administration.RoleService>();
