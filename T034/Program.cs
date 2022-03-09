@@ -10,7 +10,6 @@ using Ninject.Web.AspNetCore;
 using Ninject.Web.AspNetCore.Hosting;
 using Ninject.Web.Common;
 using Ninject.Web.Common.SelfHost;
-using OAuth2;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -85,7 +84,6 @@ namespace T034
             kernel.Bind<ISettingService>().To<SettingService>().InRequestScope();
             kernel.Bind<IUserService>().To<UserService>().InRequestScope();
             kernel.Bind<IFileService>().To<FileService>().InRequestScope();
-            kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
 
             kernel.Bind<Core.Services.Administration.IUserService>().To<Core.Services.Administration.UserService>().InRequestScope();
             kernel.Bind<Core.Services.Administration.IRoleService>().To<Core.Services.Administration.RoleService>().InRequestScope();

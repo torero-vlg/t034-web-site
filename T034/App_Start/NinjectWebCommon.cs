@@ -3,7 +3,6 @@ using T034.Core;
 using T034.Core.Api;
 using T034.Core.DataAccess;
 using T034.Core.Services;
-using OAuth2;
 using T034.Repository;
 
 //[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(T034.App_Start.NinjectWebCommon), "Start")]
@@ -71,7 +70,7 @@ namespace T034.App_Start
             kernel.Bind<ISettingService>().To<SettingService>().InRequestScope();
             kernel.Bind<IUserService>().To<UserService>().InRequestScope();
             kernel.Bind<IFileService>().To<FileService>().InRequestScope();
-            kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
+         //   kernel.Bind<AuthorizationRoot>().To<AuthorizationRoot>().InRequestScope();
 
             kernel.Bind<Core.Services.Administration.IUserService>().To<Core.Services.Administration.UserService>().InRequestScope();
             kernel.Bind<Core.Services.Administration.IRoleService>().To<Core.Services.Administration.RoleService>().InRequestScope();
