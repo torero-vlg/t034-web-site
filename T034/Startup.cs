@@ -98,12 +98,14 @@ namespace T034
         /// <param name="kernel">The kernel.</param>
         private void RegisterServices(IServiceCollection services)
         {
+            var dbFilePath = Configuration.GetConnectionString("DatabaseFile");
+
             services.AddTransient(sp =>
             {
                 var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
                 var path = webHostEnvironment.ContentRootPath;
 
-                var str = $"Data Source={path.Replace("\\", "/")}/{ConnectionString};Version=3;";
+                var str = $"Data Source={path.Replace("\\", "/")}/{dbFilePath};Version=3;";
                 return new NhDbFactory(str).CreateBaseDb();
             });
 
@@ -119,10 +121,5 @@ namespace T034
             services.AddTransient<INewslineService, NewslineService>();
 
         }
-
-        //private static string ConnectionString => System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString;
-        //TODO fix 
-		private static string ConnectionString => "db/t034.sqlite";
-
     }
 }
