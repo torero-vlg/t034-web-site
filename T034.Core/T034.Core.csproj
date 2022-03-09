@@ -23,7 +23,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="5.2.0" />
     <PackageReference Include="Ninject" Version="3.3.4" />
-    <PackageReference Include="OAuth2" Version="0.8.37" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
   </ItemGroup>
 </Project>
