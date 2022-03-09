@@ -120,6 +120,9 @@ namespace T034
 
         }
 
+        //private static string ConnectionString => System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString;
+        //TODO fix 
+		private static string ConnectionString => "db/t034.sqlite";
 
     }
 }
