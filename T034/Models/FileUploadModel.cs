@@ -2,6 +2,8 @@
 {
     public class FileUploadModel
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Метод загрузки файлов
         /// </summary>

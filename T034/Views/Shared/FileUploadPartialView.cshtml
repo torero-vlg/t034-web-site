@@ -1,6 +1,7 @@
 ﻿@model T034.Models.FileUploadModel
 <link href="@Url.Content("~/Content/jQuery.FileUpload/css/jquery.fileupload.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/jQuery.FileUpload/css/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+@Html.HiddenFor(m => m.Id)
 <!-- The fileinput-button span is used to style the file input field as button -->
 <span class="btn btn-success fileinput-button">
     <i class="glyphicon glyphicon-plus"></i>
