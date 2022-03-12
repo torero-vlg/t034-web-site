@@ -37,8 +37,6 @@ namespace T034
                     webBuilder.UseStartup<Startup>();
                 });
 
-        private static string ConnectionString { get { return System.Configuration.ConfigurationManager.ConnectionStrings["DatabaseFile"].ConnectionString; } }
-
         private static IEnumerable<ActionRole> GetActionRoles()
         {
             var _assembly = Assembly.GetExecutingAssembly();
