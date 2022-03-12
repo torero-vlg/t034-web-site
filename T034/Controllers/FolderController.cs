@@ -130,9 +130,8 @@ namespace T034.Controllers
         {
             var result = Upload(Request);
 
-            //TODO t-29 get folderId from form: ... Request.Form.Files[0];
-            // old version: int.Parse(Request.Files.Keys[0]);
-            var folderId = 0; 
+            int.TryParse(Request.Form.Files[0].Name, out int folderId);
+            
             _fileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, folderId);
             //TODO надо что-то возвращать
             return Json(result);
