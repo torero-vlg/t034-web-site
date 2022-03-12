@@ -226,24 +226,11 @@ namespace T034.Controllers
         {
             try
             {
-                var item = Db.Get<Files>(id);
-                if (item == null)
-                {
-                    //TODO обработка
-                }
+                var file = _fileService.Download(id);
 
-                string webRootPath = _webHostEnvironment.WebRootPath;
-                string contentRootPath = _webHostEnvironment.ContentRootPath;
+                Response.Headers.Append("Content-Disposition", "inline; filename=" + file.Name);
 
-                var path = Path.Combine(contentRootPath, Program.FilesFolder, item.Name);
-
-                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
-                string fileName = item.Name;
-
-                item.DownloadCounter++;
-                Db.SaveOrUpdate(item);
-                Response.Headers.Append("Content-Disposition", "inline; filename=" + fileName);
-                return File(fileBytes, GetMimeType(fileName));
+                return File(file.Bytes, GetMimeType(file.Name));
             }
             catch (Exception ex)
             {

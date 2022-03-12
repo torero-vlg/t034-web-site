@@ -43,6 +43,11 @@ namespace T034.Core.Api
         /// Получить папку
         /// </summary>
         Folder GetFolder(int id);
+
+        /// <summary>
+        /// Скачать файл
+        /// </summary>
+        DownloadFileDto Download(int id);
     }
 
     public class FileService : AbstractService, IFileService
@@ -147,6 +152,25 @@ namespace T034.Core.Api
                 throw new UserNotFoundException(email);
             }
             return folder;
+        }
+
+        public DownloadFileDto Download(int id)
+        {
+            var item = Db.Get<Files>(id);
+            if (item == null)
+            {
+                throw new Exception("Файл не найден");
+            }
+
+            var path = Path.Combine(_storageRoot, item.Name);
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            string fileName = item.Name;
+
+            item.DownloadCounter++;
+            Db.SaveOrUpdate(item);
+
+            return new DownloadFileDto { Bytes = fileBytes, Name = fileName };
         }
     }
 }
