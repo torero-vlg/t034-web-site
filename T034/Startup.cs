@@ -115,7 +115,14 @@ namespace T034
             services.AddTransient<Repository.IRepository, Repository.Repository>();
             services.AddTransient<ISettingService, SettingService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IFileService>(sp =>
+            {
+                var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
+                var contentRootPath = webHostEnvironment.ContentRootPath;
+
+                var path = Path.Combine(contentRootPath, filesFolder);
+                return new FileService(sp.GetService<IBaseDb>(), path);
+            });
 
             services.AddTransient<Core.Services.Administration.IUserService, Core.Services.Administration.UserService>();
             services.AddTransient<Core.Services.Administration.IRoleService, Core.Services.Administration.RoleService>();

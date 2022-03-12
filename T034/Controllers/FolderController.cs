@@ -168,12 +168,7 @@ namespace T034.Controllers
         {
             try
             {
-                string webRootPath = _webHostEnvironment.WebRootPath;
-                string contentRootPath = _webHostEnvironment.ContentRootPath;
-
-                var path = Path.Combine(contentRootPath, Program.FilesFolder);
-
-                var folder = _fileService.DeleteFile(id, path);
+                var folder = _fileService.DeleteFile(id);
 
                 return RedirectToAction("Edit", new { id = folder.Id });
             }

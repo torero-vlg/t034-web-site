@@ -23,9 +23,8 @@ namespace T034.Core.Api
         /// Удалить файл
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="filesFolder">Папка с файлами</param>
         /// <returns>Папка, из которой удалили</returns>
-        Folder DeleteFile(int id, string filesFolder);
+        Folder DeleteFile(int id);
 
         /// <summary>
         /// Удалить папку
@@ -49,10 +48,12 @@ namespace T034.Core.Api
     public class FileService : AbstractService, IFileService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly string _storageRoot;
 
-        public FileService(IBaseDb db)
+        public FileService(IBaseDb db, string storageRoot)
             : base(db)
         {
+            _storageRoot = storageRoot;
         }
 
 
@@ -92,12 +93,12 @@ namespace T034.Core.Api
             }
         }
 
-        public Folder DeleteFile(int id, string filesFolder)
+        public Folder DeleteFile(int id)
         {
             var item = Db.Get<Files>(id);
             var result = Db.Delete(item);
 
-            var file = new FileInfo(Path.Combine(filesFolder, item.Name));
+            var file = new FileInfo(Path.Combine(_storageRoot, item.Name));
             file.Delete();
 
             _logger.Info($"Удалён файл {file.FullName}");
@@ -107,6 +108,14 @@ namespace T034.Core.Api
 
         public void DeleteFolder(Folder folder)
         {
+            var childFolders = Db.Where<Folder>(f => f.ParentFolder.Id == folder.Id);
+            foreach (var child in childFolders)
+                DeleteFolder(child);
+
+            var files = Db.Where<Files>(f => f.Folder.Id == folder.Id);
+            foreach (var file in files)
+                DeleteFile(file.Id);
+
             var result = Db.Delete(folder);
 
             _logger.Info($"Удалена папка {folder}");
