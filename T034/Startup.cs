@@ -21,6 +21,7 @@ using T034.Core;
 using T034.Core.Api;
 using T034.Core.DataAccess;
 using T034.Core.Services;
+using T034.Tools.IO;
 
 namespace T034
 {
@@ -100,6 +101,8 @@ namespace T034
         {
             var dbFilePath = Configuration.GetConnectionString("DatabaseFile");
 
+            string filesFolder = Configuration["FilesFolder"];
+
             services.AddTransient(sp =>
             {
                 var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
@@ -119,6 +122,14 @@ namespace T034
             services.AddTransient<IMenuItemService, MenuItemService>();
             services.AddTransient<INewslineService, NewslineService>();
 
+            services.AddTransient<IFileUploader>(sp =>
+            {
+                var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
+                var contentRootPath = webHostEnvironment.ContentRootPath;
+
+                var path = Path.Combine(contentRootPath, filesFolder);
+                return new FileUploader(path);
+            });
         }
     }
 }

@@ -26,15 +26,19 @@ namespace T034.Controllers
 
         private readonly IFileService _fileService;
 
+        private readonly IFileUploader _fileUploader;
+
         public FolderController(IWebHostEnvironment webHostEnvironment, 
             IMenuItemService menuItemService, 
             IFileService fileService, 
+            IFileUploader fileUploader,
             IBaseDb db) 
             : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
             _menuItemService = menuItemService;
             _fileService = fileService;
+            _fileUploader = fileUploader;
         }
 
         public ActionResult Index(int? id)
@@ -136,25 +140,19 @@ namespace T034.Controllers
 
         private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequest request)
         {
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            string contentRootPath = _webHostEnvironment.ContentRootPath;
-
-            var path = Path.Combine(contentRootPath, Program.FilesFolder);
-
             var statuses = new List<ViewDataUploadFilesResult>();
-            var uploader = new FileUploader(path);
-            if (request.Form.Files.Cast<string>().Any())
+            if (request.Form.Files.Any())
             {
                 try
                 {
                     var headers = request.Headers;
                     if (string.IsNullOrEmpty(headers["X-File-Name"]))
                     {
-                        statuses.AddRange(uploader.UploadWholeFile(request));
+                        statuses.AddRange(_fileUploader.UploadWholeFile(request));
                     }
                     else
                     {
-                        statuses.Add(uploader.UploadPartialFile(request));
+                        statuses.Add(_fileUploader.UploadPartialFile(request));
                     }
                 }
                 catch (Exception ex)
