@@ -5,7 +5,7 @@ using System.IO;
 
 namespace T034.Tools.IO
 {
-    public class FileUploader
+    public class FileUploader : IFileUploader
     {
         private readonly string _storageRoot;
 
@@ -59,16 +59,5 @@ namespace T034.Tools.IO
                 delete_type = "GET",
             };
         }
-    }
-
-    public class ViewDataUploadFilesResult
-    {
-        public string name { get; set; }
-        public long size { get; set; }
-        public string type { get; set; }
-        public string url { get; set; }
-        public string delete_url { get; set; }
-        public string thumbnail_url { get; set; }
-        public string delete_type { get; set; }
     }
 }
