@@ -7,45 +7,32 @@ using T034.Core.Entity.Administration;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using T034.Core.DataAccess;
+using T034.Tools.IO;
 
 namespace T034.Controllers
 {
     public class UploadController : BaseController
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IImageUploader _imageUploader;
 
-        public UploadController(IWebHostEnvironment webHostEnvironment,
+        public UploadController(IWebHostEnvironment webHostEnvironment, 
+            IImageUploader imageUploader,
             IBaseDb db) 
             : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
+            _imageUploader = imageUploader;
         }
 
         public void UploadNow()
         {
-            var file = Request.Form.Files[0];
-            var imageName = file.FileName;
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            string contentRootPath = _webHostEnvironment.ContentRootPath;
-
-            var path = Path.Combine(webRootPath, "/Upload/Images", imageName);//TODO перенести путь в config
-
-            using Stream fileStream = new FileStream(path, FileMode.Create);
-            file.CopyTo(fileStream);
-
+            _imageUploader.Upload(Request);
         }
 
         public ActionResult UploadPartial()
         {
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            string contentRootPath = _webHostEnvironment.ContentRootPath;
-
-            var appData = Path.Combine(contentRootPath, "/Upload/Images");//TODO перенести путь в config
-            var images = Directory.GetFiles(appData).Select(x => new ImageViewModel
-            {
-                Url = Url.Content("/Upload/Images/" + Path.GetFileName(x)),//TODO перенести путь в config
-                Alt = Path.GetFileName(x)
-            });
+            var images = _imageUploader.GetFiles().Select(image => new ImageViewModel { Alt = image.Alt, Url = Url.Content("/" + image.Path) });
             return View(images);
         }
 

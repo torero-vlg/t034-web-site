@@ -86,6 +86,12 @@ namespace T034
                 Path.Combine(Directory.GetCurrentDirectory(), @"fonts")),
                 RequestPath = new PathString("/fonts")
             });
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), Configuration["ImagesFolder"])),
+                RequestPath = new PathString("/" + Configuration["ImagesFolder"])
+            });
         }
 
         private void ConfigureMvcOptions(MvcOptions mvcOptions)
@@ -136,6 +142,13 @@ namespace T034
 
                 var path = Path.Combine(contentRootPath, filesFolder);
                 return new FileUploader(path);
+            });
+
+            string imagesFolder = Configuration["ImagesFolder"];
+            services.AddTransient<IImageUploader>(sp =>
+            {
+                var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
+                return new ImageUploader(webHostEnvironment, imagesFolder);
             });
         }
     }
