@@ -4,6 +4,7 @@ using AutoMapper;
 using T034.Core.DataAccess;
 using NLog;
 using T034.Profiles;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace T034.Controllers
 {
@@ -21,12 +22,11 @@ namespace T034.Controllers
 
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
-            //TODO t-29 get controllerName
-            //var controllerName = context.ActionDescriptor.D ControllerDescriptor.ControllerName;
-            var controllerName = "";
-            if (controllerName == "Base") return;
+            var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var actionName = descriptor.ActionName;
+            var controllerName = descriptor.ControllerName;
 
-            var actionName = context.ActionDescriptor.DisplayName;
+            if (controllerName == "Base") return;
 
             var user = "";
             Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {HttpContext.Connection.RemoteIpAddress}, User:{user}, Request.QueryString: {Request?.QueryString}");
@@ -58,13 +58,10 @@ namespace T034.Controllers
 
         public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
-            //TODO t-29 get controllerName actionName
-            //var controllerName = context.ActionDescriptor.D ControllerDescriptor.ControllerName;
+            var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var actionName = descriptor.ActionName;
+            var controllerName = descriptor.ControllerName;
 
-            //var actionName = context.ActionDescriptor.ActionName;
-            var actionName = context.ActionDescriptor.DisplayName;
-            //var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
-            var controllerName = "";
             var user = "";
             Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {HttpContext.Connection.RemoteIpAddress}, User:{user}");
 
