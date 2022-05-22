@@ -4,7 +4,6 @@ using AutoMapper;
 using T034.Core.DataAccess;
 using T034.Core.Dto.Common;
 using T034.Core.Profiles;
-using Ninject;
 
 namespace T034.Core.Services.Common
 {
@@ -15,8 +14,12 @@ namespace T034.Core.Services.Common
         where TEntity : Entity.Entity 
         where TDto : AbstractDto<TId>, new()
     {
-        [Inject]
-        public IBaseDb Db { get; set; }
+        protected IBaseDb Db { get; set; }
+
+        public AbstractRepository(IBaseDb db)
+        {
+            Db = db;
+        }
 
         public TDto Create(TDto dto)
         {

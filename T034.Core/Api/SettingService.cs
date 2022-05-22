@@ -3,6 +3,7 @@ using T034.Core.Api.Common;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using NLog;
+using T034.Core.DataAccess;
 
 namespace T034.Core.Api
 {
@@ -61,6 +62,11 @@ namespace T034.Core.Api
     public class SettingService : AbstractService, ISettingService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+
+        public SettingService(IBaseDb db) 
+            : base(db)
+        { 
+        }
 
         public User CreateFirstUser(string email)
         {

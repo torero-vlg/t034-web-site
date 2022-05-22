@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Entity;
 using T034.Core.Services;
 using T034.Core.Services.Common;
-using Ninject;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class MenuController : BaseController
     {
-        [Inject]
-        public IMenuItemService MenuItemService { get; set; }
+        private readonly IMenuItemService _menuItemService;
 
-        public MenuController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public MenuController(IMenuItemService menuItemService,
+            IBaseDb db) 
+            : base(db)
         {
+            _menuItemService = menuItemService;
         }
 
         [Role("Administrator")]
@@ -123,7 +125,7 @@ namespace T034.Controllers
         {
             try
             {
-                var result = MenuItemService.Delete(menuItemId);
+                var result = _menuItemService.Delete(menuItemId);
                 if (result.Status == StatusOperation.Error)
                 {
                     Logger.Error(result.Message);

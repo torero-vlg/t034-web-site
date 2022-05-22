@@ -2,32 +2,44 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Api;
 using T034.Core.Api.Common.Exceptions;
 using T034.Core.Entity;
 using T034.Core.Services;
-using Ninject;
-using OAuth2;
-using OAuth2.Models;
 using T034.Tools.Attribute;
 using T034.Tools.IO;
 using T034.ViewModel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Primitives;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class FolderController : BaseController
     {
-        [Inject]
-        public IMenuItemService MenuItemService { get; set; }
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public FolderController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        private readonly IMenuItemService _menuItemService;
+
+        private readonly IFileService _fileService;
+
+        private readonly IFileUploader _fileUploader;
+
+        public FolderController(IWebHostEnvironment webHostEnvironment, 
+            IMenuItemService menuItemService, 
+            IFileService fileService, 
+            IFileUploader fileUploader,
+            IBaseDb db) 
+            : base(db)
         {
+            _webHostEnvironment = webHostEnvironment;
+            _menuItemService = menuItemService;
+            _fileService = fileService;
+            _fileUploader = fileUploader;
         }
-
-        [Inject]
-        public IFileService FileService { get; set; }
 
         public ActionResult Index(int? id)
         {
@@ -81,10 +93,10 @@ namespace T034.Controllers
             var items = Mapper.Map<IEnumerable<FileViewModel>>(Db.Where<Files>(f => f.Folder.Id == model.Id));
 
             //TODO дублирует код из PageController
-            var menuItems = MenuItemService.Select();
+            var menuItems = _menuItemService.Select();
             model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
             
-            var byUrl = MenuItemService.ByUrl(model.IndexUrl);
+            var byUrl = _menuItemService.ByUrl(model.IndexUrl);
             if (byUrl != null)
             {
                 var selected = model.MenuItems.FirstOrDefault(m => m.Value == byUrl.Id.ToString());
@@ -117,30 +129,29 @@ namespace T034.Controllers
         public ActionResult UploadFile()
         {
             var result = Upload(Request);
+
+            int.TryParse(Request.Form.Files[0].Name, out int folderId);
             
-            FileService.AddFile(result.Select(f => new T034.Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, int.Parse(Request.Files.Keys[0]));
+            _fileService.AddFile(result.Select(f => new Core.Dto.FileDto { Name = f.name, Size = f.size }), UserInfo.Email, folderId);
             //TODO надо что-то возвращать
             return Json(result);
         }
 
-        private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequestBase request)
+        private IEnumerable<ViewDataUploadFilesResult> Upload(HttpRequest request)
         {
-            var path = Path.Combine(Server.MapPath($"~/{MvcApplication.FilesFolder}"));
-
             var statuses = new List<ViewDataUploadFilesResult>();
-            var uploader = new FileUploader(path);
-            if (request.Files.Cast<string>().Any())
+            if (request.Form.Files.Any())
             {
                 try
                 {
                     var headers = request.Headers;
                     if (string.IsNullOrEmpty(headers["X-File-Name"]))
                     {
-                        statuses.AddRange(uploader.UploadWholeFile(request));
+                        statuses.AddRange(_fileUploader.UploadWholeFile(request));
                     }
                     else
                     {
-                        statuses.Add(uploader.UploadPartialFile(request));
+                        statuses.Add(_fileUploader.UploadPartialFile(request));
                     }
                 }
                 catch (Exception ex)
@@ -157,7 +168,7 @@ namespace T034.Controllers
         {
             try
             {
-                var folder = FileService.DeleteFile(id, Server.MapPath(string.Format("~/{0}", MvcApplication.FilesFolder)));
+                var folder = _fileService.DeleteFile(id);
 
                 return RedirectToAction("Edit", new { id = folder.Id });
             }
@@ -174,7 +185,7 @@ namespace T034.Controllers
             try
             {
                 var item = Mapper.Map<Folder>(model);
-                FileService.DeleteFolder(item);
+                _fileService.DeleteFolder(item);
             }
             catch (Exception ex)
             {
@@ -191,13 +202,13 @@ namespace T034.Controllers
             var item = new Folder();
             if (model.Id > 0)
             {
-                item = FileService.GetFolder(model.Id); 
+                item = _fileService.GetFolder(model.Id); 
             }
             item = Mapper.Map(model, item);
 
             try
             {
-                FileService.CreateFolder(UserInfo.Email, item);
+                _fileService.CreateFolder(UserInfo.Email, item);
             }
             catch (UserNotFoundException ex)
             {
@@ -215,19 +226,11 @@ namespace T034.Controllers
         {
             try
             {
-                var item = Db.Get<Files>(id);
-                if (item == null)
-                {
-                    //TODO обработка
-                }
+                var file = _fileService.Download(id);
 
-                byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(string.Format("/{0}/{1}", MvcApplication.FilesFolder, item.Name)));
-                string fileName = item.Name;
+                Response.Headers.Append("Content-Disposition", "inline; filename=" + file.Name);
 
-                item.DownloadCounter++;
-                Db.SaveOrUpdate(item);
-                Response.AppendHeader("Content-Disposition", "inline; filename=" + fileName);
-                return File(fileBytes, GetMimeType(fileName));
+                return File(file.Bytes, GetMimeType(file.Name));
             }
             catch (Exception ex)
             {

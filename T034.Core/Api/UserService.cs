@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using T034.Core.Api.Common;
+using T034.Core.DataAccess;
 using T034.Core.Entity.Administration;
 
 namespace T034.Core.Api
@@ -22,6 +23,11 @@ namespace T034.Core.Api
 
     public class UserService : AbstractService, IUserService
     {
+        public UserService(IBaseDb db)
+            : base(db)
+        {
+        }
+
         public User GetUser(string email)
         {
             var user = Db.SingleOrDefault<User>(u => u.Email == email);

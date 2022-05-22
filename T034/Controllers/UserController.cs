@@ -1,27 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Dto;
 using T034.Core.Services.Administration;
 using T034.Core.Services.Common;
-using Ninject;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class UserController : BaseController
     {
-        [Inject]
-        public IUserService UserService { get; set; }
+        private readonly IUserService _userService;
 
-        [Inject]
-        public IRoleService RoleService { get; set; }
+        private readonly IRoleService _roleService;
 
-        public UserController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public UserController(IRoleService roleService,
+            IUserService userService,
+            IBaseDb db)
+            : base(db)
         {
+            _roleService = roleService;
+            _userService = userService;
         }
 
         [Role("Administrator")]
@@ -29,7 +31,7 @@ namespace T034.Controllers
         {
             try
             {
-                var list = UserService.Select();
+                var list = _userService.Select();
                 var model = new List<UserViewModel>();
                 model = Mapper.Map(list, model);
 
@@ -49,11 +51,11 @@ namespace T034.Controllers
             var model = new UserViewModel();
             if (id.HasValue)
             {
-                var dto = UserService.Get(id.Value);
+                var dto = _userService.Get(id.Value);
                 model = Mapper.Map(dto, model);
             }
             //добавим те роли, которых нет у пользователя, но есть в БД
-            foreach (var role in RoleService.Select())
+            foreach (var role in _roleService.Select())
             {
                 if (model.UserRoles.Any(ur => ur.Code == role.Code))
                     continue;
@@ -71,11 +73,11 @@ namespace T034.Controllers
         {
             if (model.Id > 0)
             {
-                UserService.Update(Mapper.Map<UserDto>(model));
+                _userService.Update(Mapper.Map<UserDto>(model));
             }
             else
             {
-                UserService.Create(model.Name, model.Email, model.Password);
+                _userService.Create(model.Name, model.Email, model.Password);
             }
 
 
@@ -86,7 +88,7 @@ namespace T034.Controllers
         {
             var model = new UserViewModel();
 
-            var item = UserService.Get(id);
+            var item = _userService.Get(id);
             if (item == null)
             {
                 return View("ServerError", (object)"Страница не найдена");
@@ -101,7 +103,7 @@ namespace T034.Controllers
         {
             try
             {
-                var result = UserService.Delete(id);
+                var result = _userService.Delete(id);
                 if (result.Status != StatusOperation.Success)
                 {
                     Logger.Error(result.Message);

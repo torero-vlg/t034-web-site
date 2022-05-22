@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Entity;
 using T034.Core.Services;
-using Ninject;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class PageController : BaseController
     {
-        [Inject]
-        public IMenuItemService MenuItemService { get; set; }
+        private readonly IMenuItemService _menuItemService;
 
-        public PageController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public PageController(IMenuItemService menuItemService,
+            IBaseDb db)
+            : base(db)
         {
+            _menuItemService = menuItemService;
         }
 
         [HttpGet]
@@ -31,10 +33,10 @@ namespace T034.Controllers
                 model = Mapper.Map(item, model);
 
                 //TODO дублирует код из FolderController
-                var menuItems = MenuItemService.Select();
+                var menuItems = _menuItemService.Select();
                 model.MenuItems = Mapper.Map<ICollection<SelectListItem>>(menuItems);
 
-                var byUrl = MenuItemService.ByUrl(model.IndexUrl);
+                var byUrl = _menuItemService.ByUrl(model.IndexUrl);
                 if (byUrl != null)
                 {
                     var selected = model.MenuItems.FirstOrDefault(m => m.Value == byUrl.Id.ToString());
@@ -45,7 +47,6 @@ namespace T034.Controllers
             return View(model);
         }
 
-        [ValidateInput(false)]
         [Role("Moderator")]
         public ActionResult AddOrEdit(PageViewModel model)
         {

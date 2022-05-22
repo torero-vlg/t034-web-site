@@ -1,22 +1,23 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
-using Ninject;
-using OAuth2;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
-        {
-        }
+        private readonly ISettingService _settingService;
 
-        [Inject]
-        public ISettingService SettingService { get; set; }
+        public HomeController(ISettingService settingService,
+            IBaseDb db) 
+            : base(db)
+        {
+            _settingService = settingService;
+        }
 
         public ActionResult Index()
         {
-            var item = SettingService.GetStartPage();
+            var item = _settingService.GetStartPage();
             if(item == null || item.Value == "")
                 return View();
 

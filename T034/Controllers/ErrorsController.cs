@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace T034.Controllers
 {
@@ -6,28 +6,28 @@ namespace T034.Controllers
     {
         public ActionResult Unauthorized()
         {
-            if (!Request.IsAjaxRequest())
+            if (!IsAjax)
                 return View();
-
 
             return Json(new { });
         }
 
         public ActionResult NotFound()
         {
-            if (!Request.IsAjaxRequest())
+            if (!IsAjax)
                 return View();
-
 
             return Json(new { });
         }
 
         public ActionResult InternalServerError()
         {
-            if (!Request.IsAjaxRequest())
+            if (!IsAjax)
                 return View();
 
             return Json(new { });
         }
+
+        private bool IsAjax => Request.Headers["X-Requested-With"] == "XMLHttpRequest";
     }
 }

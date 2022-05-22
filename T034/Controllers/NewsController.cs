@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using T034.Core.Services;
-using Ninject;
-using OAuth2;
 using T034.Tools.Attribute;
 using T034.ViewModel;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class NewsController : BaseController
     {
-        [Inject]
-        public INewslineService NewslineService { get; set; }
+        private readonly INewslineService _newslineService;
 
-        public NewsController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public NewsController(INewslineService newslineService, IBaseDb db) 
+            : base(db)
         {
+            _newslineService = newslineService;
         }
 
         public ActionResult Index(int id)
@@ -84,10 +85,10 @@ namespace T034.Controllers
             }
 
             //TODO дублирует код из FolderController
-            var newslines = NewslineService.Select();
+            var newslines = _newslineService.Select();
             model.Newslines = Mapper.Map<ICollection<SelectListItem>>(newslines);
 
-            var newsline = NewslineService.Get(model.NewslineId);
+            var newsline = _newslineService.Get(model.NewslineId);
             if (newsline != null)
             {
                 var selected = model.Newslines.FirstOrDefault(m => m.Value == newsline.Id.ToString());
@@ -98,7 +99,6 @@ namespace T034.Controllers
         }
 
         [Role("Moderator")]
-        [ValidateInput(false)]
         public ActionResult AddOrEdit(NewsViewModel model)
         {
             //найдём пользователя в БД

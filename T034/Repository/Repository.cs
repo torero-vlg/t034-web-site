@@ -1,12 +1,10 @@
 ﻿using T034.Core.DataAccess;
 using T034.Core.Entity.Administration;
-using Ninject;
 
 namespace T034.Repository
 {
     public class Repository : IRepository
     {
-        [Inject]
         protected IBaseDb Db { get; set; }
 
         public User Login(string email, string password)

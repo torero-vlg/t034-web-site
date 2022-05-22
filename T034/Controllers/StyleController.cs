@@ -1,30 +1,30 @@
 ﻿using System;
-using System.Web;
-using System.Web.Mvc;
-using OAuth2;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using T034.Core.DataAccess;
 
 namespace T034.Controllers
 {
     public class StyleController : BaseController
     {
-        public StyleController(AuthorizationRoot authorizationRoot) : base(authorizationRoot)
+        public StyleController(IBaseDb db) 
+            : base(db)
         {
         }
         
         public ActionResult Set(string styleName)
         {
-            var userCookie = new HttpCookie("style")
-            {
-                Value = styleName,
-                Expires = DateTime.Now.AddDays(30)
-            };
-            Response.Cookies.Set(userCookie);
-            if(Request.UrlReferrer != null)
-                return Redirect(Request.UrlReferrer.AbsoluteUri);
+            Response.Cookies.Append("style",
+                styleName,
+                new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(30)
+                });
+
+            if(!string.IsNullOrEmpty(Request.Headers["Referer"].ToString()))
+                return Redirect(Request.Headers["Referer"].ToString());
             else
-            {
                 return RedirectToAction("Index", "Home");
-            }
         }
     }
 }

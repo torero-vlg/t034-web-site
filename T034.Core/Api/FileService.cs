@@ -7,6 +7,7 @@ using T034.Core.Dto;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 using NLog;
+using T034.Core.DataAccess;
 
 namespace T034.Core.Api
 {
@@ -22,9 +23,8 @@ namespace T034.Core.Api
         /// Удалить файл
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="filesFolder">Папка с файлами</param>
         /// <returns>Папка, из которой удалили</returns>
-        Folder DeleteFile(int id, string filesFolder);
+        Folder DeleteFile(int id);
 
         /// <summary>
         /// Удалить папку
@@ -43,11 +43,24 @@ namespace T034.Core.Api
         /// Получить папку
         /// </summary>
         Folder GetFolder(int id);
+
+        /// <summary>
+        /// Скачать файл
+        /// </summary>
+        DownloadFileDto Download(int id);
     }
 
     public class FileService : AbstractService, IFileService
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly string _storageRoot;
+
+        public FileService(IBaseDb db, string storageRoot)
+            : base(db)
+        {
+            _storageRoot = storageRoot;
+        }
+
 
         public void AddFile(IEnumerable<FileDto> files, string email, int? folderId = null)
         {
@@ -85,12 +98,12 @@ namespace T034.Core.Api
             }
         }
 
-        public Folder DeleteFile(int id, string filesFolder)
+        public Folder DeleteFile(int id)
         {
             var item = Db.Get<Files>(id);
             var result = Db.Delete(item);
 
-            var file = new FileInfo(Path.Combine(filesFolder, item.Name));
+            var file = new FileInfo(Path.Combine(_storageRoot, item.Name));
             file.Delete();
 
             _logger.Info($"Удалён файл {file.FullName}");
@@ -100,6 +113,14 @@ namespace T034.Core.Api
 
         public void DeleteFolder(Folder folder)
         {
+            var childFolders = Db.Where<Folder>(f => f.ParentFolder.Id == folder.Id);
+            foreach (var child in childFolders)
+                DeleteFolder(child);
+
+            var files = Db.Where<Files>(f => f.Folder.Id == folder.Id);
+            foreach (var file in files)
+                DeleteFile(file.Id);
+
             var result = Db.Delete(folder);
 
             _logger.Info($"Удалена папка {folder}");
@@ -131,6 +152,25 @@ namespace T034.Core.Api
                 throw new UserNotFoundException(email);
             }
             return folder;
+        }
+
+        public DownloadFileDto Download(int id)
+        {
+            var item = Db.Get<Files>(id);
+            if (item == null)
+            {
+                throw new Exception("Файл не найден");
+            }
+
+            var path = Path.Combine(_storageRoot, item.Name);
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            string fileName = item.Name;
+
+            item.DownloadCounter++;
+            Db.SaveOrUpdate(item);
+
+            return new DownloadFileDto { Bytes = fileBytes, Name = fileName };
         }
     }
 }

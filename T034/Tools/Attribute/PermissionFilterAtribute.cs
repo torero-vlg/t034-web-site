@@ -1,36 +1,26 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
-using T034.Core.DataAccess;
-using Ninject;
 
 namespace T034.Tools.Attribute
 {
-    public class PermissionFilterAttribute : ActionFilterAttribute
+    public class PermissionFilterAttribute : Microsoft.AspNetCore.Mvc.Filters.ActionFilterAttribute
     {
-        [Inject]
-        public IBaseDb Db { get; set; }
-
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext filterContext)
         {
-            var action = filterContext.ActionDescriptor.ActionName;
-            var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+            //TODO t-29 get controllerName action
+            //var controller = filterContext.ActionDescriptor.ControllerDescriptor.ControllerName;
+            var controller = "";
 
-            var role = MvcApplication.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
+            var action = filterContext.ActionDescriptor.DisplayName;
+
+            //var role = MvcApplication.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
+            var role = Program.ActionRoles.FirstOrDefault(p => p.Action == action.ToLower() && p.Controller == controller.ToLower());
             if (role == null) return;
 
-            var rolesCookie = filterContext.RequestContext.HttpContext.Request.Cookies["roles"];
-            if (rolesCookie != null && rolesCookie.Value != null && rolesCookie.Value.Contains(role.Role))
+            var rolesCookie = filterContext.HttpContext.Request.Cookies["roles"];
+            if (rolesCookie != null && rolesCookie != null && rolesCookie.Contains(role.Role))
                 return;
             
-            filterContext.Result = new RedirectResult("~/Errors/Unauthorized");
-        }
-    }
-
-    public class Http403Result : ActionResult
-    {
-        public override void ExecuteResult(ControllerContext context)
-        {
-            context.HttpContext.Response.StatusCode = 403;
+            filterContext.Result = new Microsoft.AspNetCore.Mvc.RedirectResult("~/Errors/Unauthorized");
         }
     }
 }

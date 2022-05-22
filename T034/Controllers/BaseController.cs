@@ -1,59 +1,35 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using T034.Core.DataAccess;
-using Ninject;
 using NLog;
-using OAuth2;
-using OAuth2.Client;
-using OAuth2.Models;
 using T034.Profiles;
-using T034.Repository;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace T034.Controllers
 {
     public class BaseController : Controller
     {
-        [Inject]
-        public IBaseDb Db { get; set; }
-
-        [Inject]
-        public IRepository Repository { get; set; }
-
-        protected readonly AuthorizationRoot AuthorizationRoot;
-
-        private const string ProviderNameKey = "providerName";
-
-        protected string ProviderName
-        {
-            get { return (string)Session[ProviderNameKey]; }
-            set { Session[ProviderNameKey] = value; }
-        }
+        protected readonly IBaseDb Db;
 
         protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected UserInfo UserInfo;
 
-        public BaseController(AuthorizationRoot authorizationRoot)
+        public BaseController(IBaseDb db)
         {
-            AuthorizationRoot = authorizationRoot;
+            Db = db;
         }
 
-        protected IClient GetClient()
+        public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
         {
-            return AuthorizationRoot.Clients.FirstOrDefault(c => c.Name == ProviderName);
-        }
+            var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var actionName = descriptor.ActionName;
+            var controllerName = descriptor.ControllerName;
 
-        protected override void OnActionExecuting(ActionExecutingContext context)
-        {
-            var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
             if (controllerName == "Base") return;
 
-            var actionName = context.ActionDescriptor.ActionName;
-
             var user = "";
-            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}, Request.QueryString: {Request?.QueryString}");
+            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {HttpContext.Connection.RemoteIpAddress}, User:{user}, Request.QueryString: {Request?.QueryString}");
 
             if (controllerName.ToLower() != "account" && actionName.ToLower() != "auth")
                 SetUserInfo();
@@ -69,42 +45,9 @@ namespace T034.Controllers
                 {
                     UserInfo = new UserInfo
                     {
-                        Email = Request.Cookies["auth"].Value
+                        Email = Request.Cookies["auth"]
                     };
                     return;
-                }
-
-                var nameValueCollection = new NameValueCollection();
-
-                if (Request.QueryString["code"] != null)
-                {
-                    nameValueCollection = Request.QueryString;
-                    Logger.Trace($"nameValueCollection заполняем из Request.QueryString[code].");
-                }
-                else
-                {
-                    var authCodeCookie = Request.Cookies["auth_code"];
-                    if (authCodeCookie != null)
-                    {
-                        Logger.Trace($"Устанавливаем code: {authCodeCookie.Value}.");
-                        nameValueCollection.Add("code", authCodeCookie.Value);
-                    }
-                }
-
-                Logger.Trace($"nameValueCollection: {nameValueCollection}.");
-                var client = GetClient();
-                Logger.Trace($"Cервис авторизации: {client}. ProviderName:{ProviderName}.");
-
-                var userInfo = client?.GetUserInfo(nameValueCollection);
-                if (userInfo != null)
-                {
-                    Logger.Trace($"Cервис авторизации: {client.Name}. Пользователь: {userInfo.Email}.");
-                    UserInfo = userInfo;
-                }
-                else
-                {
-                    Logger.Trace("Не удалось получить пользователя.");
-                    UserInfo = new UserInfo();
                 }
             }
             catch (Exception ex)
@@ -113,12 +56,14 @@ namespace T034.Controllers
             }
         }
 
-        protected override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
-            var actionName = context.ActionDescriptor.ActionName;
-            var controllerName = context.ActionDescriptor.ControllerDescriptor.ControllerName;
+            var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var actionName = descriptor.ActionName;
+            var controllerName = descriptor.ControllerName;
+
             var user = "";
-            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {Request.UserHostAddress}, User:{user}, Request: {Request?.Url?.Query}");
+            Logger.Trace($"Controller: {controllerName}, Action: {actionName}, UserHost: {HttpContext.Connection.RemoteIpAddress}, User:{user}");
 
             base.OnActionExecuted(context);
         }
@@ -127,5 +72,10 @@ namespace T034.Controllers
         /// Маппер
         /// </summary>
         protected IMapper Mapper => AutoMapperConfig.Mapper;
+    }
+
+    public class UserInfo
+    {
+        public string Email { get; set; }
     }
 }

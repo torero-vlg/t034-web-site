@@ -1,4 +1,5 @@
-﻿@model T034.ViewModel.PageViewModel
+﻿@using System.Net
+@model T034.ViewModel.PageViewModel
 
 @{
     ViewBag.Title = "Публикации";
@@ -8,7 +9,7 @@
 
 
         <p>@Html.Display(Model.Title)</p>
-        @Html.Raw(HttpUtility.HtmlDecode(Model.Content) )
+        @Html.Raw(WebUtility.HtmlDecode(Model.Content) )
         <p>@Html.ActionLink("Редактировать", "AddOrEdit", new { id = Model.Id })</p>
 
 
