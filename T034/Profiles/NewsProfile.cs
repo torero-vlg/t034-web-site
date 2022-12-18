@@ -14,6 +14,7 @@ namespace T034.Profiles
             //это должно убраться отсюда
             //========
             CreateMap<News, NewsViewModel>()
+                  .ForMember(dest => dest.Title, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.Title) ? "<Без названия>" : src.Title))
                   .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)))
                   .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.Id))
                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name))
@@ -30,7 +31,8 @@ namespace T034.Profiles
 
 
             CreateMap<NewsDto, NewsViewModel>()
-                  .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)));
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.Title) ? "<Без названия>" : src.Title))
+                .ForMember(dest => dest.Body, opt => opt.MapFrom(src => HttpUtility.HtmlDecode(src.Body)));
 
             CreateMap<NewsViewModel, NewsDto>();
         }
