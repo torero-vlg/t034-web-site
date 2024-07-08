@@ -32,5 +32,20 @@ namespace T034.Controllers
         {
             return PartialView("AuthPartialView", UserInfo);
         }
+
+        public ActionResult AwaitingPayment()
+        {
+            return View("_AwaitingPayment");
+        }
+
+        public ActionResult Developing()
+        {
+            return View("_Developing");
+        }
+
+        public ActionResult Moved()
+        {
+            return View("_Moved");
+        }
     }
 }
