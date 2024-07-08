@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("AddOrEdit", "User"))
+@using (Html.BeginForm("AddOrEdit", "User", FormMethod.Post, new Dictionary<string, object> { { "autocomplete", "off" } }))
 {
     <div class="control-group warning">
         <label class="control-label">@Html.LabelFor(m => m.Name)</label>
