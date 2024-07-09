@@ -66,7 +66,7 @@ namespace T034.Core.Api
                 {
                     using (var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                     {
-                        AddDirectoryToArchive(archive, _contentRootPath, "_backups");
+                        AddDirectoryToArchive(archive, _contentRootPath, _contentRootPath, "_backups");
                     }
                 }
 
@@ -84,14 +84,15 @@ namespace T034.Core.Api
         /// </summary>
         /// <param name="archive">Архив</param>
         /// <param name="sourceDir">Папка для архивирования</param>
+        /// <param name="baseDir">Базовая папка</param>
         /// <param name="excludeDir">Исключаемая папка</param>
-        private static void AddDirectoryToArchive(ZipArchive archive, string sourceDir, string excludeDir)
+        private static void AddDirectoryToArchive(ZipArchive archive, string sourceDir, string baseDir, string excludeDir)
         {
-            var dir = new DirectoryInfo(sourceDir);
+            DirectoryInfo dir = new DirectoryInfo(sourceDir);
 
             foreach (FileInfo file in dir.GetFiles())
             {
-                string entryName = Path.GetRelativePath(sourceDir, file.FullName);
+                string entryName = Path.GetRelativePath(baseDir, file.FullName);
                 archive.CreateEntryFromFile(file.FullName, entryName);
             }
 
@@ -102,7 +103,7 @@ namespace T034.Core.Api
                     continue;
                 }
 
-                AddDirectoryToArchive(archive, subDir.FullName, excludeDir);
+                AddDirectoryToArchive(archive, subDir.FullName, baseDir, excludeDir);
             }
         }
 
@@ -117,6 +118,7 @@ namespace T034.Core.Api
                 if (!Directory.Exists(backupDirectory))
                 {
                     _logger.Trace($"Directory '{backupDirectory}' not exists");
+                    return Enumerable.Empty<BackupDto>();
 
                 }
 
