@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using NLog;
 using T034.Core.Dto;
+using T034.Core.Entity;
 
 namespace T034.Core.Api
 {
@@ -21,6 +22,18 @@ namespace T034.Core.Api
         /// </summary>
         /// <returns></returns>
         IEnumerable<BackupDto> GetBackups();
+
+        /// <summary>
+        /// Скачать бекап
+        /// </summary>
+        /// <returns></returns>
+        DownloadFileDto Download(string name);
+
+        /// <summary>
+        /// Удалить бекап
+        /// </summary>
+        /// <returns></returns>
+        void Delete(string name);
     }
 
     public class BackupService : IBackupService
@@ -115,6 +128,39 @@ namespace T034.Core.Api
                 _logger.Fatal(ex);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Скачать файл
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public DownloadFileDto Download(string name)
+        {
+            var backupDirectory = Path.Combine(_contentRootPath, "_backups");
+            var backupFilePath = Path.Combine(backupDirectory, name);
+
+            if (!Directory.Exists(backupDirectory) || !File.Exists(backupFilePath))
+                throw new Exception($"Файл '{name}' не найден");
+
+            byte[] fileBytes = File.ReadAllBytes(backupFilePath);
+
+            return new DownloadFileDto { Bytes = fileBytes, Name = name };
+        }
+
+        public void Delete(string name)
+        {
+            var backupDirectory = Path.Combine(_contentRootPath, "_backups");
+            var backupFilePath = Path.Combine(backupDirectory, name);
+
+            if (!Directory.Exists(backupDirectory) || !File.Exists(backupFilePath))
+                throw new Exception($"Файл '{name}' не найден");
+
+            var file = new FileInfo(backupFilePath);
+            file.Delete();
+
+            _logger.Info($"Удалён файл {file.FullName}");
         }
     }
 }
