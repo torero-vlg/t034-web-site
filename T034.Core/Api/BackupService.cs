@@ -11,7 +11,7 @@ namespace T034.Core.Api
         /// Сделать бекап
         /// </summary>
         /// <returns></returns>
-        void Backup();
+        void MakeBackup();
     }
 
     public class BackupService : IBackupService
@@ -27,7 +27,7 @@ namespace T034.Core.Api
         /// <summary>
         /// Создать бекап из текущей папки
         /// </summary>
-        public void Backup()
+        public void MakeBackup()
         {
             try
             {
