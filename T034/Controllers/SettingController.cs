@@ -9,6 +9,7 @@ using T034.Tools.Attribute;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using T034.Core.DataAccess;
+using T034.Core.Services.Common;
 
 namespace T034.Controllers
 {
@@ -116,6 +117,27 @@ namespace T034.Controllers
             }
 
             return RedirectToAction("List");
+        }
+
+        [Role("Administrator")]
+        public ActionResult Upgrade()
+        {
+            return View();
+        }
+
+        [Role("Administrator")]
+        public ActionResult Backup()
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return Json(new OperationResult { Status = StatusOperation.Error, Message = ex.Message });
+            }
+            return Json(new OperationResult { Status = StatusOperation.Success, Message = "Операция выполнена успешно" });
         }
     }
 }
