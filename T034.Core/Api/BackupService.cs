@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using NLog;
+using T034.Core.Dto;
 
 namespace T034.Core.Api
 {
@@ -12,6 +15,12 @@ namespace T034.Core.Api
         /// </summary>
         /// <returns></returns>
         void MakeBackup();
+        
+        /// <summary>
+        /// Список бекапов
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<BackupDto> GetBackups();
     }
 
     public class BackupService : IBackupService
@@ -81,6 +90,30 @@ namespace T034.Core.Api
                 }
 
                 AddDirectoryToArchive(archive, subDir.FullName, excludeDir);
+            }
+        }
+
+        /// <summary>
+        /// Создать бекап из текущей папки
+        /// </summary>
+        public IEnumerable<BackupDto> GetBackups()
+        {
+            try
+            {
+                var backupDirectory = Path.Combine(_contentRootPath, "_backups");
+                if (!Directory.Exists(backupDirectory))
+                {
+                    _logger.Trace($"Directory '{backupDirectory}' not exists");
+
+                }
+
+                var dir = new DirectoryInfo(backupDirectory);
+                return dir.GetFiles().Select(f => new BackupDto { Name = f.Name, Size = f.Length, CreationTime = f.CreationTime });
+            }
+            catch (Exception ex)
+            {
+                _logger.Fatal(ex);
+                throw;
             }
         }
     }
