@@ -24,10 +24,7 @@
         <td>@item.CreationTime</td>
         <td>@item.Size</td>
         <td>
-            <a class="list-group-item" href="@item.Url" target="_blank">
-                <i class="fa @item.FileIcon"></i> @item.Name
-                <span class="pull-right">@item.CreationTime @item.Size</span>
-            </a>
+            <a href="@item.Url" target="_blank" title="Скачать"><i class="fa @item.FileIcon"></i></a>
             <a href="@Url.Action("Delete", new { name = item.Name})" title="Удалить"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
         </td>
       </tr>
