@@ -18,19 +18,16 @@ namespace T034.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISettingService _settingService;
         private readonly IUserService _userService;
-        private readonly IBackupService _backupService;
 
         public SettingController(IWebHostEnvironment webHostEnvironment,
             ISettingService settingService,
             IUserService userService,
-            IBaseDb db,
-            IBackupService backupService) 
+            IBaseDb db) 
             : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
             _settingService = settingService;
             _userService = userService;
-            _backupService = backupService;
         }
         
         [Role("Administrator")]
@@ -120,27 +117,6 @@ namespace T034.Controllers
             }
 
             return RedirectToAction("List");
-        }
-
-        [Role("Administrator")]
-        public ActionResult Upgrade()
-        {
-            return View();
-        }
-
-        [Role("Administrator")]
-        public ActionResult Backup()
-        {
-            try
-            {
-                _backupService.MakeBackup();
-            }
-            catch (Exception ex)
-            {
-                Logger.Fatal(ex);
-                return Json(new OperationResult { Status = StatusOperation.Error, Message = ex.Message });
-            }
-            return Json(new OperationResult { Status = StatusOperation.Success, Message = "Операция выполнена успешно" });
         }
     }
 }

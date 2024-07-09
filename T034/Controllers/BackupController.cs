@@ -87,6 +87,27 @@ namespace T034.Controllers
             }
         }
 
+        [Role("Administrator")]
+        public ActionResult Make()
+        {
+            return View();
+        }
+
+        [Role("Administrator")]
+        public ActionResult Backup()
+        {
+            try
+            {
+                _backupService.MakeBackup();
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex);
+                return Json(new OperationResult { Status = StatusOperation.Error, Message = ex.Message });
+            }
+            return Json(new OperationResult { Status = StatusOperation.Success, Message = "Операция выполнена успешно" });
+        }
+
         private string GetMimeType(string filename)
         {
 

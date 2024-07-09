@@ -2,7 +2,7 @@
 
     function backup() {
         $.ajax({
-            url: '/Setting/Backup',
+            url: '/Backup/Backup',
             method: 'POST',
             data: {
 
