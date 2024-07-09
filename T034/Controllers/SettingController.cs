@@ -18,16 +18,19 @@ namespace T034.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISettingService _settingService;
         private readonly IUserService _userService;
+        private readonly IBackupService _backupService;
 
         public SettingController(IWebHostEnvironment webHostEnvironment,
             ISettingService settingService,
             IUserService userService,
-            IBaseDb db) 
+            IBaseDb db,
+            IBackupService backupService) 
             : base(db)
         {
             _webHostEnvironment = webHostEnvironment;
             _settingService = settingService;
             _userService = userService;
+            _backupService = backupService;
         }
         
         [Role("Administrator")]
@@ -130,7 +133,7 @@ namespace T034.Controllers
         {
             try
             {
-
+                _backupService.Backup();
             }
             catch (Exception ex)
             {

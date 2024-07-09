@@ -4,15 +4,11 @@
 // For more information on ASP.NET Core startup files, see https://docs.microsoft.com/aspnet/core/fundamentals/startup
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -149,6 +145,13 @@ namespace T034
             {
                 var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
                 return new ImageUploader(webHostEnvironment, imagesFolder);
+            });
+
+            services.AddTransient<IBackupService>(sp =>
+            {
+                var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
+
+                return new BackupService(webHostEnvironment.ContentRootPath);
             });
         }
     }
