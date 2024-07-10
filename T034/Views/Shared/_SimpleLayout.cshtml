@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap-theme.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/DataTables-1.10.2/media/css/jquery.dataTables.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
 
     <script src="/Scripts/require.js"></script>
     <script src="/Scripts/main.js"></script>
@@ -17,6 +17,9 @@
         <div class="container">
             @RenderBody()
         </div>
+        
+        <div role="alert" class="alert alert-danger" id="errorContainer" style="display: none"></div>
+        <div role="alert" class="alert alert-success" id="successContainer" style="display: none"></div>
 
         <script type="text/javascript">
             require(['jquery', 'bootstrap', 'layout', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, layout, view) {
