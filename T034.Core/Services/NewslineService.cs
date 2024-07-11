@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using T034.Core.DataAccess;
 using T034.Core.Dto;
 using T034.Core.Entity;
@@ -26,8 +27,8 @@ namespace T034.Core.Services
 
     public class NewslineService : AbstractRepository<Newsline, NewslineDto, int>, INewslineService
     {
-        public NewslineService(IBaseDb db)
-            : base(db)
+        public NewslineService(IBaseDb db, IMapper mapper)
+            : base(db, mapper)
         { }
 
         public IEnumerable<NewsDto> GetNews(int id)

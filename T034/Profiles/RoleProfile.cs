@@ -9,7 +9,7 @@ namespace T034.Profiles
         public RoleProfile()
         {
             CreateMap<RoleDto, RoleViewModel>()
-                .ForMember(vm => vm.Selected, v => v.UseValue(true));
+                .ForMember(vm => vm.Selected, v => v.MapFrom(src => true));
             CreateMap<RoleViewModel, RoleDto>();
         }
     }

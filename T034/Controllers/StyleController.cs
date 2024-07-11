@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.DataAccess;
@@ -7,8 +8,8 @@ namespace T034.Controllers
 {
     public class StyleController : BaseController
     {
-        public StyleController(IBaseDb db) 
-            : base(db)
+        public StyleController(IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
         }
         

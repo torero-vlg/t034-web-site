@@ -7,6 +7,7 @@ using T034.Core.Services.Common;
 using T034.Tools.Attribute;
 using T034.ViewModel;
 using T034.Core.DataAccess;
+using AutoMapper;
 
 namespace T034.Controllers
 {
@@ -15,8 +16,8 @@ namespace T034.Controllers
         private readonly IRoleService _roleService;
 
         public RoleController(IRoleService roleService,
-            IBaseDb db) 
-            : base(db)
+            IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
             _roleService = roleService;
         }

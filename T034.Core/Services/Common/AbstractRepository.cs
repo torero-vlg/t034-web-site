@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using AutoMapper;
 using T034.Core.DataAccess;
 using T034.Core.Dto.Common;
-using T034.Core.Profiles;
 
 namespace T034.Core.Services.Common
 {
@@ -16,9 +15,15 @@ namespace T034.Core.Services.Common
     {
         protected IBaseDb Db { get; set; }
 
-        public AbstractRepository(IBaseDb db)
+        /// <summary>
+        /// Маппер
+        /// </summary>
+        protected IMapper Mapper { get; set; }
+
+        protected AbstractRepository(IBaseDb db, IMapper mapper)
         {
             Db = db;
+            Mapper = mapper;
         }
 
         public TDto Create(TDto dto)
@@ -69,10 +74,5 @@ namespace T034.Core.Services.Common
                 return new OperationResult { Status = StatusOperation.InternalError, Message = "Произошла внутренняя ошибка" };
             }
         }
-
-        /// <summary>
-        /// Маппер
-        /// </summary>
-        protected IMapper Mapper => AutoMapperConfig.Mapper;
     }
 }

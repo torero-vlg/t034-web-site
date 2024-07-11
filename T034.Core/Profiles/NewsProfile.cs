@@ -3,7 +3,7 @@ using T034.Core.Dto;
 using T034.Core.Entity;
 using T034.Core.Entity.Administration;
 
-namespace Db.Profiles
+namespace T034.Core.Profiles
 {
     public class NewsProfile : Profile
     {

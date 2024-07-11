@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using T034.Core.DataAccess;
 using NLog;
-using T034.Profiles;
 using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace T034.Controllers
@@ -11,13 +10,19 @@ namespace T034.Controllers
     public class BaseController : Controller
     {
         protected readonly IBaseDb Db;
+        
+        /// <summary>
+        /// Маппер
+        /// </summary>
+        protected readonly IMapper Mapper;
 
         protected readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected UserInfo UserInfo;
 
-        public BaseController(IBaseDb db)
+        public BaseController(IBaseDb db, IMapper mapper)
         {
             Db = db;
+            Mapper = mapper;
         }
 
         public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
@@ -67,11 +72,6 @@ namespace T034.Controllers
 
             base.OnActionExecuted(context);
         }
-
-        /// <summary>
-        /// Маппер
-        /// </summary>
-        protected IMapper Mapper => AutoMapperConfig.Mapper;
     }
 
     public class UserInfo

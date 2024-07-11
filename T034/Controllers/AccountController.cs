@@ -2,13 +2,14 @@
 using T034.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using T034.Core.DataAccess;
+using AutoMapper;
 
 namespace T034.Controllers
 {
 
     public class AccountController : BaseController
     {
-        public AccountController(IBaseDb db) : base(db)
+        public AccountController(IBaseDb db, IMapper mapper) : base(db, mapper)
         {
         }
 

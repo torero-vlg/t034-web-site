@@ -9,7 +9,7 @@ using T034.Tools.Attribute;
 using T034.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using T034.Core.DataAccess;
-using T034.Core.Services.Common;
+using AutoMapper;
 
 namespace T034.Controllers
 {
@@ -22,8 +22,8 @@ namespace T034.Controllers
         public SettingController(IWebHostEnvironment webHostEnvironment,
             ISettingService settingService,
             IUserService userService,
-            IBaseDb db) 
-            : base(db)
+            IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
             _webHostEnvironment = webHostEnvironment;
             _settingService = settingService;

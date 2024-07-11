@@ -5,6 +5,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ using T034.Core;
 using T034.Core.Api;
 using T034.Core.DataAccess;
 using T034.Core.Services;
+using T034.Profiles;
 using T034.Tools.IO;
 
 namespace T034
@@ -153,6 +155,10 @@ namespace T034
 
                 return new BackupService(webHostEnvironment.ContentRootPath);
             });
+            var currentAssembly = Assembly.GetAssembly(typeof(UserProfile));
+            var coreAssembly = Assembly.GetAssembly(typeof(Core.Profiles.UserProfile));
+
+            services.AddAutoMapper(currentAssembly, coreAssembly);
         }
     }
 }
