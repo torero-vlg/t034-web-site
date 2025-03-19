@@ -1,0 +1,33 @@
+﻿@model IEnumerable<T034.ViewModel.BackupViewModel>
+
+@{
+    ViewBag.Title = "Бекапы";
+    Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+}
+
+
+@Html.ActionLink("Создать бекап", "Make", "Backup")
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Дата создания</th>
+            <th>Размер</th>
+            <th>Операции</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.CreationTime</td>
+        <td>@item.Size</td>
+        <td>
+            <a href="@item.Url" target="_blank" title="Скачать"><i class="fa @item.FileIcon"></i></a>
+            <a href="@Url.Action("Delete", new { name = item.Name})" title="Удалить"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+        </td>
+      </tr>
+    }
+    </tbody>
+</table>

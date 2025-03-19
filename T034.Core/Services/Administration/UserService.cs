@@ -20,8 +20,8 @@ namespace T034.Core.Services.Administration
 
     public class UserService : AbstractRepository<User, UserDto, int>, IUserService
     {
-        public UserService(IBaseDb db)
-            : base(db)
+        public UserService(IBaseDb db, IMapper mapper)
+            : base(db, mapper)
         { }
 
         public UserDto Create(string name, string email, string password)

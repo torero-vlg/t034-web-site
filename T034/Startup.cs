@@ -4,15 +4,12 @@
 // For more information on ASP.NET Core startup files, see https://docs.microsoft.com/aspnet/core/fundamentals/startup
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -21,6 +18,7 @@ using T034.Core;
 using T034.Core.Api;
 using T034.Core.DataAccess;
 using T034.Core.Services;
+using T034.Profiles;
 using T034.Tools.IO;
 
 namespace T034
@@ -150,6 +148,17 @@ namespace T034
                 var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
                 return new ImageUploader(webHostEnvironment, imagesFolder);
             });
+
+            services.AddTransient<IBackupService>(sp =>
+            {
+                var webHostEnvironment = sp.GetService<IWebHostEnvironment>();
+
+                return new BackupService(webHostEnvironment.ContentRootPath);
+            });
+            var currentAssembly = Assembly.GetAssembly(typeof(UserProfile));
+            var coreAssembly = Assembly.GetAssembly(typeof(Core.Profiles.UserProfile));
+
+            services.AddAutoMapper(currentAssembly, coreAssembly);
         }
     }
 }

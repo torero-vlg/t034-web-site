@@ -18,8 +18,8 @@ namespace T034.Core.Services.Administration
 
     public class RoleService : AbstractRepository<Role, RoleDto, int>, IRoleService
     {
-        public RoleService(IBaseDb db)
-            : base(db)
+        public RoleService(IBaseDb db, IMapper mapper)
+            : base(db, mapper)
         { }
     }
 }

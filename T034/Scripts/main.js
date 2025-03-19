@@ -51,6 +51,9 @@
         },
         'jquery.fileupload-ui': {
             deps: ['load-image']
+        },
+        layout: {
+            deps: ['jquery']
         }
     }
 });

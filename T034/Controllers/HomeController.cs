@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using T034.Core.Api;
 using T034.Core.DataAccess;
 
@@ -9,8 +10,8 @@ namespace T034.Controllers
         private readonly ISettingService _settingService;
 
         public HomeController(ISettingService settingService,
-            IBaseDb db) 
-            : base(db)
+            IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
             _settingService = settingService;
         }

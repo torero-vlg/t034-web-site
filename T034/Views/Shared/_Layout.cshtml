@@ -100,6 +100,10 @@
             <div class="col-md-3">
             </div>
         </div>
+
+        <div role="alert" class="alert alert-danger" id="errorContainer" style="display: none"></div>
+        <div role="alert" class="alert alert-success" id="successContainer" style="display: none"></div>
+
         <script type="text/javascript">
             require(['jquery', 'bootstrap', 'layout', 'app/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]'], function ($, bootstrap, layout, view) {
                 layout.Initialize();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using T034.ViewModel;
 using T034.Core.DataAccess;
 using T034.Tools.IO;
+using AutoMapper;
 
 namespace T034.Controllers
 {
@@ -12,8 +13,8 @@ namespace T034.Controllers
 
         public UploadController(
             IImageUploader imageUploader,
-            IBaseDb db) 
-            : base(db)
+            IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
             _imageUploader = imageUploader;
         }

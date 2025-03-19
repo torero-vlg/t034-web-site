@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Primitives;
 using T034.Core.DataAccess;
+using AutoMapper;
 
 namespace T034.Controllers
 {
@@ -32,8 +33,9 @@ namespace T034.Controllers
             IMenuItemService menuItemService, 
             IFileService fileService, 
             IFileUploader fileUploader,
-            IBaseDb db) 
-            : base(db)
+            IBaseDb db,
+            IMapper mapper) 
+            : base(db, mapper)
         {
             _webHostEnvironment = webHostEnvironment;
             _menuItemService = menuItemService;

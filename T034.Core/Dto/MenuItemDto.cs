@@ -1,9 +1,9 @@
-﻿namespace T034.Core.Dto
-{
-    public class MenuItemDto
-    {
-        public int Id { get; set; }
+﻿using T034.Core.Dto.Common;
 
+namespace T034.Core.Dto
+{
+    public class MenuItemDto : AbstractDto<int>
+    {
         public string Url { get; set; }
 
         public string Title { get; set; }

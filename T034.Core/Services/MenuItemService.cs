@@ -16,42 +16,35 @@ namespace T034.Core.Services
         OperationResult Delete(int menuItemId);
     }
 
-    public class MenuItemService : IMenuItemService
+    public class MenuItemService : AbstractRepository<MenuItem, MenuItemDto, int>, IMenuItemService
     {
-        private readonly IBaseDb _db;
-
-        public MenuItemService(IBaseDb db)
+        public MenuItemService(IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
-            _db = db;
         }
-
-        /// <summary>
-        /// Маппер
-        /// </summary>
-        protected IMapper Mapper => AutoMapperConfig.Mapper;
 
         public IEnumerable<MenuItemDto> Select()
         {
             var list = new List<MenuItemDto>();
-            var items = _db.Select<MenuItem>();
+            var items = Db.Select<MenuItem>();
             list = Mapper.Map(items, list);
             return list;
         }
 
         public MenuItemDto ByUrl(string url)
         {
-            var item = _db.Where<MenuItem>(i => i.Url == url).FirstOrDefault();
+            var item = Db.Where<MenuItem>(i => i.Url == url).FirstOrDefault();
             var dto = Mapper.Map<MenuItemDto>(item);
             return dto;
         }
 
         public OperationResult Delete(int menuItemId)
         {
-            if(_db.Where<MenuItem>(m => m.Parent.Id == menuItemId).Any())
+            if(Db.Where<MenuItem>(m => m.Parent.Id == menuItemId).Any())
                 return new OperationResult { Status = StatusOperation.Error, Message = "Существует пункт меню, у которого удаляемый является родителем"};
 
-            var item = _db.Get<MenuItem>(menuItemId);
-            var result = _db.Delete(item);
+            var item = Db.Get<MenuItem>(menuItemId);
+            var result = Db.Delete(item);
             return new OperationResult { Status = StatusOperation.Success };
         }
     }

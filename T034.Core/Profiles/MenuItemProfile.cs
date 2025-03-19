@@ -2,7 +2,7 @@
 using T034.Core.Dto;
 using T034.Core.Entity;
 
-namespace Db.Profiles
+namespace T034.Core.Profiles
 {
     public class MenuItemProfile : Profile
     {

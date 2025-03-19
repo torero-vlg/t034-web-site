@@ -6,6 +6,7 @@ using T034.Core.Services.Administration;
 using T034.Tools.Auth;
 using T034.ViewModel;
 using T034.Core.DataAccess;
+using AutoMapper;
 
 namespace T034.Controllers
 {
@@ -13,8 +14,8 @@ namespace T034.Controllers
     {
         private readonly IUserService _userService;
 
-        public AuthController(IUserService userService, IBaseDb db) 
-            : base(db)
+        public AuthController(IUserService userService, IBaseDb db, IMapper mapper) 
+            : base(db, mapper)
         {
             _userService = userService;
         }
