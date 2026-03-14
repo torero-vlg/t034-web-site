@@ -21,7 +21,7 @@
     <PackageReference Include="NLog" Version="4.7.13" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="5.2.0" />
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
   </ItemGroup>
 </Project>
